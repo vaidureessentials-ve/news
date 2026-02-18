@@ -1,0 +1,46 @@
+[
+    {
+        "id": 1,
+        "category": "Tech",
+        "isLatest": true,
+        "title": "Sarvam AI launches 30B and 105B open-source LLM models",
+        "title_hi": "Sarvam AI ने 30B और 105B ओपन-सोर्स LLM मॉडल लॉन्च किए",
+        "imageUrl": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
+        "location": "New Delhi",
+        "sourceName": "Business Today",
+        "sourceUrl": "https://www.businesstoday.in/tech-today/story/sarvam-ai-launches-30b-and-105b-open-source-models-516729-2026-02-18",
+        "shortDescription": "Indian AI startup Sarvam AI releases large open-source language models tailored for Indian languages.",
+        "shortDescription_hi": "भारतीय एआई स्टार्टअप सरवम एआई ने भारतीय भाषाओं के लिए तैयार बड़े ओपन-सोर्स भाषा मॉडल जारी किए।",
+        "fullContent": "Sarvam AI has announced the release of its latest large language models (LLMs), featuring 30-billion and 105-billion parameter architectures. These models are specifically optimized for Indian languages and nuances, marking a significant milestone in India's quest for sovereign AI capabilities.",
+        "fullContent_hi": "सरवम एआई ने अपने नवीनतम बड़े भाषा मॉडल (एलएलएम) जारी करने की घोषणा की है, जिसमें 30-बिलियन और 105-बिलियन पैरामीटर आर्किटेक्चर शामिल हैं। ये मॉडल विशेष रूप से भारतीय भाषाओं और बारीकियों के लिए अनुकूलित हैं।"
+    },
+    {
+        "id": 2,
+        "category": "Business",
+        "isLatest": true,
+        "title": "Adani Pledges $100 billion for Data Infrastructure in India",
+        "title_hi": "अडानी ने भारत में डेटा इंफ्रास्ट्रक्चर के लिए $100 बिलियन का संकल्प लिया",
+        "imageUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800",
+        "location": "Ahmedabad",
+        "sourceName": "Economic Times",
+        "sourceUrl": "https://economictimes.indiatimes.com/epaper/delhicapital/2026/feb/18/et-front/adani-pledges-100b-for-data-infra/articleshow/128481611.cms",
+        "shortDescription": "Gautam Adani triples down on digital infrastructure to support India's AI processing needs.",
+        "shortDescription_hi": "गौतम अडानी ने भारत की एआई प्रोसेसिंग जरूरतों को पूरा करने के लिए डिजिटल बुनियादी ढांचे पर निवेश तीन गुना किया।",
+        "fullContent": "Conglomerate Adani Group has pledged a massive $100 billion investment over the next decade to build data centers and digital infrastructure.",
+        "fullContent_hi": "अडानी समूह ने अगले दशक में डेटा सेंटर और डिजिटल बुनियादी ढांचे के निर्माण के लिए $100 बिलियन के निवेश का संकल्प लिया है।"
+    },
+    {
+        "id": 3,
+        "category": "Tech",
+        "title": "Google announces I/O 2026 dates as Sundar Pichai lands in India",
+        "title_hi": "सुंदर पिचाई के भारत आगमन पर गूगल ने I/O 2026 की घोषणा की",
+        "imageUrl": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=800",
+        "location": "New Delhi",
+        "sourceName": "Livemint",
+        "sourceUrl": "https://www.livemint.com/technology/tech-news/google-reveals-i-o-2026-dates-as-sundar-pichai-arrives-in-india-check-dates-and-what-to-expect-11771399877105.html",
+        "shortDescription": "Sundar Pichai announces strategic AI partnerships and the dates for Google's annual developer conference.",
+        "shortDescription_hi": "सुंदर पिचाई ने रणनीतिक एआई साझेदारी और गूगल के वार्षिक डेवलपर सम्मेलन की तारीखों की घोषणा की।",
+        "fullContent": "During a high-profile visit to India, Google CEO Sundar Pichai revealed that Google I/O 2026 will take place in May.",
+        "fullContent_hi": "भारत की हाई-प्रोफाइल यात्रा के दौरान, गूगल के सीईओ सुंदर पिचाई ने खुलासा किया कि गूगल आई/ओ 2026 मई में होगा।"
+    }
+]
