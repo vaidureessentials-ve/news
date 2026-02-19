@@ -20,14 +20,14 @@ const EN_CATEGORY_FEEDS = {
         { name: 'Livemint', url: 'https://www.livemint.com/rss/economy' }
     ],
     'Geopolitics': [
-        { name: 'Economic Times', url: 'https://economictimes.indiatimes.com/news/international/world/rssfeeds/8584773.cms' },
-        { name: 'India Today', url: 'https://www.indiatoday.in/rss/1206550' },
-        { name: 'ABP Live', url: 'https://news.abplive.com/news/world/rss' },
-        { name: 'Livemint', url: 'https://www.livemint.com/rss/world' },
-        { name: 'Hindustan Times', url: 'https://www.hindustantimes.com/rss/world/rssfeed.xml' },
-        { name: 'Firstpost', url: 'https://www.firstpost.com/rss/world.xml' },
-        { name: 'Business Standard', url: 'https://www.business-standard.com/rss/international-106.rss' },
-        { name: 'Business Today', url: 'https://www.businesstoday.in/rss/world' }
+        { name: 'BBC World', url: 'https://feeds.bbci.co.uk/news/world/rss.xml' },
+        { name: 'Al Jazeera', url: 'https://www.aljazeera.com/xml/rss/all.xml' },
+        { name: 'CNN World', url: 'https://www.cnn.com/world.rss' },
+        { name: 'NYT World', url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml' },
+        { name: 'Reuters World', url: 'https://www.reutersagency.com/feed/?best-topics=world-news&post_type=best' },
+        { name: 'Economic Times World', url: 'https://economictimes.indiatimes.com/news/international/world/rssfeeds/8584773.cms' },
+        { name: 'Hindustan Times World', url: 'https://www.hindustantimes.com/rss/world/rssfeed.xml' },
+        { name: 'Firstpost World', url: 'https://www.firstpost.com/rss/world.xml' }
     ]
 };
 

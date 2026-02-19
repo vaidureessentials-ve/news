@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <meta charset="UTF-8"/>
+    <base href="/"/>
+    <title>Ideallya News</title>
+    <meta name="description" content=""/>
+    <meta property="og:title" content="Ideallya News"/>
+    <meta property="og:description" content=""/>
+    <meta property="og:image" content="/assets/app_icon.png"/>
+    <meta property="og:url" content="https://news.ideallya.com"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:locale" content="en_US"/>
+    
+<link rel="alternate" href="https://news.ideallya.com/no/" hreflang="no"/>
+<link rel="alternate" href="https://news.ideallya.com/en/" hreflang="en"/>
+<link rel="alternate" href="https://news.ideallya.com/de/" hreflang="de"/>
+<link rel="alternate" href="https://news.ideallya.com/es/" hreflang="es"/>
+<link rel="alternate" href="https://news.ideallya.com/fr/" hreflang="fr"/>
+<link rel="alternate" href="https://news.ideallya.com/ar/" hreflang="ar"/>
+<link rel="alternate" href="https://news.ideallya.com/pt/" hreflang="pt"/>
+<link rel="alternate" href="https://news.ideallya.com/ja/" hreflang="ja"/>
+<link rel="alternate" href="https://news.ideallya.com/ru/" hreflang="ru"/>
+<link rel="alternate" href="https://news.ideallya.com/tr/" hreflang="tr"/>
+<link rel="alternate" href="https://news.ideallya.com/zh/" hreflang="zh"/>
+<link rel="alternate" href="https://news.ideallya.com/en/" hreflang="x-default"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/favicon.png"> 
+    <link rel="icon" href="/favicon.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" href="/favicon-dark.png" media="(prefers-color-scheme: dark)">
+  
+    <script type="application/ld+json" id="structured-data">{"@context":"https://schema.org","@type":"Organization","url":"https://news.ideallya.com/en","name":"Ideallya News","inLanguage":["no","en","de","es","fr","ar","pt","ja","ru","tr","zh"],"contactPoint":[{"@type":"ContactPoint","contactType":"Customer Service","url":"https://news.ideallya.com/no/chat","availableLanguage":["no"]},{"@type":"ContactPoint","contactType":"Customer Service","url":"https://news.ideallya.com/en/chat","availableLanguage":["en"]},{"@type":"ContactPoint","contactType":"Customer Service","url":"https://news.ideallya.com/de/chat","availableLanguage":["de"]},{"@type":"ContactPoint","contactType":"Customer Service","url":"https://news.ideallya.com/es/chat","availableLanguage":["es"]},{"@type":"ContactPoint","contactType":"Customer Service","url":"https://news.ideallya.com/fr/chat","availableLanguage":["fr"]},{"@type":"ContactPoint","contactType":"Customer Service","url":"https://news.ideallya.com/ar/chat","availableLanguage":["ar"]},{"@type":"ContactPoint","contactType":"Customer Service","url":"https://news.ideallya.com/pt/chat","availableLanguage":["pt"]},{"@type":"ContactPoint","contactType":"Customer Service","url":"https://news.ideallya.com/ja/chat","availableLanguage":["ja"]},{"@type":"ContactPoint","contactType":"Customer Service","url":"https://news.ideallya.com/ru/chat","availableLanguage":["ru"]},{"@type":"ContactPoint","contactType":"Customer Service","url":"https://news.ideallya.com/tr/chat","availableLanguage":["tr"]},{"@type":"ContactPoint","contactType":"Customer Service","url":"https://news.ideallya.com/zh/chat","availableLanguage":["zh"]}],"sameAs":["https://www.linkedin.com/company/ideallya"],"areaServed":{"@type":"Place","name":"Worldwide"}}</script>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+  <meta name="theme-color" content="#ffffff"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <meta name="apple-mobile-web-app-title" content="Ideallya News"/>
+  <link rel="apple-touch-icon" href="icons/Icon-192.png"/>
+  <meta name="apple-itunes-app" content="app-id=6741537186">
+  <style>
+    html,
+    body {
+      -webkit-overflow-scrolling: touch;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    .force-webkit-transform {
+      transform: translateZ(0);
+    }
+    #flt-platform-view {
+      width: 100%;
+      height: 100vh;
+    }
+  </style>
+  <style>
+    #app-startup-splash {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, #f5f9ff 0%, #ffffff 70%);
+      color: #111827;
+      z-index: 2147483647;
+      text-align: center;
+      transition: opacity 240ms ease, visibility 240ms ease;
+    }
+    #app-startup-splash.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    #app-startup-splash-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding: 24px;
+    }
+    #app-startup-splash-logo {
+      width: clamp(86px, 13vw, 124px);
+      height: auto;
+      filter: drop-shadow(0 8px 20px rgba(17, 24, 39, 0.14));
+    }
+    #app-startup-splash-text {
+      margin: 0;
+      font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      font-size: clamp(16px, 1.8vw, 22px);
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      line-height: 1.35;
+      color: #111827;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #app-startup-splash {
+        transition: none;
+      }
+    }
+  </style>
+  <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+</head>
+<body class="force-webkit-transform">
+  <div id="app-startup-splash" role="status" aria-live="polite" aria-busy="true" dir="ltr">
+    <div id="app-startup-splash-content">
+      <img id="app-startup-splash-logo" src="icons/Icon-192.png" alt="Ideallya News logo" width="124" height="124">
+      <p id="app-startup-splash-text">Loading unbiased news...</p>
+    </div>
+  </div>
+  <noscript>
+    This application requires JavaScript to function correctly. Please enable JavaScript.
+  </noscript>
+  <script>
+    window.getClientId = function () {
+      var gaMatch = document.cookie.match(/_ga=GA1.1.([0-9\.]+)/);
+      return gaMatch ? gaMatch[1] : null;
+    };
+  </script>
+  <script>
+    (function () {
+      var ua = navigator.userAgent || "";
+      var isIOS = /iPad|iPhone|iPod/.test(ua);
+      if (!isIOS) return;
+      var ignore = window.flutterfire_ignore_scripts;
+      if (!Array.isArray(ignore)) {
+        ignore = [];
+      }
+      if (ignore.indexOf("messaging") === -1) {
+        ignore.push("messaging");
+      }
+      window.flutterfire_ignore_scripts = ignore;
+    })();
+  </script>
+  <script>
+    (function () {
+      var startupSplashHidden = false;
+
+      function hideStartupSplash() {
+        if (startupSplashHidden) {
+          return;
+        }
+        startupSplashHidden = true;
+
+        var splash = document.getElementById('app-startup-splash');
+        if (!splash) {
+          return;
+        }
+
+        splash.classList.add('is-hidden');
+        window.setTimeout(function () {
+          if (splash.parentNode) {
+            splash.parentNode.removeChild(splash);
+          }
+        }, 260);
+      }
+
+      function watchFlutterSurfaceAsFallback() {
+        if (!window.MutationObserver) {
+          return;
+        }
+
+        var root = document.body || document.documentElement;
+        if (!root) {
+          window.setTimeout(watchFlutterSurfaceAsFallback, 0);
+          return;
+        }
+
+        var observer = new MutationObserver(function () {
+          if (document.querySelector('flt-glass-pane')) {
+            observer.disconnect();
+            hideStartupSplash();
+          }
+        });
+
+        observer.observe(root, { childList: true, subtree: true });
+
+        window.setTimeout(function () {
+          observer.disconnect();
+        }, 30000);
+      }
+
+      window.addEventListener('flutter-first-frame', hideStartupSplash, { once: true });
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', watchFlutterSurfaceAsFallback, { once: true });
+      } else {
+        watchFlutterSurfaceAsFallback();
+      }
+    })();
+  </script>
+  <script src="flutter_bootstrap.js?v=2.0.1+146" defer></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1F7W4RHVTL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1F7W4RHVTL');
+  </script>
+  <script>
+    window.__ideallyaAndroidAppLinks = {"packageName":"com.ideallya.open.news","playStoreUrl":"https://play.google.com/store/apps/details?id=com.ideallya.open.news","autoRedirect":true,"autoRedirectParam":"openApp"};
+  </script>
+  <script>
+    (function () {
+      var cfg = window.__ideallyaAndroidAppLinks;
+      if (!cfg || !cfg.packageName || !cfg.playStoreUrl) return;
+      var ua = navigator.userAgent || '';
+      if (!/android/i.test(ua)) return;
+      if (/\bwv\b/.test(ua) || /;\s*wv\)/.test(ua)) return;
+      var shouldAuto = cfg.autoRedirect === true;
+      if (!shouldAuto) {
+        try {
+          var params = new URLSearchParams(window.location.search || '');
+          var key = (cfg.autoRedirectParam || 'openApp');
+          var v = (params.get(key) || '').toLowerCase();
+          shouldAuto = v === '1' || v === 'true' || v === 'yes';
+        } catch (_) {}
+      }
+      if (!shouldAuto) return;
+      try {
+        var onceKey = '__ideallya_android_intent_tried';
+        if (sessionStorage.getItem(onceKey) === '1') return;
+        sessionStorage.setItem(onceKey, '1');
+      } catch (_) {}
+      var fallback = encodeURIComponent(cfg.playStoreUrl);
+      var hostAndPath = window.location.host + window.location.pathname + window.location.search;
+      var intent = 'intent://' + hostAndPath + '#Intent;scheme=https;package=' + cfg.packageName + ';S.browser_fallback_url=' + fallback + ';end';
+      window.location.replace(intent);
+    })();
+  </script>
+  <script>
+    window.addEventListener('beforeinstallprompt', function(event) {
+      event.preventDefault();
+      console.log('[App] Install prompt blocked.');
+    });
+  </script>
+</body>
+</html>
