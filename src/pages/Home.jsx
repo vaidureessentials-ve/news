@@ -123,7 +123,7 @@ const Home = () => {
                     );
 
                     // Flatten and sort items by publication date
-                    const SPORTS_KEYWORDS = [
+                    const BLOCKED_KEYWORDS = [
                         'cricket', 'ipl', 'football', 'soccer', 'tennis', 'hockey', 'badminton', 'match', 'score', 'wicket',
                         'stadium', 'olympics', 'fifa', 'icc', 'bcci', 'basketball', 'baseball', 'rugby', 'golf', 'athletics',
                         'swimming', 'boxing', 'mma', 'ufc', 'wrestling', 'player', 'coach', 'tournament', 'championship',
@@ -134,6 +134,7 @@ const Home = () => {
                         'over', 'boundary', 'sixer', 'four', 'century', 'half-century', 'clean-bowled', 'lbw', 'stumping',
                         'atp', 'wta', 'grand-slam', 'paralympics', 'bcci', 'fifa', 'victory', 'defeated', 'won the match',
                         'scorecard', 'playing xi', 'point table', 'points table', 'rankings', 'team india', 'indian team',
+                        'tech mafia', 'gay tech',
                         'खेल', 'क्रिकेट', 'मैच', 'स्कोर', 'खिलाड़ी', 'टूर्नामेंट', 'लीग', 'कप', 'मेडल', 'ट्रॉफी', 'स्टेडियम',
                         'ओलिंपिक', 'फुटबॉल', 'हॉकी', 'बैडमिंटन', 'कुश्ती', 'खिलाड़ियों', 'बल्लेबाज', 'गेंदबाज', 'जीता', 'हार',
                         'khel', 'scorecard', 'khiladi', 'pahalwan'
@@ -144,7 +145,7 @@ const Home = () => {
                             const title = (item.title || "").toLowerCase();
                             const fullContent = (item.fullContent || "").toLowerCase();
                             const combined = `${title} ${fullContent}`;
-                            return !SPORTS_KEYWORDS.some(keyword => combined.includes(keyword.toLowerCase()));
+                            return !BLOCKED_KEYWORDS.some(keyword => combined.includes(keyword.toLowerCase()));
                         })
                         .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
 
