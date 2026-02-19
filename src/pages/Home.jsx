@@ -97,16 +97,18 @@ const Home = () => {
                         'premier league', 'super league', 'world cup', 't20', 'test match', 'odi', 'knockout', 'quarterfinal',
                         'semifinal', 'finalists', 'champions', 'runner-up', 'top-scorer', 'pitch', 'umpire', 'referee',
                         'over', 'boundary', 'sixer', 'four', 'century', 'half-century', 'clean-bowled', 'lbw', 'stumping',
+                        'atp', 'wta', 'grand-slam', 'paralympics', 'bcci', 'fifa', 'victory', 'defeated', 'won the match',
+                        'scorecard', 'playing xi', 'point table', 'points table', 'rankings', 'team india', 'indian team',
                         'खेल', 'क्रिकेट', 'मैच', 'स्कोर', 'खिलाड़ी', 'टूर्नामेंट', 'लीग', 'कप', 'मेडल', 'ट्रॉफी', 'स्टेडियम',
-                        'ओलिंपिक', 'फुटबॉल', 'हॉकी', 'बैडमिंटन', 'कुश्ती', 'खिलाड़ियों', 'बल्लेबाज', 'गेंदबाज',
+                        'ओलिंपिक', 'फुटबॉल', 'हॉकी', 'बैडमिंटन', 'कुश्ती', 'खिलाड़ियों', 'बल्लेबाज', 'गेंदबाज', 'जीता', 'हार',
                         'khel', 'scorecard', 'khiladi', 'pahalwan'
                     ];
 
                     const flattenedItems = categoryItems.flat()
                         .filter(item => {
                             const title = (item.title || "").toLowerCase();
-                            const desc = (item.shortDescription || "").toLowerCase();
-                            const combined = `${title} ${desc}`;
+                            const fullContent = (item.fullContent || "").toLowerCase();
+                            const combined = `${title} ${fullContent}`;
                             return !SPORTS_KEYWORDS.some(keyword => combined.includes(keyword.toLowerCase()));
                         })
                         .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
