@@ -20,9 +20,9 @@ const EN_CATEGORY_FEEDS = {
         { name: 'Livemint', url: 'https://www.livemint.com/rss/economy' }
     ],
     'Geopolitics': [
-        { name: 'BBC World', url: 'https://feeds.bbci.co.uk/news/world/rss.xml' },
+        { name: 'BBC World', url: 'https://www.bbc.com/news/world/rss.xml' },
         { name: 'Al Jazeera', url: 'https://www.aljazeera.com/xml/rss/all.xml' },
-        { name: 'CNN World', url: 'https://www.cnn.com/world.rss' },
+        { name: 'CNN World', url: 'http://rss.cnn.com/rss/edition_world.rss' },
         { name: 'NYT World', url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml' },
         { name: 'Reuters World', url: 'https://www.reutersagency.com/feed/?best-topics=world-news&post_type=best' },
         { name: 'Economic Times World', url: 'https://economictimes.indiatimes.com/news/international/world/rssfeeds/8584773.cms' },
@@ -36,6 +36,9 @@ const HI_CATEGORY_FEEDS = {
     'Business': [{ name: 'Live Hindustan', url: 'https://api.livehindustan.com/feeds/rss/business/rssfeed.xml' }],
     'Economy': [{ name: 'Live Hindustan', url: 'https://api.livehindustan.com/feeds/rss/career/rssfeed.xml' }],
     'Geopolitics': [
+        { name: 'BBC World', url: 'https://www.bbc.com/news/world/rss.xml' },
+        { name: 'Al Jazeera', url: 'https://www.aljazeera.com/xml/rss/all.xml' },
+        { name: 'CNN World', url: 'http://rss.cnn.com/rss/edition_world.rss' },
         { name: 'Live Hindustan International', url: 'https://api.livehindustan.com/feeds/rss/international/rssfeed.xml' },
         { name: 'Daily Bhaskar', url: 'https://www.bhaskarenglish.in/feed/' }
     ]
@@ -249,7 +252,7 @@ const Home = () => {
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                {(newsData[cat] || []).slice(0, categoryFilter ? newsData[cat].length : 3).map((article) => (
+                                {(newsData[cat] || []).slice(0, categoryFilter ? newsData[cat].length : (cat === 'Geopolitics' ? 9 : 3)).map((article) => (
                                     <NewsCard key={article.id} article={article} />
                                 ))}
                             </div>
