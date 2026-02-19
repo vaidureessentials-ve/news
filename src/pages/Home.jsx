@@ -93,6 +93,7 @@ const Home = () => {
                                 );
                                 const data = await response.json();
                                 if (data.status === 'ok') {
+                                    console.log(`Fetched ${data.items.length} items from ${feed.name}`);
                                     return data.items.map((item, index) => {
                                         // Dynamic source name localization
                                         const sourceKey = feed.name.toLowerCase().replace(/\s+/g, '_');
@@ -114,6 +115,8 @@ const Home = () => {
                                             isLatest: false
                                         };
                                     });
+                                } else {
+                                    console.warn(`Feed ${feed.name} returned status: ${data.status}`, data);
                                 }
                             } catch (err) {
                                 console.error(`Error fetching ${feed.name}:`, err);
@@ -140,14 +143,18 @@ const Home = () => {
                         'khel', 'scorecard', 'khiladi', 'pahalwan'
                     ];
 
+                    const totalItemsBeforeFilter = categoryItems.flat().length;
                     const flattenedItems = categoryItems.flat()
                         .filter(item => {
                             const title = (item.title || "").toLowerCase();
                             const fullContent = (item.fullContent || "").toLowerCase();
                             const combined = `${title} ${fullContent}`;
-                            return !BLOCKED_KEYWORDS.some(keyword => combined.includes(keyword.toLowerCase()));
+                            const isBlocked = BLOCKED_KEYWORDS.some(keyword => combined.includes(keyword.toLowerCase()));
+                            return !isBlocked;
                         })
                         .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
+                    console.log(`Category ${cat}: ${flattenedItems.length}/${totalItemsBeforeFilter} items remaining after filtering.`);
 
                     // Mark the most recent item as latest
                     if (flattenedItems.length > 0) {
@@ -258,7 +265,7 @@ const Home = () => {
 
                 <div className="space-y-20">
                     {categoriesToRender.map((cat) => (
-                        <section key={cat} id={cat.toLowerCase()} className="relative">
+                        <div key={cat} id={`category-${cat}`} className="mb-16">
                             <div className="flex items-center justify-between mb-8 border-b border-slate-800 pb-4">
                                 <div className="flex items-center gap-4">
                                     <div className="h-8 w-1.5 bg-blue-600 rounded-full"></div>
@@ -288,7 +295,7 @@ const Home = () => {
                                     <p className="text-slate-500 italic">{t('no_updates', { category: t(`categories.${cat.toLowerCase()}`) })}</p>
                                 </div>
                             )}
-                        </section>
+                        </div>
                     ))}
                 </div>
             </div>

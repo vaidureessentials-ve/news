@@ -24,20 +24,24 @@ const Navbar = () => {
             return;
         }
 
-        if (currentCategory === category) {
+        // On home page, scroll to the category section if it exists
+        const element = document.getElementById(`category-${category}`);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Update search params without causing a hard filter if desired, 
+            // but the user wants "same page show not landing page".
+            // Let's remove the filter logic and just scroll.
             searchParams.delete('category');
-        } else {
-            searchParams.set('category', category);
+            setSearchParams(searchParams);
         }
-        setSearchParams(searchParams);
     };
 
     return (
         <nav className="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800 py-4 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto flex items-center justify-between">
                 <Link to="/" className="flex items-center gap-2 group">
-                    <div className="bg-blue-600 p-1.5 rounded-lg group-hover:bg-blue-500 transition-colors">
-                        <Newspaper className="w-6 h-6 text-white" />
+                    <div className="p-1 rounded-lg transition-transform group-hover:scale-110">
+                        <img src="/logo.svg" alt="Amigo News Logo" className="w-10 h-10 object-contain" />
                     </div>
                     <span className="text-xl font-bold text-white tracking-tight">{t('app_name')}</span>
                 </Link>
