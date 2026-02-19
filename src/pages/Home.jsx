@@ -22,8 +22,13 @@ const EN_CATEGORY_FEEDS = {
     'Geopolitics': [
         { name: 'Economic Times', url: 'https://economictimes.indiatimes.com/news/politics/rssfeeds/16462970.cms' },
         { name: 'India Today', url: 'https://www.indiatoday.in/rss/1206550' }, // World News
+        { name: 'India Today Politics', url: 'https://www.indiatoday.in/rss/1206511' },
         { name: 'ABP Live', url: 'https://news.abplive.com/news/world/rss' }, // World News
-        { name: 'Livemint', url: 'https://www.livemint.com/rss/politics' } // Politics News
+        { name: 'Livemint', url: 'https://www.livemint.com/rss/politics' },
+        { name: 'Hindustan Times', url: 'https://www.hindustantimes.com/rss/world/rssfeed.xml' },
+        { name: 'Firstpost', url: 'https://www.firstpost.com/rss/world.xml' },
+        { name: 'Business Standard', url: 'https://www.business-standard.com/rss/international-106.rss' },
+        { name: 'Business Today', url: 'https://www.businesstoday.in/rss/world' }
     ]
 };
 
@@ -31,7 +36,11 @@ const HI_CATEGORY_FEEDS = {
     'Tech': [{ name: 'Live Hindustan', url: 'https://api.livehindustan.com/feeds/rss/gadgets/rssfeed.xml' }],
     'Business': [{ name: 'Live Hindustan', url: 'https://api.livehindustan.com/feeds/rss/business/rssfeed.xml' }],
     'Economy': [{ name: 'Live Hindustan', url: 'https://api.livehindustan.com/feeds/rss/career/rssfeed.xml' }],
-    'Geopolitics': [{ name: 'Live Hindustan', url: 'https://api.livehindustan.com/feeds/rss/national/rssfeed.xml' }]
+    'Geopolitics': [
+        { name: 'Live Hindustan National', url: 'https://api.livehindustan.com/feeds/rss/national/rssfeed.xml' },
+        { name: 'Live Hindustan International', url: 'https://api.livehindustan.com/feeds/rss/international/rssfeed.xml' },
+        { name: 'Daily Bhaskar', url: 'https://www.bhaskarenglish.in/feed/' }
+    ]
 };
 
 const Home = () => {
