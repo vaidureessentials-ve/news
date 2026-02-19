@@ -5,19 +5,33 @@ import NewsCard from '../components/NewsCard';
 import { ChevronRight } from 'lucide-react';
 
 const EN_CATEGORY_FEEDS = {
-    'Tech': 'https://economictimes.indiatimes.com/tech/rssfeeds/13357270.cms',
-    'Business': 'https://economictimes.indiatimes.com/news/industry/rssfeeds/13352306.cms',
-    'Economy': 'https://economictimes.indiatimes.com/news/economy/rssfeeds/13733806.cms',
-    'International': 'https://economictimes.indiatimes.com/news/international/world/rssfeeds/8584773.cms',
-    'Geopolitics': 'https://economictimes.indiatimes.com/news/politics/rssfeeds/16462970.cms'
+    'Tech': [
+        { name: 'Economic Times', url: 'https://economictimes.indiatimes.com/tech/rssfeeds/13357270.cms' },
+        { name: 'Livemint', url: 'https://www.livemint.com/rss/technology' }
+    ],
+    'Business': [
+        { name: 'Economic Times', url: 'https://economictimes.indiatimes.com/news/industry/rssfeeds/13352306.cms' },
+        { name: 'Business Standard', url: 'https://www.business-standard.com/rss/companies-101.rss' },
+        { name: 'Business Today', url: 'https://www.businesstoday.in/rss/corporate' }
+    ],
+    'Economy': [
+        { name: 'Economic Times', url: 'https://economictimes.indiatimes.com/news/economy/rssfeeds/13733806.cms' },
+        { name: 'Business Standard', url: 'https://www.business-standard.com/rss/economy-policy-102.rss' },
+        { name: 'Livemint', url: 'https://www.livemint.com/rss/economy' }
+    ],
+    'Geopolitics': [
+        { name: 'Economic Times', url: 'https://economictimes.indiatimes.com/news/politics/rssfeeds/16462970.cms' },
+        { name: 'India Today', url: 'https://www.indiatoday.in/rss/1206550' }, // World News
+        { name: 'ABP Live', url: 'https://news.abplive.com/news/world/rss' }, // World News
+        { name: 'Livemint', url: 'https://www.livemint.com/rss/politics' } // Politics News
+    ]
 };
 
 const HI_CATEGORY_FEEDS = {
-    'Tech': 'https://api.livehindustan.com/feeds/rss/gadgets/rssfeed.xml',
-    'Business': 'https://api.livehindustan.com/feeds/rss/business/rssfeed.xml',
-    'Economy': 'https://api.livehindustan.com/feeds/rss/career/rssfeed.xml',
-    'International': 'https://api.livehindustan.com/feeds/rss/international/rssfeed.xml',
-    'Geopolitics': 'https://api.livehindustan.com/feeds/rss/national/rssfeed.xml'
+    'Tech': [{ name: 'Live Hindustan', url: 'https://api.livehindustan.com/feeds/rss/gadgets/rssfeed.xml' }],
+    'Business': [{ name: 'Live Hindustan', url: 'https://api.livehindustan.com/feeds/rss/business/rssfeed.xml' }],
+    'Economy': [{ name: 'Live Hindustan', url: 'https://api.livehindustan.com/feeds/rss/career/rssfeed.xml' }],
+    'Geopolitics': [{ name: 'Live Hindustan', url: 'https://api.livehindustan.com/feeds/rss/national/rssfeed.xml' }]
 };
 
 const Home = () => {
@@ -26,59 +40,101 @@ const Home = () => {
     const categoryFilter = searchParams.get('category');
     const [newsData, setNewsData] = useState({});
     const [loading, setLoading] = useState(true);
+    const [syncing, setSyncing] = useState(false);
     const [error, setError] = useState(null);
+    const [lastUpdated, setLastUpdated] = useState(null);
+
+    const fetchAllNews = async (isBackground = false) => {
+        try {
+            if (!isBackground) setLoading(true);
+            else setSyncing(true);
+
+            const currentLanguage = i18n.language || 'en';
+            const isHindi = currentLanguage.startsWith('hi');
+            const currentFeeds = isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS;
+            const categories = Object.keys(currentFeeds);
+
+            const fetchResults = await Promise.all(
+                categories.map(async (cat) => {
+                    const feeds = currentFeeds[cat];
+                    const categoryItems = await Promise.all(
+                        feeds.map(async (feed) => {
+                            try {
+                                const cacheBust = new Date().getTime();
+                                const response = await fetch(
+                                    `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}&t=${cacheBust}`
+                                );
+                                const data = await response.json();
+                                if (data.status === 'ok') {
+                                    return data.items.map((item, index) => ({
+                                        id: `${cat}-${feed.name}-${index}`.replace(/\s+/g, '-').toLowerCase(),
+                                        title: item.title,
+                                        imageUrl: item.thumbnail || item.enclosure?.link || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800',
+                                        location: isHindi ? 'भारत' : 'India',
+                                        sourceName: isHindi && feed.name === 'Economic Times' ? 'इकोनॉमिक टाइम्स' : feed.name,
+                                        sourceUrl: item.link,
+                                        category: cat,
+                                        pubDate: item.pubDate,
+                                        shortDescription: item.description.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...',
+                                        fullContent: item.content || item.description.replace(/<[^>]*>?/gm, ''),
+                                        isLatest: false
+                                    }));
+                                }
+                            } catch (err) {
+                                console.error(`Error fetching ${feed.name}:`, err);
+                            }
+                            return [];
+                        })
+                    );
+
+                    // Flatten and sort items by publication date
+                    const SPORTS_KEYWORDS = ['cricket', 'ipl', 'football', 'soccer', 'tennis', 'hockey', 'badminton', 'match', 'score', 'wicket', 'stadium', 'olympics', 'fifa', 'icc', 'bcci'];
+
+                    const flattenedItems = categoryItems.flat()
+                        .filter(item => {
+                            const content = `${item.title} ${item.shortDescription}`.toLowerCase();
+                            return !SPORTS_KEYWORDS.some(keyword => content.includes(keyword));
+                        })
+                        .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
+                    // Mark the most recent item as latest
+                    if (flattenedItems.length > 0) {
+                        flattenedItems[0].isLatest = true;
+                    }
+
+                    return {
+                        category: cat,
+                        items: flattenedItems
+                    };
+                })
+            );
+
+            const newsMap = fetchResults.reduce((acc, curr) => {
+                acc[curr.category] = curr.items;
+                return acc;
+            }, {});
+
+            setNewsData(newsMap);
+            setLastUpdated(new Date());
+            setError(null);
+        } catch (err) {
+            if (!isBackground) setError(err.message);
+            console.error('Background sync failed:', err);
+        } finally {
+            setLoading(false);
+            setSyncing(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchAllNews = async () => {
-            try {
-                setLoading(true);
-                const currentLanguage = i18n.language || 'en';
-                const isHindi = currentLanguage.startsWith('hi');
-                const currentFeeds = isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS;
-                const categories = Object.keys(currentFeeds);
-
-                const fetchResults = await Promise.all(
-                    categories.map(async (cat) => {
-                        const cacheBust = new Date().getTime();
-                        const response = await fetch(
-                            `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(currentFeeds[cat])}&t=${cacheBust}`
-                        );
-                        const data = await response.json();
-                        if (data.status === 'ok') {
-                            return {
-                                category: cat,
-                                items: data.items.map((item, index) => ({
-                                    id: `${cat}-${index}`,
-                                    title: item.title,
-                                    imageUrl: item.thumbnail || item.enclosure?.link || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800',
-                                    location: isHindi ? 'भारत' : 'India',
-                                    sourceName: isHindi ? 'इकोनॉमिक टाइम्स' : 'Economic Times',
-                                    sourceUrl: item.link,
-                                    category: cat,
-                                    shortDescription: item.description.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...',
-                                    fullContent: item.content || item.description.replace(/<[^>]*>?/gm, ''),
-                                    isLatest: index === 0
-                                }))
-                            };
-                        }
-                        return { category: cat, items: [] };
-                    })
-                );
-
-                const newsMap = fetchResults.reduce((acc, curr) => {
-                    acc[curr.category] = curr.items;
-                    return acc;
-                }, {});
-
-                setNewsData(newsMap);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchAllNews();
+
+        // Polling every 5 minutes (300,000ms)
+        const interval = setInterval(() => {
+            fetchAllNews(true);
+        }, 300000);
+
+        return () => clearInterval(interval);
     }, [i18n.language]);
 
     const handleCategoryClick = (category) => {
@@ -121,12 +177,21 @@ const Home = () => {
         <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
                 <header className="mb-16 text-center">
-                    <div className="flex items-center justify-center gap-2 mb-4">
-                        <span className="flex h-3 w-3 relative">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                        </span>
-                        <span className="text-red-500 text-sm font-bold tracking-widest uppercase">{t('live_network')}</span>
+                    <div className="flex flex-col items-center gap-4 mb-4">
+                        <div className="flex items-center justify-center gap-2">
+                            <span className="flex h-3 w-3 relative">
+                                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${syncing ? 'bg-blue-400' : 'bg-red-400'} opacity-75`}></span>
+                                <span className={`relative inline-flex rounded-full h-3 w-3 ${syncing ? 'bg-blue-500' : 'bg-red-500'}`}></span>
+                            </span>
+                            <span className={`${syncing ? 'text-blue-500' : 'text-red-500'} text-sm font-bold tracking-widest uppercase`}>
+                                {syncing ? t('syncing') || 'Syncing...' : t('live_network')}
+                            </span>
+                        </div>
+                        {lastUpdated && (
+                            <div className="text-slate-500 text-xs font-medium tracking-tight">
+                                {t('last_updated') || 'Last Updated'}: {lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                            </div>
+                        )}
                     </div>
                     <h1 className="text-4xl md:text-7xl font-extrabold text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 inline-block font-display tracking-tight text-center w-full">
                         {categoryFilter ? t(`categories.${categoryFilter.toLowerCase()}`) + ' Updates' : t('one_platform')}

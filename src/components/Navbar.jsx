@@ -12,7 +12,6 @@ const Navbar = () => {
         { id: 'Tech', label: t('categories.tech') },
         { id: 'Business', label: t('categories.business') },
         { id: 'Economy', label: t('categories.economy') },
-        { id: 'International', label: t('categories.international') },
         { id: 'Geopolitics', label: t('categories.geopolitics') }
     ];
 

@@ -11,7 +11,7 @@ const ArticlePage = () => {
 
     const currentLanguage = i18n.language || 'en';
     const isHindi = currentLanguage.startsWith('hi');
-    const article = location.state?.article || newsData.find((a) => a.id === parseInt(id));
+    const article = location.state?.article || newsData.find((a) => a.id === id);
 
     if (!article) return null; // Handle loading or error more gracefully
 
