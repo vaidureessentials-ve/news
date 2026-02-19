@@ -197,9 +197,13 @@ const Home = () => {
     }, [i18n.language]);
 
     const handleCategoryClick = (category) => {
-        searchParams.set('category', category);
-        setSearchParams(searchParams);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        const element = document.getElementById(`category-${category}`);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Remove filter so all categories remain visible
+            searchParams.delete('category');
+            setSearchParams(searchParams);
+        }
     };
 
     if (loading) {
@@ -230,7 +234,7 @@ const Home = () => {
         );
     }
 
-    const categoriesToRender = categoryFilter ? [categoryFilter] : Object.keys(newsData);
+    const categoriesToRender = Object.keys(newsData);
 
     return (
         <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">

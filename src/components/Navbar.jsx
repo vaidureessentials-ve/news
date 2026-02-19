@@ -39,11 +39,11 @@ const Navbar = () => {
     return (
         <nav className="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800 py-4 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto flex items-center justify-between">
-                <Link to="/" className="flex items-center gap-2 group">
-                    <div className="p-1 rounded-lg transition-transform group-hover:scale-110">
-                        <img src="/logo.svg" alt="Amigo News Logo" className="w-10 h-10 object-contain" />
-                    </div>
-                    <span className="text-xl font-bold text-white tracking-tight">{t('app_name')}</span>
+                <Link to="/" className="flex items-center gap-4 group">
+                    <img src="/logo.svg?v=2" alt="Amigo News Logo" className="h-12 w-auto object-contain transition-transform group-hover:scale-105" />
+                    <span className="text-2xl font-bold text-white tracking-tight transition-colors group-hover:text-blue-400">
+                        {t('app_name')}
+                    </span>
                 </Link>
 
                 <div className="hidden md:flex items-center gap-8">
