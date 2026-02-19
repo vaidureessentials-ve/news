@@ -1,13 +1,16 @@
 import React from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import { Newspaper } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from './LanguageSelector';
 
 const Navbar = () => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
+    const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
     const currentCategory = searchParams.get('category');
+
     const categories = [
         { id: 'Tech', label: t('categories.tech') },
         { id: 'Business', label: t('categories.business') },
@@ -16,6 +19,11 @@ const Navbar = () => {
     ];
 
     const handleCategoryClick = (category) => {
+        if (location.pathname !== '/') {
+            navigate(`/?category=${category}`);
+            return;
+        }
+
         if (currentCategory === category) {
             searchParams.delete('category');
         } else {

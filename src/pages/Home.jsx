@@ -7,38 +7,55 @@ import { ChevronRight } from 'lucide-react';
 const EN_CATEGORY_FEEDS = {
     'Tech': [
         { name: 'Economic Times', url: 'https://economictimes.indiatimes.com/tech/rssfeeds/13357270.cms' },
-        { name: 'Livemint', url: 'https://www.livemint.com/rss/technology' }
+        { name: 'Livemint', url: 'https://www.livemint.com/rss/technology' },
+        { name: 'TechCrunch', url: 'https://techcrunch.com/feed/' },
+        { name: 'Wired', url: 'https://www.wired.com/feed/rss' },
+        { name: 'The Verge', url: 'https://www.theverge.com/rss/index.xml' }
     ],
     'Business': [
         { name: 'Economic Times', url: 'https://economictimes.indiatimes.com/news/industry/rssfeeds/13352306.cms' },
         { name: 'Business Standard', url: 'https://www.business-standard.com/rss/companies-101.rss' },
-        { name: 'Business Today', url: 'https://www.businesstoday.in/rss/corporate' }
+        { name: 'Business Today', url: 'https://www.businesstoday.in/rss/corporate' },
+        { name: 'Forbes', url: 'https://www.forbes.com/business/feed/' },
+        { name: 'CNBC International', url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10001147' }
     ],
     'Economy': [
         { name: 'Economic Times', url: 'https://economictimes.indiatimes.com/news/economy/rssfeeds/13733806.cms' },
         { name: 'Business Standard', url: 'https://www.business-standard.com/rss/economy-policy-102.rss' },
-        { name: 'Livemint', url: 'https://www.livemint.com/rss/economy' }
+        { name: 'Livemint', url: 'https://www.livemint.com/rss/economy' },
+        { name: 'CNBC Economy', url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258' }
     ],
     'Geopolitics': [
         { name: 'BBC World', url: 'https://www.bbc.com/news/world/rss.xml' },
         { name: 'Al Jazeera', url: 'https://www.aljazeera.com/xml/rss/all.xml' },
         { name: 'CNN World', url: 'http://rss.cnn.com/rss/edition_world.rss' },
         { name: 'NYT World', url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml' },
-        { name: 'Reuters World', url: 'https://www.reutersagency.com/feed/?best-topics=world-news&post_type=best' },
-        { name: 'Economic Times World', url: 'https://economictimes.indiatimes.com/news/international/world/rssfeeds/8584773.cms' },
-        { name: 'Hindustan Times World', url: 'https://www.hindustantimes.com/rss/world/rssfeed.xml' },
-        { name: 'Firstpost World', url: 'https://www.firstpost.com/rss/world.xml' }
+        { name: 'The Guardian', url: 'https://www.theguardian.com/world/rss' },
+        { name: 'DW', url: 'https://rss.dw.com/rdf/rss-en-all' },
+        { name: 'France 24', url: 'https://www.france24.com/en/rss' },
+        { name: 'Reuters World', url: 'https://www.reutersagency.com/feed/?best-topics=world-news&post_type=best' }
     ]
 };
 
 const HI_CATEGORY_FEEDS = {
-    'Tech': [{ name: 'Live Hindustan', url: 'https://api.livehindustan.com/feeds/rss/gadgets/rssfeed.xml' }],
-    'Business': [{ name: 'Live Hindustan', url: 'https://api.livehindustan.com/feeds/rss/business/rssfeed.xml' }],
-    'Economy': [{ name: 'Live Hindustan', url: 'https://api.livehindustan.com/feeds/rss/career/rssfeed.xml' }],
+    'Tech': [
+        { name: 'Live Hindustan', url: 'https://api.livehindustan.com/feeds/rss/gadgets/rssfeed.xml' },
+        { name: 'TechCrunch', url: 'https://techcrunch.com/feed/' },
+        { name: 'The Verge', url: 'https://www.theverge.com/rss/index.xml' }
+    ],
+    'Business': [
+        { name: 'Live Hindustan', url: 'https://api.livehindustan.com/feeds/rss/business/rssfeed.xml' },
+        { name: 'CNBC International', url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10001147' }
+    ],
+    'Economy': [
+        { name: 'Live Hindustan', url: 'https://api.livehindustan.com/feeds/rss/career/rssfeed.xml' },
+        { name: 'CNBC Economy', url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258' }
+    ],
     'Geopolitics': [
         { name: 'BBC World', url: 'https://www.bbc.com/news/world/rss.xml' },
         { name: 'Al Jazeera', url: 'https://www.aljazeera.com/xml/rss/all.xml' },
         { name: 'CNN World', url: 'http://rss.cnn.com/rss/edition_world.rss' },
+        { name: 'The Guardian', url: 'https://www.theguardian.com/world/rss' },
         { name: 'Live Hindustan International', url: 'https://api.livehindustan.com/feeds/rss/international/rssfeed.xml' },
         { name: 'Daily Bhaskar', url: 'https://www.bhaskarenglish.in/feed/' }
     ]
@@ -76,19 +93,27 @@ const Home = () => {
                                 );
                                 const data = await response.json();
                                 if (data.status === 'ok') {
-                                    return data.items.map((item, index) => ({
-                                        id: `${cat}-${feed.name}-${index}`.replace(/\s+/g, '-').toLowerCase(),
-                                        title: item.title,
-                                        imageUrl: item.thumbnail || item.enclosure?.link || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800',
-                                        location: isHindi ? 'भारत' : 'India',
-                                        sourceName: isHindi && feed.name === 'Economic Times' ? 'इकोनॉमिक टाइम्स' : feed.name,
-                                        sourceUrl: item.link,
-                                        category: cat,
-                                        pubDate: item.pubDate,
-                                        shortDescription: item.description.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...',
-                                        fullContent: item.content || item.description.replace(/<[^>]*>?/gm, ''),
-                                        isLatest: false
-                                    }));
+                                    return data.items.map((item, index) => {
+                                        // Dynamic source name localization
+                                        const sourceKey = feed.name.toLowerCase().replace(/\s+/g, '_');
+                                        const localizedSource = t(`sources.${sourceKey}`);
+
+                                        return {
+                                            id: `${cat}-${feed.name}-${index}`.replace(/\s+/g, '-').toLowerCase(),
+                                            title: item.title,
+                                            imageUrl: item.thumbnail || item.enclosure?.link || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800',
+                                            location: isHindi ? 'भारत' : 'India',
+                                            sourceName: localizedSource && localizedSource !== `sources.${sourceKey}`
+                                                ? localizedSource
+                                                : (isHindi && feed.name === 'Economic Times' ? 'इकोनॉमिक टाइम्स' : feed.name),
+                                            sourceUrl: item.link,
+                                            category: cat,
+                                            pubDate: item.pubDate,
+                                            shortDescription: item.description.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...',
+                                            fullContent: item.content || item.description.replace(/<[^>]*>?/gm, ''),
+                                            isLatest: false
+                                        };
+                                    });
                                 }
                             } catch (err) {
                                 console.error(`Error fetching ${feed.name}:`, err);

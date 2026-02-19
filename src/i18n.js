@@ -14,7 +14,7 @@ const resources = {
             "india": "India",
             "view_all": "View All",
             "live_network": "Live: Amigo Global Network",
-            "one_platform": "One Platform, Every News",
+            "one_platform": "One Platform, Your Relevant News",
             "hero_subtitle_default": "Your command center for global business, technology, and strategic shifts.",
             "hero_subtitle_category": "Comprehensive live coverage of {{category}} trends and breaking developments.",
             "fetching_headlines": "Fetching latest headlines...",
@@ -56,7 +56,7 @@ const resources = {
             "india": "भारत",
             "view_all": "सभी देखें",
             "live_network": "लाइव: अमिगो ग्लोबल नेटवर्क",
-            "one_platform": "एक प्लेटफ़ॉर्म, हर खबर",
+            "one_platform": "एक प्लेटफ़ॉर्म, आपकी ज़रूरी खबरें",
             "hero_subtitle_default": "वैश्विक व्यापार, प्रौद्योगिकी और रणनीतिक बदलावों के लिए आपका कमांड सेंटर।",
             "hero_subtitle_category": "{{category}} के रुझानों और ब्रेकिंग घटनाक्रमों का व्यापक लाइव कवरेज।",
             "fetching_headlines": "नवीनतम सुर्खियाँ प्राप्त की जा रही हैं...",
@@ -84,6 +84,22 @@ const resources = {
                 "error": "समाचार लोड करने में त्रुटि",
                 "no_news": "कोई समाचार नहीं मिला",
                 "back_to_home": "होम पर वापस जाएं"
+            },
+            "sources": {
+                "bbc_world": "बीबीसी वर्ल्ड",
+                "al_jazeera": "अल जज़ीरा",
+                "cnn_world": "सीएनएन वर्ल्ड",
+                "nyt_world": "एनवाईटी वर्ल्ड",
+                "reuters_world": "रॉयटर्स वर्ल्ड",
+                "the_guardian": "द गार्जियन",
+                "dw": "डीडब्ल्यू",
+                "france_24": "फ्रांस 24",
+                "le_monde": "ले मोंडे",
+                "techcrunch": "टेकक्रंच",
+                "the_verge": "द वर्ज",
+                "wired": "वायर्ड",
+                "forbes": "फोर्ब्स",
+                "cnbc_international": "सीएनबीसी इंटरनेशनल"
             }
         }
     }
