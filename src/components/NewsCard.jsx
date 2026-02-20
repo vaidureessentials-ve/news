@@ -17,10 +17,17 @@ const NewsCard = ({ article }) => {
                     <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider bg-blue-600 text-white rounded-full shadow-lg">
                         {t(`categories.${article.category.toLowerCase()}`)}
                     </span>
-                    {article.isLatest && (
-                        <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider bg-red-600 text-white rounded-full shadow-lg animate-pulse">
-                            {t('latest')}
+                    {article.isLive ? (
+                        <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider bg-red-600 text-white rounded-full shadow-lg animate-pulse flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping"></span>
+                            {t('live')}
                         </span>
+                    ) : (
+                        article.isLatest && (
+                            <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider bg-red-600 text-white rounded-full shadow-lg">
+                                {t('latest')}
+                            </span>
+                        )
                     )}
                 </div>
             </div>

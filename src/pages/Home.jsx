@@ -8,6 +8,9 @@ const EN_CATEGORY_FEEDS = {
     'Tech': [
         { name: 'Economic Times', url: 'https://economictimes.indiatimes.com/tech/rssfeeds/13357270.cms' },
         { name: 'Livemint', url: 'https://www.livemint.com/rss/technology' },
+        { name: 'India Today Tech', url: 'https://www.indiatoday.in/rss/1206550' },
+        { name: 'Hindustan Times', url: 'https://www.hindustantimes.com/feeds/rss/tech/rssfeed.xml' },
+        { name: 'The Hindu', url: 'https://www.thehindu.com/sci-tech/technology/?service=rss' },
         { name: 'TechCrunch', url: 'https://techcrunch.com/feed/' },
         { name: 'Wired', url: 'https://www.wired.com/feed/rss' },
         { name: 'The Verge', url: 'https://www.theverge.com/rss/index.xml' }
@@ -16,16 +19,27 @@ const EN_CATEGORY_FEEDS = {
         { name: 'Economic Times', url: 'https://economictimes.indiatimes.com/news/industry/rssfeeds/13352306.cms' },
         { name: 'Business Standard', url: 'https://www.business-standard.com/rss/companies-101.rss' },
         { name: 'Business Today', url: 'https://www.businesstoday.in/rss/corporate' },
+        { name: 'The Hindu BusinessLine', url: 'https://www.thehindubusinessline.com/news/?service=rss' },
+        { name: 'CNBC TV18', url: 'https://www.news18.com/commonfeeds/v1/eng/rss/business.xml' },
+        { name: 'Moneycontrol', url: 'https://www.moneycontrol.com/rss/latestnews.xml' },
         { name: 'Forbes', url: 'https://www.forbes.com/business/feed/' },
         { name: 'CNBC International', url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10001147' }
     ],
     'Economy': [
+        { name: 'Financial Times', url: 'https://www.ft.com/?format=rss' },
         { name: 'Economic Times', url: 'https://economictimes.indiatimes.com/news/economy/rssfeeds/13733806.cms' },
         { name: 'Business Standard', url: 'https://www.business-standard.com/rss/economy-policy-102.rss' },
         { name: 'Livemint', url: 'https://www.livemint.com/rss/economy' },
+        { name: 'The Hindu BusinessLine', url: 'https://www.thehindubusinessline.com/economy/?service=rss' },
+        { name: 'Yahoo Finance', url: 'https://finance.yahoo.com/news/rssindex' },
         { name: 'CNBC Economy', url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258' }
     ],
     'Geopolitics': [
+        { name: 'Geopolitical Monitor', url: 'https://www.geopoliticalmonitor.com/feed/' },
+        { name: 'India Today', url: 'https://www.indiatoday.in/rss/1206584' },
+        { name: 'Times of India', url: 'https://timesofindia.indiatimes.com/rssfeedstopstories.cms' },
+        { name: 'Hindustan Times', url: 'https://www.hindustantimes.com/feeds/rss/india-news/rssfeed.xml' },
+        { name: 'The Hindu', url: 'https://www.thehindu.com/news/international/?service=rss' },
         { name: 'BBC World', url: 'https://www.bbc.com/news/world/rss.xml' },
         { name: 'Al Jazeera', url: 'https://www.aljazeera.com/xml/rss/all.xml' },
         { name: 'CNN World', url: 'http://rss.cnn.com/rss/edition_world.rss' },
@@ -34,6 +48,11 @@ const EN_CATEGORY_FEEDS = {
         { name: 'DW', url: 'https://rss.dw.com/rdf/rss-en-all' },
         { name: 'France 24', url: 'https://www.france24.com/en/rss' },
         { name: 'Reuters World', url: 'https://www.reutersagency.com/feed/?best-topics=world-news&post_type=best' }
+    ],
+    'Stock': [
+        { name: 'Moneycontrol', url: 'https://www.moneycontrol.com/rss/marketreports.xml' },
+        { name: 'Economic Times Markets', url: 'https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms' },
+        { name: 'Business Today Markets', url: 'https://www.businesstoday.in/rss/market' }
     ]
 };
 
@@ -58,6 +77,10 @@ const HI_CATEGORY_FEEDS = {
         { name: 'The Guardian', url: 'https://www.theguardian.com/world/rss' },
         { name: 'Live Hindustan International', url: 'https://api.livehindustan.com/feeds/rss/international/rssfeed.xml' },
         { name: 'Daily Bhaskar', url: 'https://www.bhaskarenglish.in/feed/' }
+    ],
+    'Stock': [
+        { name: 'Live Hindustan Markets', url: 'https://api.livehindustan.com/feeds/rss/business/stock-market/rssfeed.xml' },
+        { name: 'Moneycontrol Hindi', url: 'https://hindi.moneycontrol.com/rss/market-news.xml' }
     ]
 };
 
@@ -156,9 +179,15 @@ const Home = () => {
 
                     console.log(`Category ${cat}: ${flattenedItems.length}/${totalItemsBeforeFilter} items remaining after filtering.`);
 
-                    // Mark the most recent item as latest
+                    // Mark the most recent item as latest and flag items within last hour as "Live"
                     if (flattenedItems.length > 0) {
                         flattenedItems[0].isLatest = true;
+                        const now = new Date();
+                        flattenedItems.forEach(item => {
+                            const pubDate = new Date(item.pubDate);
+                            const diffInMinutes = (now - pubDate) / (1000 * 60);
+                            item.isLive = diffInMinutes < 60; // Published within last hour
+                        });
                     }
 
                     return {
@@ -172,6 +201,32 @@ const Home = () => {
                 acc[curr.category] = curr.items;
                 return acc;
             }, {});
+
+            // Fallback to local data if no news fetched
+            const hasAnyNews = Object.values(newsMap).some(items => items.length > 0);
+            if (!hasAnyNews) {
+                console.warn('No live news fetched, loading fallback data.');
+                try {
+                    const fallbackResponse = await fetch('/src/data/newsData.json');
+                    const fallbackData = await fallbackResponse.json();
+                    const isHindi = i18n.language.startsWith('hi');
+
+                    const formattedFallback = fallbackData.map(item => ({
+                        ...item,
+                        title: isHindi ? item.title_hi || item.title : item.title,
+                        shortDescription: isHindi ? item.shortDescription_hi || item.shortDescription : item.shortDescription,
+                        fullContent: isHindi ? item.fullContent_hi || item.fullContent : item.fullContent,
+                        isFallback: true
+                    }));
+
+                    const categories = ['Tech', 'Business', 'Economy', 'Geopolitics', 'Stock'];
+                    categories.forEach(cat => {
+                        newsMap[cat] = formattedFallback.filter(item => item.category === cat);
+                    });
+                } catch (fallbackErr) {
+                    console.error('Fallback loading failed:', fallbackErr);
+                }
+            }
 
             setNewsData(newsMap);
             setLastUpdated(new Date());
@@ -188,10 +243,10 @@ const Home = () => {
     useEffect(() => {
         fetchAllNews();
 
-        // Polling every 5 minutes (300,000ms)
+        // Polling every 1 minute (60,000ms) for live updates
         const interval = setInterval(() => {
             fetchAllNews(true);
-        }, 300000);
+        }, 60000);
 
         return () => clearInterval(interval);
     }, [i18n.language]);

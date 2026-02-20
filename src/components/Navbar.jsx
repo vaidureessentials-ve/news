@@ -36,12 +36,22 @@ const Navbar = () => {
         }
     };
 
+    const handleLogoClick = () => {
+        if (location.pathname === '/') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        if (searchParams.get('category')) {
+            searchParams.delete('category');
+            setSearchParams(searchParams);
+        }
+    };
+
     return (
         <nav className="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800 py-4 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto flex items-center justify-between">
-                <Link to="/" className="flex items-center gap-4 group">
-                    <img src="/logo.svg?v=2" alt="Amigo News Logo" className="h-12 w-auto object-contain transition-transform group-hover:scale-105" />
-                    <span className="text-2xl font-bold text-white tracking-tight transition-colors group-hover:text-blue-400">
+                <Link to="/" onClick={handleLogoClick} className="flex items-center gap-4">
+                    <img src="/logo.svg" alt="GFS Logo" className="h-12 w-auto object-contain rounded-xl bg-slate-800/50 p-1 border border-slate-700/50" />
+                    <span className="text-2xl font-bold text-white tracking-tight">
                         {t('app_name')}
                     </span>
                 </Link>
@@ -57,6 +67,13 @@ const Navbar = () => {
                             {cat.label}
                         </button>
                     ))}
+                    <Link
+                        to="/stocks"
+                        className={`font-medium transition-colors text-sm uppercase tracking-wider ${location.pathname === '/stocks' ? 'text-blue-400' : 'text-slate-400 hover:text-white'
+                            }`}
+                    >
+                        {t('categories.stock')}
+                    </Link>
                 </div>
 
                 <div className="flex items-center gap-4">
@@ -79,6 +96,13 @@ const Navbar = () => {
                         {cat.label}
                     </button>
                 ))}
+                <Link
+                    to="/stocks"
+                    className={`font-medium transition-colors text-xs uppercase tracking-wider whitespace-nowrap ${location.pathname === '/stocks' ? 'text-blue-400' : 'text-slate-400 hover:text-white'
+                        }`}
+                >
+                    {t('categories.stock')}
+                </Link>
             </div>
         </nav>
     );
