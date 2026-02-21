@@ -8,49 +8,6 @@ import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, BLOCKED_KEYWORDS, CATEGORY_KEYWOR
 
 const DEFAULT_STOCK_IMAGE = 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=800';
 
-// Keywords that block entertainment/sports articles
-const BLOCKED_KEYWORDS = [
-    'cricket', 'ipl', 'football', 'soccer', 'tennis', 'hockey', 'badminton',
-    'wicket', 'stadium', 'olympics', 'icc', 'bcci', 'basketball', 'baseball',
-    'rugby', 'golf', 'athletics', 'swimming', 'boxing', 'mma', 'ufc',
-    'wrestling match', 'pga', 'nba', 'nfl', 'wimbledon', 'batsman', 'bowler',
-    'playing xi', 'point table', 'scorecard', 'lbw', 'sixer',
-    'atp', 'wta', 'paralympics', 'खेल', 'क्रिकेट',
-    'movie', 'movies', 'film', 'films', 'cinema', 'bollywood', 'hollywood',
-    'tollywood', 'kollywood', 'box office', 'ott', 'netflix', 'amazon prime',
-    'disney+', 'hotstar', 'zee5', 'sonyliv', 'web series', 'tv show', 'tv serial',
-    'actor', 'actress', 'celebrity', 'celeb', 'trailer', 'teaser',
-    'award show', 'filmfare', 'iifa', 'oscars', 'grammy', 'bafta', 'cannes',
-    'red carpet', 'fashion', 'gossip', 'dating', 'breakup',
-    'entertainment', 'showbiz', 'paparazzi',
-    'फिल्म', 'सिनेमा', 'बॉलीवुड', 'अभिनेता', 'अभिनेत्री', 'मनोरंजन',
-    // Adult / NSFW
-    'onlyfans', 'only fans', 'adult content', 'porn', 'pornography', 'xxx',
-    'nude', 'naked', 'nsfw', 'escort', 'erotic', 'erotica', 'sex tape',
-    'strip club', 'stripper', 'cam girl', 'cam model', 'sexting', 'nudes',
-    'explicit content', 'adult film', 'adult video', 'playboy', 'hooker',
-    'prostitute', 'prostitution', 'brothel', 'sex worker', 'fetish',
-    'lingerie model', 'bikini model', 'crush model', 'look like your',
-    // Gaming
-    'nintendo', 'pokemon', 'pokémon', 'game boy', 'gba', 'gameboy',
-    'playstation', 'xbox', 'ps5', 'ps4', 'switch online', 'video game',
-    'gaming', 'gamer', 'esports', 'twitch', 'steam', 'epic games',
-    'call of duty', 'fortnite', 'minecraft', 'roblox', 'valorant',
-    'league of legends', 'dota', 'mobile legends', 'bgmi', 'pubg',
-    'console game', 'rpg game', 'fps game', 'game release', 'dlc',
-    // Product Reviews & Lifestyle
-    "we've tested", "we have tested", 'best we tested', 'on sale',
-    'buyer guide', "buyer's guide", 'best buy', 'top picks', 'top 5',
-    'best coffee', 'coffee grinder', 'coffee maker', 'coffee brewer',
-    'best chairs', 'best desks', 'best laptops', 'best headphones',
-    'best earbuds', 'best tv', 'best phone', 'best camera',
-    'product review', 'hands-on review', 'unboxing', 'deal of the day',
-    'discount', 'coupon', 'promo code', 'flash sale', 'mega sale',
-    'shopping guide', 'gift guide', 'deal alert', 'limited time offer',
-    'lifestyle', 'home decor', 'interior design', 'recipe', 'cooking'
-];
-
-// Module-level cache — survives navigation within the same browser session
 const stockNewsCache = {};
 
 const Stocks = () => {

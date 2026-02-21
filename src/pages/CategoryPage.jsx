@@ -3,7 +3,7 @@ import { RefreshCcw, ShieldAlert } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import NewsCard from '../components/NewsCard';
 import newsFallbackData from '../data/newsData.json';
-import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, BLOCKED_KEYWORDS, CATEGORY_META } from '../data/feeds';
+import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, BLOCKED_KEYWORDS, CATEGORY_KEYWORDS, CATEGORY_META } from '../data/feeds';
 
 // 4-proxy cascade (shared logic)
 const parseXML = (xmlText) => {
