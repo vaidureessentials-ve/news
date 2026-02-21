@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import ArticlePage from './pages/ArticlePage';
 import Stocks from './pages/Stocks';
 import CategoryPage from './pages/CategoryPage';
+import Data from './pages/Data';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/business" element={<CategoryPage category="Business" />} />
           <Route path="/economy" element={<CategoryPage category="Economy" />} />
           <Route path="/geopolitics" element={<CategoryPage category="Geopolitics" />} />
+          <Route path="/data" element={<Data />} />
         </Routes>
       </div>
     </Router>

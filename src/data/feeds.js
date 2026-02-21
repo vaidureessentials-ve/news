@@ -68,9 +68,15 @@ export const EN_CATEGORY_FEEDS = {
     ],
     'Stock': [
         { name: 'Moneycontrol', url: 'https://www.moneycontrol.com/rss/marketreports.xml' },
-        { name: 'ET Markets', url: 'https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms' },
-        { name: 'Business Today Mkt', url: 'https://www.businesstoday.in/rss/market' },
-        { name: 'NDTV Profit', url: 'https://feeds.feedburner.com/ndtvprofit-latest' }
+        { name: 'Economic Times Markets', url: 'https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms' },
+        { name: 'ET Stocks', url: 'https://economictimes.indiatimes.com/markets/stocks/rssfeeds/2146842.cms' },
+        { name: 'Livemint Markets', url: 'https://www.livemint.com/rss/markets' },
+        { name: 'Business Standard Markets', url: 'https://www.business-standard.com/rss/markets-106.rss' },
+        { name: 'Financial Express Markets', url: 'https://www.financialexpress.com/market/feed/' },
+        { name: 'NDTV Profit', url: 'https://feeds.feedburner.com/ndtvprofit-latest' },
+        { name: 'Business Today Markets', url: 'https://www.businesstoday.in/rss/market' },
+        { name: 'The Hindu BusinessLine Markets', url: 'https://www.thehindubusinessline.com/markets/?service=rss' },
+        { name: 'Yahoo Finance India', url: 'https://finance.yahoo.com/news/rssindex' }
     ]
 };
 
@@ -110,9 +116,43 @@ export const HI_CATEGORY_FEEDS = {
         { name: 'Navbharat World', url: 'https://navbharattimes.indiatimes.com/world/rss.cms' }
     ],
     'Stock': [
-        { name: 'LH Markets', url: 'https://api.livehindustan.com/feeds/rss/business/stock-market/rssfeed.xml' },
+        { name: 'Live Hindustan Markets', url: 'https://api.livehindustan.com/feeds/rss/business/stock-market/rssfeed.xml' },
         { name: 'Moneycontrol Hindi', url: 'https://hindi.moneycontrol.com/rss/market-news.xml' },
+        { name: 'ET Swadesh', url: 'https://hindi.etnownews.com/feeds/gns-etn-hindi-markets' },
         { name: 'Zee Business', url: 'https://www.zeebiz.com/rss' }
+    ]
+};
+
+// ─────────────────────────────────────────────────────────────
+// CATEGORY REINFORCEMENT KEYWORDS
+// ─────────────────────────────────────────────────────────────
+export const CATEGORY_KEYWORDS = {
+    'Tech': [
+        'tech', 'technology', 'software', 'hardware', 'ai', 'artificial intelligence',
+        'startup', 'digital', 'innovation', 'gadget', 'smartphone', 'laptop', 'app',
+        'crypto', 'blockchain', 'semiconductor', 'chip', 'cloud', 'cyber', 'gadgets',
+        'तकनीक', 'प्रौद्योगिकी', 'सॉफ्टवेयर', 'हार्डवेयर', 'एआई', 'स्मार्टफोन'
+    ],
+    'Business': [
+        'business', 'corporate', 'company', 'companies', 'startup', 'acquire', 'acquisition',
+        'merger', 'ceo', 'industry', 'market', 'commerce', 'enterprise', 'profit', 'revenue',
+        'व्यापार', 'व्यवसाय', 'कॉर्पोरेट', 'कंपनी', 'उद्योग'
+    ],
+    'Economy': [
+        'economy', 'gdp', 'inflation', 'fiscal', 'rbi', 'budget', 'tax', 'interest rate',
+        'monetary', 'policy', 'recession', 'growth', 'trade', 'export', 'import',
+        'अर्थव्यवस्था', 'जीडीपी', 'मुद्रास्फीति', 'बजट', 'कर', 'आरबीआई'
+    ],
+    'Geopolitics': [
+        'geopolitics', 'diplomacy', 'foreign policy', 'international', 'summit', 'un',
+        'sanctions', 'conflict', 'war', 'border', 'nations', 'relations', 'china', 'usa',
+        'russia', 'ukraine', 'israel', 'modi', 'biden', 'putin',
+        'भू-राजनीति', 'कूटनीति', 'विदेश नीति', 'अंतरराष्ट्रीय', 'युद्ध', 'सीमा'
+    ],
+    'Stock': [
+        'stock', 'market', 'nifty', 'sensex', 'ipo', 'share', 'dividend', 'invest',
+        'trading', 'indices', 'bull', 'bear', 'portfolio', 'equity', 'listing',
+        'स्टॉक', 'मार्केट', 'शेयर', 'निफ्टी', 'सेंसेक्स', 'आईपीओ'
     ]
 };
 

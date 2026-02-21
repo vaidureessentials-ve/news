@@ -100,6 +100,13 @@ const CategoryPage = ({ category }) => {
         isLive: false
     });
 
+    const isArticleRelevant = (item, cat) => {
+        const keywords = CATEGORY_KEYWORDS[cat] || [];
+        if (keywords.length === 0) return true;
+        const text = `${item.title} ${item.description || ''} ${item.content || ''}`.toLowerCase();
+        return keywords.some(kw => text.includes(kw.toLowerCase()));
+    };
+
     const isBlocked = (item) => {
         const text = `${item.title} ${item.shortDescription}`.toLowerCase();
         return BLOCKED_KEYWORDS.some(kw => text.includes(kw.toLowerCase()));
@@ -125,7 +132,7 @@ const CategoryPage = ({ category }) => {
 
                 const articles = result.items
                     .map(item => normArticle(item, feed, result, isHindi))
-                    .filter(a => !isBlocked(a));
+                    .filter(a => isArticleRelevant(a, category) && !isBlocked(a));
 
                 if (articles.length > 0) {
                     // Show articles immediately as this feed completes

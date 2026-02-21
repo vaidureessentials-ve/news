@@ -4,25 +4,7 @@ import { useTranslation } from 'react-i18next';
 import NewsCard from '../components/NewsCard';
 import newsFallbackData from '../data/newsData.json';
 
-const EN_STOCK_FEEDS = [
-    { name: 'Moneycontrol', url: 'https://www.moneycontrol.com/rss/marketreports.xml' },
-    { name: 'Economic Times Markets', url: 'https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms' },
-    { name: 'ET Stocks', url: 'https://economictimes.indiatimes.com/markets/stocks/rssfeeds/2146842.cms' },
-    { name: 'Livemint Markets', url: 'https://www.livemint.com/rss/markets' },
-    { name: 'Business Standard Markets', url: 'https://www.business-standard.com/rss/markets-106.rss' },
-    { name: 'Financial Express Markets', url: 'https://www.financialexpress.com/market/feed/' },
-    { name: 'NDTV Profit', url: 'https://feeds.feedburner.com/ndtvprofit-latest' },
-    { name: 'Business Today Markets', url: 'https://www.businesstoday.in/rss/market' },
-    { name: 'HBL Markets', url: 'https://www.thehindubusinessline.com/markets/?service=rss' },
-    { name: 'Yahoo Finance India', url: 'https://finance.yahoo.com/news/rssindex' }
-];
-
-const HI_STOCK_FEEDS = [
-    { name: 'Live Hindustan Markets', url: 'https://api.livehindustan.com/feeds/rss/business/stock-market/rssfeed.xml' },
-    { name: 'Moneycontrol Hindi', url: 'https://hindi.moneycontrol.com/rss/market-news.xml' },
-    { name: 'ET Now Swadesh', url: 'https://hindi.etnownews.com/feeds/gns-etn-hindi-markets' },
-    { name: 'Zee Business', url: 'https://www.zeebiz.com/rss' }
-];
+import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, BLOCKED_KEYWORDS, CATEGORY_KEYWORDS } from '../data/feeds';
 
 const DEFAULT_STOCK_IMAGE = 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=800';
 
@@ -88,7 +70,8 @@ const Stocks = () => {
             else setSyncing(true);
 
             const isHindi = i18n.language?.startsWith('hi');
-            const feeds = isHindi ? HI_STOCK_FEEDS : EN_STOCK_FEEDS;
+            const allFeeds = isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS;
+            const feeds = allFeeds['Stock'] || [];
 
             // Abort slow proxies after 4 seconds
             const withTimeout = (promise, ms = 4000) =>
@@ -164,9 +147,16 @@ const Stocks = () => {
                 'home decor', 'interior design'
             ];
 
+            const isArticleRelevant = (item, cat) => {
+                const keywords = CATEGORY_KEYWORDS[cat] || [];
+                if (keywords.length === 0) return true;
+                const text = `${item.title} ${item.shortDescription || ''}`.toLowerCase();
+                return keywords.some(kw => text.includes(kw.toLowerCase()));
+            };
+
             const isBlocked = (article) => {
                 const text = `${article.title} ${article.shortDescription}`.toLowerCase();
-                return STOCK_BLOCK_KEYWORDS.some(kw => text.includes(kw));
+                return BLOCKED_KEYWORDS.some(kw => text.includes(kw));
             };
 
             // ── Progressive rendering: show articles as each feed finishes ──
@@ -197,7 +187,7 @@ const Stocks = () => {
                         isLatest: false,
                         isLive: false
                     };
-                }).filter(a => !isBlocked(a));
+                }).filter(a => isArticleRelevant(a, 'Stock') && !isBlocked(a));
 
                 if (articles.length > 0) {
                     setNews(prev => {
