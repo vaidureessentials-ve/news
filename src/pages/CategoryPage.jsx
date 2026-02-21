@@ -64,10 +64,16 @@ const PROXY_STRATEGIES = [
     }
 ];
 
+// Module-level cache — survives navigation within the same browser session
+const newsCache = {};
+
 const CategoryPage = ({ category }) => {
     const { t, i18n } = useTranslation();
-    const [news, setNews] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const cacheKey = `${category}-${typeof window !== 'undefined' ? (window.__newsLang || 'en') : 'en'}`;
+    const cached = newsCache[cacheKey] || [];
+
+    const [news, setNews] = useState(cached);
+    const [loading, setLoading] = useState(cached.length === 0); // no spinner if we have cache
     const [syncing, setSyncing] = useState(false);
     const [countdown, setCountdown] = useState(30);
     const [lastUpdated, setLastUpdated] = useState(null);
@@ -137,6 +143,8 @@ const CategoryPage = ({ category }) => {
                                 item.isLive = diffMin < 180;
                             });
                         }
+                        // Save to cache so revisit is instant
+                        newsCache[cacheKey] = merged;
                         return merged;
                     });
                     // Hide spinner as soon as first articles arrive
@@ -169,12 +177,22 @@ const CategoryPage = ({ category }) => {
         }
     };
 
-    // Reset + fetch on category or language change
+    // Re-fetch when category or language changes
     useEffect(() => {
-        setNews([]);
-        setLoading(true);
+        const key = `${category}-${i18n.language?.startsWith('hi') ? 'hi' : 'en'}`;
+        const hasCached = (newsCache[key] || []).length > 0;
+
+        if (!hasCached) {
+            // First visit — clear and show spinner
+            setNews([]);
+            setLoading(true);
+        } else {
+            // Revisit — show cached instantly, sync quietly in background
+            setNews(newsCache[key]);
+            setLoading(false);
+        }
         setCountdown(30);
-        fetchNews();
+        fetchNews(!hasCached ? false : true); // background if cache exists
 
         const timer = setInterval(() => {
             setCountdown(prev => {

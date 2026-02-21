@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { RefreshCcw, ChevronRight, LayoutGrid, Clock, Newspaper, ShieldAlert, ExternalLink } from 'lucide-react';
+import { RefreshCcw, ChevronRight, ShieldAlert } from 'lucide-react';
 import NewsCard from '../components/NewsCard';
 import newsFallbackData from '../data/newsData.json';
 
 // ─────────────────────────────────────────────────────────────
-// ENGLISH FEEDS — 20+ sources per category for maximum coverage
+// ENGLISH FEEDS
 // ─────────────────────────────────────────────────────────────
 const EN_CATEGORY_FEEDS = {
     'Tech': [
@@ -122,19 +122,71 @@ const HI_CATEGORY_FEEDS = {
         { name: 'Zee Business', url: 'https://www.zeebiz.com/rss' }
     ]
 };
+
+const BLOCKED_KEYWORDS = [
+    'cricket', 'ipl', 'football', 'soccer', 'tennis', 'hockey', 'badminton',
+    'wicket', 'stadium', 'olympics', 'icc', 'bcci', 'basketball', 'baseball',
+    'rugby', 'golf', 'athletics', 'swimming', 'boxing', 'mma', 'ufc',
+    'wrestling match', 'pga', 'nba', 'nfl', 'wimbledon', 'batsman', 'bowler',
+    'wicketkeeper', 'fielder', 'f1 race', 'grand prix', 'premier league',
+    'super league', 'world cup cricket', 't20', 'test match', 'odi match',
+    'playing xi', 'point table', 'scorecard', 'lbw', 'sixer', 'clean-bowled',
+    'atp', 'wta', 'paralympics', 'खेल', 'क्रिकेट', 'स्टेडियम',
+    'ओलिंपिक', 'फुटबॉल', 'हॉकी', 'बैडमिंटन', 'कुश्ती',
+    'बल्लेबाज', 'गेंदबाज', 'khiladi', 'pahalwan',
+    'movie', 'movies', 'film', 'films', 'cinema', 'bollywood', 'hollywood',
+    'tollywood', 'kollywood', 'box office', 'ott', 'netflix', 'amazon prime',
+    'disney+', 'hotstar', 'zee5', 'sonyliv', 'web series', 'tv show', 'tv serial',
+    'actor', 'actress', 'celebrity', 'celeb', 'star', 'stars', 'director', 'producer',
+    'trailer', 'teaser', 'review', 'release date', 'song', 'album', 'music video',
+    'award show', 'filmfare', 'iifa', 'oscars', 'grammy', 'bafta', 'cannes',
+    'red carpet', 'fashion', 'gossip', 'dating', 'breakup', 'marriage ceremony',
+    'wedding reception', 'baby shower', 'ex-boyfriend', 'ex-girlfriend',
+    'entertainment', 'showbiz', 'limelight', 'paparazzi', 'fan club',
+    'फिल्म', 'सिनेमा', 'बॉलीवुड', 'अभिनेता', 'अभिनेत्री', 'सेलिब्रिटी',
+    'मनोरंजन', 'वेब सीरीज', 'टीवी शो', 'गाना', 'संगीत',
+    'onlyfans', 'only fans', 'adult content', 'porn', 'pornography', 'xxx',
+    'nude', 'naked', 'nsfw', 'escort', 'erotic', 'erotica', 'sex tape',
+    'strip club', 'stripper', 'cam girl', 'cam model', 'sexting', 'nudes',
+    'explicit content', 'adult film', 'adult video', 'playboy', 'hooker',
+    'prostitute', 'prostitution', 'brothel', 'sex worker', 'fetish',
+    'lingerie model', 'bikini model', 'crush model', 'look like your',
+    'nintendo', 'pokemon', 'pokémon', 'game boy', 'gba', 'gameboy',
+    'playstation', 'xbox', 'ps5', 'ps4', 'switch online', 'video game',
+    'gaming', 'gamer', 'esports', 'twitch', 'steam', 'epic games',
+    'call of duty', 'fortnite', 'minecraft', 'roblox', 'valorant',
+    'league of legends', 'dota', 'mobile legends', 'bgmi', 'pubg',
+    'console game', 'rpg game', 'fps game', 'game release', 'dlc',
+    "we've tested", "we have tested", 'best we tested', 'on sale',
+    'buyer guide', "buyer's guide", 'best buy', 'top picks', 'top 5',
+    'best coffee', 'coffee grinder', 'coffee maker', 'coffee brewer',
+    'best chairs', 'best desks', 'best laptops', 'best headphones',
+    'best earbuds', 'best tv', 'best phone', 'best camera',
+    'product review', 'hands-on review', 'unboxing', 'deal of the day',
+    'discount', 'coupon', 'promo code', 'flash sale', 'mega sale',
+    'shopping guide', 'gift guide', 'deal alert', 'limited time offer',
+    'lifestyle', 'home decor', 'interior design', 'recipe', 'cooking'
+];
+
+const DEFAULT_IMG = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800';
+
+// Module-level cache — persists across navigations within the same session
+const homeNewsCache = {};
+
 const Home = () => {
     const { t, i18n } = useTranslation();
     const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
     const categoryFilter = searchParams.get('category');
-    const [newsData, setNewsData] = useState({});
-    const [loading, setLoading] = useState(true);
+    const lk = i18n.language?.startsWith('hi') ? 'hi' : 'en';
+    const cached = homeNewsCache[lk] || {};
+
+    const [newsData, setNewsData] = useState(cached);
+    const [loading, setLoading] = useState(Object.keys(cached).length === 0);
     const [syncing, setSyncing] = useState(false);
     const [error, setError] = useState(null);
     const [countdown, setCountdown] = useState(30);
     const [lastUpdated, setLastUpdated] = useState(null);
-    const [newArticleCount, setNewArticleCount] = useState(0);
-    // Track seen article URLs so we can detect genuinely new ones
     const seenUrls = React.useRef(new Set());
 
     // Scroll to category section after navigating from another page
@@ -143,9 +195,7 @@ const Home = () => {
         if (!scrollTo || loading) return;
         const timer = setTimeout(() => {
             const element = document.getElementById(`category-${scrollTo}`);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 150);
         return () => clearTimeout(timer);
     }, [location.state, loading]);
@@ -155,248 +205,162 @@ const Home = () => {
             if (!isBackground) setLoading(true);
             else setSyncing(true);
 
-            const currentLanguage = i18n.language || 'en';
-            const isHindi = currentLanguage.startsWith('hi');
+            const isHindi = i18n.language?.startsWith('hi');
             const currentFeeds = isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS;
-            const categories = Object.keys(currentFeeds);
+            const allCats = Object.keys(currentFeeds);
 
-            const fetchResults = await Promise.all(
-                categories.map(async (cat) => {
-                    const feeds = currentFeeds[cat];
-                    const categoryItems = await Promise.all(
-                        feeds.map(async (feed) => {
-                            // Helper: parse raw RSS/Atom XML into items array
-                            const parseXML = (xmlText) => {
-                                try {
-                                    const parser = new DOMParser();
-                                    const xml = parser.parseFromString(xmlText, 'text/xml');
-                                    const getText = (el, tag) => el?.querySelector(tag)?.textContent?.trim() || '';
-                                    // RSS 2.0
-                                    const rssItems = Array.from(xml.querySelectorAll('item'));
-                                    if (rssItems.length > 0) {
-                                        return rssItems.slice(0, 25).map(el => ({
-                                            title: getText(el, 'title'),
-                                            link: getText(el, 'link') || el.querySelector('link')?.getAttribute('href') || '',
-                                            pubDate: getText(el, 'pubDate') || getText(el, 'published') || new Date().toISOString(),
-                                            description: getText(el, 'description') || getText(el, 'summary') || '',
-                                            content: getText(el, 'encoded') || getText(el, 'content') || getText(el, 'description') || '',
-                                            thumbnail: el.querySelector('thumbnail')?.getAttribute('url') || el.querySelector('enclosure')?.getAttribute('url') || ''
-                                        }));
-                                    }
-                                    // Atom
-                                    const atomEntries = Array.from(xml.querySelectorAll('entry'));
-                                    return atomEntries.slice(0, 25).map(el => ({
-                                        title: getText(el, 'title'),
-                                        link: el.querySelector('link')?.getAttribute('href') || getText(el, 'link') || '',
-                                        pubDate: getText(el, 'published') || getText(el, 'updated') || new Date().toISOString(),
-                                        description: getText(el, 'summary') || getText(el, 'content') || '',
-                                        content: getText(el, 'content') || getText(el, 'summary') || '',
-                                        thumbnail: el.querySelector('thumbnail')?.getAttribute('url') || ''
-                                    }));
-                                } catch (_) { return []; }
-                            };
+            // 4-second timeout per proxy
+            const withTimeout = (promise, ms = 4000) =>
+                Promise.race([
+                    promise,
+                    new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), ms))
+                ]);
 
-                            // 4-proxy cascade: fresh proxies first, rss2json as fallback
-                            const PROXY_STRATEGIES = [
-                                // 1. corsproxy.io — no caching, direct RSS XML
-                                async (u) => {
-                                    const res = await fetch(`https://corsproxy.io/?${encodeURIComponent(u)}`, { cache: 'no-store' });
-                                    const xml = await res.text();
-                                    const items = parseXML(xml);
-                                    if (items.length > 0) return { items, source: 'corsproxy' };
-                                    return null;
-                                },
-                                // 2. allorigins.win — low cache, returns JSON wrapper
-                                async (u) => {
-                                    const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(u)}&t=${Date.now()}`, { cache: 'no-store' });
-                                    const json = await res.json();
-                                    const items = parseXML(json.contents || '');
-                                    if (items.length > 0) return { items, source: 'allorigins' };
-                                    return null;
-                                },
-                                // 3. rss2json with strong cache-bust
-                                async (u) => {
-                                    const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}&count=25&nocache=${Math.random().toString(36).slice(2)}`);
-                                    const json = await res.json();
-                                    if (json.status === 'ok' && json.items?.length > 0) return { items: json.items, source: 'rss2json', isJson: true };
-                                    return null;
-                                },
-                                // 4. rss2json plain
-                                async (u) => {
-                                    const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}&count=25`);
-                                    const json = await res.json();
-                                    if (json.status === 'ok' && json.items?.length > 0) return { items: json.items, source: 'rss2json-plain', isJson: true };
-                                    return null;
-                                }
-                            ];
+            const parseXML = (xmlText) => {
+                try {
+                    const parser = new DOMParser();
+                    const xml = parser.parseFromString(xmlText, 'text/xml');
+                    const getText = (el, tag) => el?.querySelector(tag)?.textContent?.trim() || '';
+                    const rssItems = Array.from(xml.querySelectorAll('item'));
+                    if (rssItems.length > 0) {
+                        return rssItems.slice(0, 20).map(el => ({
+                            title: getText(el, 'title'),
+                            link: getText(el, 'link') || el.querySelector('link')?.getAttribute('href') || '',
+                            pubDate: getText(el, 'pubDate') || getText(el, 'published') || new Date().toISOString(),
+                            description: getText(el, 'description') || getText(el, 'summary') || '',
+                            content: getText(el, 'encoded') || getText(el, 'content') || getText(el, 'description') || '',
+                            thumbnail: el.querySelector('thumbnail')?.getAttribute('url') || el.querySelector('enclosure')?.getAttribute('url') || ''
+                        }));
+                    }
+                    const atomEntries = Array.from(xml.querySelectorAll('entry'));
+                    return atomEntries.slice(0, 20).map(el => ({
+                        title: getText(el, 'title'),
+                        link: el.querySelector('link')?.getAttribute('href') || getText(el, 'link') || '',
+                        pubDate: getText(el, 'published') || getText(el, 'updated') || new Date().toISOString(),
+                        description: getText(el, 'summary') || getText(el, 'content') || '',
+                        content: getText(el, 'content') || getText(el, 'summary') || '',
+                        thumbnail: el.querySelector('thumbnail')?.getAttribute('url') || ''
+                    }));
+                } catch (_) { return []; }
+            };
 
-                            let result = null;
-                            for (const strategy of PROXY_STRATEGIES) {
-                                try { result = await strategy(feed.url); if (result) break; }
-                                catch (_) { /* try next */ }
-                            }
-                            if (!result) { console.warn(`[${feed.name}] All proxies failed`); return []; }
+            const PROXY_STRATEGIES = [
+                async (u) => {
+                    const res = await withTimeout(fetch(`https://corsproxy.io/?${encodeURIComponent(u)}`, { cache: 'no-store' }));
+                    const xml = await res.text();
+                    const items = parseXML(xml);
+                    return items.length > 0 ? { items, isJson: false } : null;
+                },
+                async (u) => {
+                    const res = await withTimeout(fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(u)}&t=${Date.now()}`, { cache: 'no-store' }));
+                    const json = await res.json();
+                    const items = parseXML(json.contents || '');
+                    return items.length > 0 ? { items, isJson: false } : null;
+                },
+                async (u) => {
+                    const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}&count=20&nocache=${Math.random().toString(36).slice(2)}`));
+                    const json = await res.json();
+                    return json.status === 'ok' && json.items?.length > 0 ? { items: json.items, isJson: true } : null;
+                },
+                async (u) => {
+                    const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}&count=20`));
+                    const json = await res.json();
+                    return json.status === 'ok' && json.items?.length > 0 ? { items: json.items, isJson: true } : null;
+                }
+            ];
 
-                            const sourceKey = feed.name.toLowerCase().replace(/\s+/g, '_');
-                            const localizedSource = t(`sources.${sourceKey}`);
-                            const sourceName = localizedSource && localizedSource !== `sources.${sourceKey}`
-                                ? localizedSource
-                                : (isHindi && feed.name === 'Economic Times' ? 'इकोनॉमिक टाइम्स' : feed.name);
+            const isArticleBlocked = (item) => {
+                const text = `${item.title} ${item.shortDescription || ''}`.toLowerCase();
+                return BLOCKED_KEYWORDS.some(kw => text.includes(kw.toLowerCase()));
+            };
 
-                            return result.items.map((item, index) => {
-                                // Normalise between XML-parsed and rss2json-parsed shapes
-                                const title = result.isJson ? item.title : item.title;
-                                const link = result.isJson ? item.link : item.link;
-                                const pubDate = result.isJson ? item.pubDate : item.pubDate;
-                                const description = result.isJson ? (item.description || '') : (item.description || '');
-                                const content = result.isJson ? (item.content || item.description || '') : (item.content || item.description || '');
-                                const thumbnail = result.isJson
-                                    ? (item.thumbnail || item.enclosure?.link || '')
-                                    : (item.thumbnail || '');
+            // ── Progressive: each category's section fills in as its feeds resolve ──
+            const catPromises = allCats.map(async (cat) => {
+                const feeds = currentFeeds[cat] || [];
+                let catArticles = [];
 
-                                return {
-                                    id: `${cat}-${feed.name}-${index}`.replace(/\s+/g, '-').toLowerCase(),
-                                    title,
-                                    imageUrl: thumbnail || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800',
-                                    location: isHindi ? 'भारत' : 'India',
-                                    sourceName,
-                                    sourceUrl: link,
-                                    category: cat,
-                                    pubDate,
-                                    shortDescription: description.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...',
-                                    fullContent: content.replace(/<[^>]*>?/gm, ''),
-                                    isLatest: false
-                                };
-                            });
-                        })
-                    );
+                const feedPromises = feeds.map(async (feed) => {
+                    let result = null;
+                    for (const strategy of PROXY_STRATEGIES) {
+                        try { result = await strategy(feed.url); if (result) break; }
+                        catch (_) { /* try next proxy */ }
+                    }
+                    if (!result) return;
 
+                    const sourceKey = feed.name.toLowerCase().replace(/\s+/g, '_');
+                    const localizedSource = t(`sources.${sourceKey}`);
+                    const sourceName = localizedSource && localizedSource !== `sources.${sourceKey}`
+                        ? localizedSource
+                        : (isHindi && feed.name === 'Economic Times' ? 'इकोनॉमिक टाइम्स' : feed.name);
 
-                    // Flatten and sort items by publication date
-                    const BLOCKED_KEYWORDS = [
-                        // Sports
-                        'cricket', 'ipl', 'football', 'soccer', 'tennis', 'hockey', 'badminton',
-                        'wicket', 'stadium', 'olympics', 'icc', 'bcci', 'basketball', 'baseball',
-                        'rugby', 'golf', 'athletics', 'swimming', 'boxing', 'mma', 'ufc',
-                        'wrestling match', 'pga', 'nba', 'nfl', 'wimbledon', 'batsman', 'bowler',
-                        'wicketkeeper', 'fielder', 'f1 race', 'grand prix', 'premier league',
-                        'super league', 'world cup cricket', 't20', 'test match', 'odi match',
-                        'playing xi', 'point table', 'scorecard', 'lbw', 'sixer', 'clean-bowled',
-                        'atp', 'wta', 'paralympics', 'खेल', 'क्रिकेट', 'स्टेडियम',
-                        'ओलिंपिक', 'फुटबॉल', 'हॉकी', 'बैडमिंटन', 'कुश्ती',
-                        'बल्लेबाज', 'गेंदबाज', 'khiladi', 'pahalwan',
-                        // Entertainment & Movies
-                        'movie', 'movies', 'film', 'films', 'cinema', 'bollywood', 'hollywood',
-                        'tollywood', 'kollywood', 'box office', 'ott', 'netflix', 'amazon prime',
-                        'disney+', 'hotstar', 'zee5', 'sonyliv', 'web series', 'tv show', 'tv serial',
-                        'actor', 'actress', 'celebrity', 'celeb', 'star', 'stars', 'director', 'producer',
-                        'trailer', 'teaser', 'review', 'release date', 'song', 'album', 'music video',
-                        'award show', 'filmfare', 'iifa', 'oscars', 'grammy', 'bafta', 'cannes',
-                        'red carpet', 'fashion', 'gossip', 'dating', 'breakup', 'marriage ceremony',
-                        'wedding reception', 'baby shower', 'ex-boyfriend', 'ex-girlfriend',
-                        'entertainment', 'showbiz', 'limelight', 'paparazzi', 'fan club',
-                        'फिल्म', 'सिनेमा', 'बॉलीवुड', 'अभिनेता', 'अभिनेत्री', 'सेलिब्रिटी',
-                        'मनोरंजन', 'वेब सीरीज', 'टीवी शो', 'गाना', 'संगीत',
-                        // Adult / NSFW
-                        'onlyfans', 'only fans', 'adult content', 'porn', 'pornography', 'xxx',
-                        'nude', 'naked', 'nsfw', 'escort', 'erotic', 'erotica', 'sex tape',
-                        'strip club', 'stripper', 'cam girl', 'cam model', 'sexting', 'nudes',
-                        'explicit content', 'adult film', 'adult video', 'playboy', 'hooker',
-                        'prostitute', 'prostitution', 'brothel', 'sex worker', 'fetish',
-                        'lingerie model', 'bikini model', 'crush model', 'look like your',
-                        // Gaming
-                        'nintendo', 'pokemon', 'pokémon', 'game boy', 'gba', 'gameboy',
-                        'playstation', 'xbox', 'ps5', 'ps4', 'switch online', 'video game',
-                        'gaming', 'gamer', 'esports', 'twitch', 'steam', 'epic games',
-                        'call of duty', 'fortnite', 'minecraft', 'roblox', 'valorant',
-                        'league of legends', 'dota', 'mobile legends', 'bgmi', 'pubg',
-                        'console game', 'rpg game', 'fps game', 'game release', 'dlc',
-                        // Product Reviews & Lifestyle
-                        "we've tested", "we have tested", 'best we tested', 'on sale',
-                        'buyer guide', "buyer's guide", 'best buy', 'top picks', 'top 5',
-                        'best coffee', 'coffee grinder', 'coffee maker', 'coffee brewer',
-                        'best chairs', 'best desks', 'best laptops', 'best headphones',
-                        'best earbuds', 'best tv', 'best phone', 'best camera',
-                        'product review', 'hands-on review', 'unboxing', 'deal of the day',
-                        'discount', 'coupon', 'promo code', 'flash sale', 'mega sale',
-                        'shopping guide', 'gift guide', 'deal alert', 'limited time offer',
-                        'lifestyle', 'home decor', 'interior design', 'recipe', 'cooking'
-                    ];
+                    const articles = result.items.map((item, index) => {
+                        const description = result.isJson ? (item.description || '') : (item.description || '');
+                        const content = result.isJson ? (item.content || item.description || '') : (item.content || item.description || '');
+                        const thumbnail = result.isJson
+                            ? (item.thumbnail || item.enclosure?.link || '')
+                            : (item.thumbnail || '');
+                        return {
+                            id: `${cat}-${feed.name}-${index}`.replace(/\s+/g, '-').toLowerCase(),
+                            title: item.title || '',
+                            imageUrl: thumbnail || DEFAULT_IMG,
+                            location: isHindi ? 'भारत' : 'India',
+                            sourceName,
+                            sourceUrl: result.isJson ? item.link : item.link,
+                            category: cat,
+                            pubDate: item.pubDate || new Date().toISOString(),
+                            shortDescription: description.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...',
+                            fullContent: content.replace(/<[^>]*>?/gm, ''),
+                            isLatest: false, isLive: false
+                        };
+                    }).filter(a => !isArticleBlocked(a));
 
+                    if (articles.length === 0) return;
 
-                    const totalItemsBeforeFilter = categoryItems.flat().length;
-                    const flattenedItems = categoryItems.flat()
-                        .filter(item => {
-                            const title = (item.title || "").toLowerCase();
-                            const fullContent = (item.fullContent || "").toLowerCase();
-                            const combined = `${title} ${fullContent}`;
-                            const isBlocked = BLOCKED_KEYWORDS.some(keyword => combined.includes(keyword.toLowerCase()));
-                            return !isBlocked;
-                        })
+                    catArticles = [...catArticles, ...articles];
+                    const sorted = [...catArticles]
+                        .filter((v, i, arr) => arr.findIndex(x => x.sourceUrl === v.sourceUrl) === i)
                         .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
 
-                    console.log(`Category ${cat}: ${flattenedItems.length}/${totalItemsBeforeFilter} items remaining after filtering.`);
-
-                    // Mark the most recent item as latest and flag items within last 3 hours as "Live"
-                    if (flattenedItems.length > 0) {
-                        flattenedItems[0].isLatest = true;
+                    if (sorted.length > 0) {
+                        sorted[0].isLatest = true;
                         const now = new Date();
-                        flattenedItems.forEach(item => {
-                            const pubDate = new Date(item.pubDate);
-                            const diffInMinutes = (now - pubDate) / (1000 * 60);
-                            item.isLive = diffInMinutes < 180; // Published within last 3 hours
-                        });
+                        sorted.forEach(item => { item.isLive = (now - new Date(item.pubDate)) / 60000 < 180; });
                     }
 
-                    return {
-                        category: cat,
-                        items: flattenedItems
-                    };
-                })
-            );
+                    setNewsData(prev => {
+                        const updated = { ...prev, [cat]: sorted };
+                        const cLk = isHindi ? 'hi' : 'en';
+                        homeNewsCache[cLk] = updated;
+                        return updated;
+                    });
+                    setLoading(false);
+                });
 
-            const newsMap = fetchResults.reduce((acc, curr) => {
-                acc[curr.category] = curr.items;
-                return acc;
-            }, {});
+                await Promise.all(feedPromises);
 
-            // Per-category fallback: if a category has 0 items, fill from local data
-            const formattedFallback = newsFallbackData.map(item => ({
-                ...item,
-                title: isHindi ? item.title_hi || item.title : item.title,
-                shortDescription: isHindi ? item.shortDescription_hi || item.shortDescription : item.shortDescription,
-                fullContent: isHindi ? item.fullContent_hi || item.fullContent : item.fullContent,
-                isFallback: true
-            }));
-
-            const allCats = ['Tech', 'Business', 'Economy', 'Geopolitics', 'Stock'];
-            allCats.forEach(cat => {
-                if (!newsMap[cat] || newsMap[cat].length === 0) {
-                    console.warn(`[${cat}] No live news — using local fallback.`);
-                    newsMap[cat] = formattedFallback.filter(item => item.category === cat);
+                // Per-category fallback if nothing loaded
+                if (catArticles.length === 0) {
+                    const fallback = newsFallbackData
+                        .filter(item => item.category === cat)
+                        .map(item => ({
+                            ...item,
+                            title: isHindi ? item.title_hi || item.title : item.title,
+                            shortDescription: isHindi ? item.shortDescription_hi || item.shortDescription : item.shortDescription,
+                            fullContent: isHindi ? item.fullContent_hi || item.fullContent : item.fullContent,
+                            isFallback: true
+                        }));
+                    if (fallback.length > 0) {
+                        setNewsData(prev => ({ ...prev, [cat]: fallback }));
+                    }
                 }
             });
 
-            if (isBackground) {
-                // Merge: prepend genuinely new articles, keep existing ones
-                setNewsData(prev => {
-                    const merged = {};
-                    allCats.forEach(cat => {
-                        const existingItems = prev[cat] || [];
-                        const existingUrls = new Set(existingItems.map(a => a.sourceUrl));
-                        const newItems = (newsMap[cat] || []).filter(a => !existingUrls.has(a.sourceUrl));
-                        merged[cat] = [...newItems, ...existingItems];
-                    });
-                    return merged;
-                });
-            } else {
-                setNewsData(newsMap);
-            }
+            await Promise.allSettled(catPromises);
             setError(null);
 
         } catch (err) {
             if (!isBackground) setError(err.message);
-            console.error('Background sync failed:', err);
+            console.error('fetchAllNews error:', err);
         } finally {
             setLoading(false);
             setSyncing(false);
@@ -405,20 +369,23 @@ const Home = () => {
     };
 
     useEffect(() => {
-        // Reset on language change — clear everything and refetch fresh
-        seenUrls.current = new Set();
-        setNewsData({});
-        setLoading(true);
+        const langKey = i18n.language?.startsWith('hi') ? 'hi' : 'en';
+        const hasCached = Object.keys(homeNewsCache[langKey] || {}).length > 0;
+
+        if (!hasCached) {
+            seenUrls.current = new Set();
+            setNewsData({});
+            setLoading(true);
+        } else {
+            setNewsData(homeNewsCache[langKey]);
+            setLoading(false);
+        }
         setCountdown(30);
-        setNewArticleCount(0);
-        fetchAllNews();
+        fetchAllNews(hasCached);
 
         const timer = setInterval(() => {
             setCountdown(prev => {
-                if (prev <= 1) {
-                    fetchAllNews(true);
-                    return 30;
-                }
+                if (prev <= 1) { fetchAllNews(true); return 30; }
                 return prev - 1;
             });
         }, 1000);
@@ -430,7 +397,6 @@ const Home = () => {
         const element = document.getElementById(`category-${category}`);
         if (element) {
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            // Remove filter so all categories remain visible
             searchParams.delete('category');
             setSearchParams(searchParams);
         }
@@ -469,7 +435,6 @@ const Home = () => {
         ? allCategories.filter(cat => cat.toLowerCase() === categoryFilter.toLowerCase())
         : allCategories;
 
-
     return (
         <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
@@ -494,15 +459,11 @@ const Home = () => {
                             </span>
                             {lastUpdated && (
                                 <span className="text-slate-500 text-[10px] tracking-wider font-medium">
-                                    {countdown <= 5
-                                        ? 'Next sync soon.'
-                                        : `Next sync in ${countdown}s.`
-                                    }
+                                    {countdown <= 5 ? 'Next sync soon.' : `Next sync in ${countdown}s.`}
                                     {' '}Last update: {lastUpdated.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })}
                                 </span>
                             )}
                         </div>
-
                     </div>
                     <h1 className="text-4xl md:text-7xl font-extrabold text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 inline-block font-display tracking-tight text-center w-full">
                         {categoryFilter ? t(`categories.${categoryFilter.toLowerCase()}`) + ' Updates' : t('one_platform')}

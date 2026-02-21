@@ -68,10 +68,16 @@ const BLOCKED_KEYWORDS = [
     'lifestyle', 'home decor', 'interior design', 'recipe', 'cooking'
 ];
 
+// Module-level cache — survives navigation within the same browser session
+const stockNewsCache = {};
+
 const Stocks = () => {
     const { t, i18n } = useTranslation();
-    const [news, setNews] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const langKey = i18n.language?.startsWith('hi') ? 'hi' : 'en';
+    const cached = stockNewsCache[langKey] || [];
+
+    const [news, setNews] = useState(cached);
+    const [loading, setLoading] = useState(cached.length === 0);
     const [syncing, setSyncing] = useState(false);
     const [countdown, setCountdown] = useState(45);
     const [lastUpdated, setLastUpdated] = useState(null);
@@ -207,6 +213,9 @@ const Stocks = () => {
                                 item.isLive = (now - new Date(item.pubDate)) / 60000 < 180;
                             });
                         }
+                        // Save to cache so revisit is instant
+                        const lk = i18n.language?.startsWith('hi') ? 'hi' : 'en';
+                        stockNewsCache[lk] = merged;
                         return merged;
                     });
                     // Hide spinner as soon as the first feed responds
@@ -248,10 +257,18 @@ const Stocks = () => {
 
     // Reset + initial fetch on language change
     useEffect(() => {
-        setNews([]);
-        setLoading(true);
+        const lk = i18n.language?.startsWith('hi') ? 'hi' : 'en';
+        const hasCached = (stockNewsCache[lk] || []).length > 0;
+
+        if (!hasCached) {
+            setNews([]);
+            setLoading(true);
+        } else {
+            setNews(stockNewsCache[lk]);
+            setLoading(false);
+        }
         setCountdown(45);
-        fetchMarketNews();
+        fetchMarketNews(hasCached); // background if already cached
 
         const timer = setInterval(() => {
             setCountdown(prev => {
