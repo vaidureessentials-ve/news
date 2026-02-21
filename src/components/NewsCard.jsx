@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 const NewsCard = ({ article }) => {
     const { t } = useTranslation();
     return (
-        <div className="news-card flex flex-col h-full group">
-            <div className="relative overflow-hidden aspect-video">
+        <div className={`news-card flex flex-col h-full group ${article.isLive ? 'pulse-new border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.15)]' : ''}`}>
+            <div className="relative overflow-hidden h-56 md:h-64">
                 <img
                     src={article.imageUrl}
                     alt={article.title}
@@ -32,8 +32,8 @@ const NewsCard = ({ article }) => {
                 </div>
             </div>
 
-            <div className="p-6 flex flex-col flex-grow">
-                <h3 className="text-xl font-bold text-slate-100 mb-2 line-clamp-2 leading-tight group-hover:text-blue-400 transition-colors">
+            <div className="p-7 flex flex-col flex-grow">
+                <h3 className="text-2xl font-bold text-slate-100 mb-3 line-clamp-2 leading-tight group-hover:text-blue-400 transition-colors">
                     {article.title}
                 </h3>
                 <div className="flex items-center gap-3 mb-4 text-[10px] font-bold uppercase tracking-widest text-slate-500">
@@ -44,7 +44,7 @@ const NewsCard = ({ article }) => {
                         {article.location === 'India' || article.location === 'भारत' ? t('india') : article.location}
                     </span>
                 </div>
-                <p className="text-slate-400 text-sm mb-6 line-clamp-3 leading-relaxed">
+                <p className="text-slate-400 text-sm mb-6 line-clamp-4 leading-relaxed">
                     {article.shortDescription}
                 </p>
 

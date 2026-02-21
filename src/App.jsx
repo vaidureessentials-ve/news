@@ -1,9 +1,10 @@
 import React from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import ArticlePage from './pages/ArticlePage';
 import Stocks from './pages/Stocks';
+import CategoryPage from './pages/CategoryPage';
 
 function App() {
   return (
@@ -14,6 +15,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/news/:id" element={<ArticlePage />} />
           <Route path="/stocks" element={<Stocks />} />
+          <Route path="/tech" element={<CategoryPage category="Tech" />} />
+          <Route path="/business" element={<CategoryPage category="Business" />} />
+          <Route path="/economy" element={<CategoryPage category="Economy" />} />
+          <Route path="/geopolitics" element={<CategoryPage category="Geopolitics" />} />
         </Routes>
       </div>
     </Router>

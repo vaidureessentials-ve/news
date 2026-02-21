@@ -23,7 +23,8 @@ const resources = {
             "reconnect_feed": "Reconnect Feed",
             "no_updates": "No live updates for {{category}} at this moment.",
             "syncing": "Syncing Data...",
-            "last_updated": "Next sync soon. Last update",
+            "no_news_found": "Intelligence Network Offline",
+
             "back_to_home": "Back to Home",
             "back_to_feed": "Back to Feed",
             "article_missing": "Article Detail Missing",
@@ -32,12 +33,13 @@ const resources = {
             "read_original": "Read Original at {{source}}",
             "share_article": "Share Article",
             "categories": {
+                "national": "National",
                 "tech": "Tech",
                 "business": "Business",
                 "economy": "Economy",
                 "international": "International",
-                "geopolitics": "Geopolitics",
-                "stock": "Stock"
+                "geopolitics": "Geopolitical",
+                "stock": "Stocks"
             },
             "common": {
                 "loading": "Loading...",
@@ -46,16 +48,7 @@ const resources = {
                 "back_to_home": "Back to Home"
             },
             "stocks": {
-                "live_markets": "Indian Live Markets",
-                "trending_now": "Trending Stocks",
-                "top_gainers": "Top Gainers",
                 "top_losers": "Top Losers",
-                "sector_watch": "Sector Performance",
-                "nifty_50": "NIFTY 50",
-                "sensex": "SENSEX",
-                "nifty_bank": "NIFTY BANK",
-                "market_open": "Market Open",
-                "market_closed": "Market Closed",
                 "last_price": "Last Traded Price"
             },
             "sources": {
@@ -69,7 +62,21 @@ const resources = {
                 "yahoo_finance": "Yahoo Finance",
                 "geopolitical_monitor": "Geopolitical Monitor",
                 "india_today": "India Today",
-                "times_of_india": "Times of India"
+                "times_of_india": "Times of India",
+                "ndtv_tech": "NDTV Tech",
+                "news18_tech": "News18 Tech",
+                "indian_express_business": "Indian Express Business",
+                "ndtv_profit": "NDTV Profit",
+                "ndtv_news": "NDTV News",
+                "indian_express": "Indian Express",
+                "ndtv_profit_markets": "NDTV Profit Markets",
+                "ndtv_gadgets_express": "NDTV Gadgets Express",
+                "ndtv_business": "NDTV Business",
+                "abp_news_business": "ABP News Business",
+                "ndtv_india": "NDTV India",
+                "abp_news": "ABP News",
+                "google_news_india": "Google News India",
+                "google_news_hindi": "Google News Hindi"
             }
         }
     },
@@ -93,7 +100,8 @@ const resources = {
             "reconnect_feed": "फीड को फिर से जोड़ें",
             "no_updates": "इस समय {{category}} के लिए कोई लाइव अपडेट नहीं है।",
             "syncing": "डेटा सिंक हो रहा है...",
-            "last_updated": "अगला सिंक जल्द होगा। आख़िरी अपडेट",
+            "no_news_found": "खुफिया नेटवर्क ऑफलाइन है",
+
             "back_to_home": "होम पर वापस जाएं",
             "back_to_feed": "फीड पर वापस जाएं",
             "article_missing": "लेख का विवरण मौजूद नहीं है",
@@ -102,6 +110,7 @@ const resources = {
             "read_original": "{{source}} पर मूल खबर पढ़ें",
             "share_article": "लेख साझा करें",
             "categories": {
+                "national": "राष्ट्रीय",
                 "tech": "तकनीक",
                 "business": "व्यापार",
                 "economy": "अर्थव्यवस्था",
@@ -116,16 +125,7 @@ const resources = {
                 "back_to_home": "होम पर वापस जाएं"
             },
             "stocks": {
-                "live_markets": "भारतीय लाइव मार्केट",
-                "trending_now": "ट्रेंडिंग शेयर्स",
-                "top_gainers": "टॉप गेनर्स",
                 "top_losers": "टॉप लूजर्स",
-                "sector_watch": "सेक्टर प्रदर्शन",
-                "nifty_50": "निफ्टी 50",
-                "sensex": "सेंसेक्स",
-                "nifty_bank": "निफ्टी बैंक",
-                "market_open": "मार्केट ओपन",
-                "market_closed": "मार्केट बंद",
                 "last_price": "नवीनतम मूल्य"
             },
             "sources": {
@@ -153,7 +153,21 @@ const resources = {
                 "yahoo_finance": "याहू फाइनेंस",
                 "geopolitical_monitor": "जियोपॉलिटिकल मॉनिटर",
                 "india_today": "इंडिया टुडे",
-                "times_of_india": "टाइम्स ऑफ इंडिया"
+                "times_of_india": "टाइम्स ऑफ इंडिया",
+                "ndtv_tech": "एनडीटीवी टेक",
+                "news18_tech": "न्यूज़18 टेक",
+                "indian_express_business": "इंडियन एक्सप्रेस बिज़नेस",
+                "ndtv_profit": "एनडीटीवी प्रॉफिट",
+                "ndtv_news": "एनडीटीवी न्यूज़",
+                "indian_express": "इंडियन एक्सप्रेस",
+                "ndtv_profit_markets": "एनडीटीवी प्रॉफिट मार्केट्स",
+                "ndtv_gadgets_express": "एनडीटीवी गैजेट्स",
+                "ndtv_business": "एनडीटीवी बिज़नेस",
+                "abp_news_business": "एबीपी न्यूज़ बिज़नेस",
+                "ndtv_india": "एनडीटीवी इंडिया",
+                "abp_news": "एबीपी न्यूज़",
+                "google_news_india": "गूगल न्यूज़ इंडिया",
+                "google_news_hindi": "गूगल न्यूज़ हिंदी"
             }
         }
     }
