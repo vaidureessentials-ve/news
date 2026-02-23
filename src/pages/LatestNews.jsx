@@ -127,7 +127,7 @@ const LatestNews = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [i18n.language]);
 
-    const filteredNews = news;
+    const filteredNews = news.filter(a => (new Date() - new Date(a.pubDate)) / 3600000 < 24);
 
     return (
         <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -153,28 +153,52 @@ const LatestNews = () => {
                     </div>
 
                     <h1 className={`text-4xl md:text-7xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r ${meta.gradient} inline-block font-display tracking-tight text-center w-full`}>
-                        {t('categories.latest') || 'Latest'} Updates
+                        {t('categories.latest') || 'Latest News'} Updates
                     </h1>
                 </header>
 
-                {loading ? (
-                    <div className="min-h-[40vh] flex flex-col items-center justify-center gap-4">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-                        <p className="text-slate-400 font-medium animate-pulse">Syncing Global Feeds...</p>
-                    </div>
-                ) : filteredNews.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {filteredNews.map((article, idx) => (
-                            <NewsCard key={article.sourceUrl || idx} article={article} />
-                        ))}
-                    </div>
-                ) : (
-                    <div className="text-center py-20 bg-slate-800/20 rounded-3xl border border-slate-800">
-                        <ShieldAlert className="w-12 h-12 text-slate-600 mx-auto mb-4" />
-                        <h3 className="text-xl font-bold text-white mb-2">No Articles Found</h3>
-                        <p className="text-slate-400">Please check back later for live updates.</p>
-                    </div>
-                )}
+                {(() => {
+                    const filteredNews = news.filter(a => (new Date() - new Date(a.pubDate)) / 3600000 < 24);
+
+                    if (loading && news.length === 0) {
+                        return (
+                            <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
+                                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+                                <p className="text-slate-400 font-medium animate-pulse">{t('fetching_headlines') || 'Fetching headlines...'}</p>
+                            </div>
+                        );
+                    }
+
+                    if (filteredNews.length > 0) {
+                        return (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                {filteredNews
+                                    .map((article, idx) => (
+                                        <NewsCard key={article.sourceUrl || idx} article={article} />
+                                    ))}
+                            </div>
+                        );
+                    }
+
+                    return (
+                        <div className="flex flex-col items-center justify-center py-24 text-center bg-slate-800/10 rounded-3xl border border-slate-800/50">
+                            <div className="bg-slate-800/50 p-6 rounded-full mb-6 border border-slate-700/50">
+                                <ShieldAlert className="w-10 h-10 text-slate-500" />
+                            </div>
+                            <h3 className="text-xl font-bold text-white mb-2">{t('no_news_found') || 'No Articles Found'}</h3>
+                            <p className="text-slate-400 max-w-sm mx-auto mb-6 text-sm">
+                                No articles from the last 24 hours found.
+                            </p>
+                            <button
+                                onClick={() => fetchAllNews()}
+                                className="bg-blue-600/20 text-blue-400 px-6 py-2 rounded-xl border border-blue-500/20 hover:bg-blue-600/30 transition-all font-bold text-xs flex items-center gap-2 uppercase tracking-widest"
+                            >
+                                <RefreshCcw className="w-3 h-3" />
+                                {t('reconnect_feed')}
+                            </button>
+                        </div>
+                    );
+                })()}
             </div>
         </div>
     );

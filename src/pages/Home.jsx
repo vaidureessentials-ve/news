@@ -370,34 +370,37 @@ const Home = () => {
                                 })()}
                             </div>
 
-                            {newsData[cat] && newsData[cat].length > 0 ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                    {newsData[cat]
-                                        .slice(0, categoryFilter ? undefined : 6)
-                                        .map((article, idx) => (
-                                            <NewsCard key={idx} article={article} />
-                                        ))}
-                                </div>
-                            ) : (
-                                <div className="text-center py-16 bg-slate-800/20 rounded-3xl border border-slate-800/50 flex flex-col items-center">
-                                    <div className="bg-slate-800/40 p-5 rounded-full mb-4 border border-slate-700/50">
-                                        <ShieldAlert className="w-8 h-8 text-slate-500" />
+                            {(() => {
+                                const filtered = (newsData[cat] || []).filter(a => (new Date() - new Date(a.pubDate)) / 3600000 < 24);
+                                return filtered.length > 0 ? (
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                        {filtered
+                                            .slice(0, categoryFilter ? undefined : 6)
+                                            .map((article, idx) => (
+                                                <NewsCard key={idx} article={article} />
+                                            ))}
                                     </div>
-                                    <h3 className="text-xl font-bold text-white mb-2">
-                                        {t('no_news_found') || 'No News Found'}
-                                    </h3>
-                                    <p className="text-slate-400 max-w-sm mx-auto mb-6 text-sm">
-                                        {t('no_updates', { category: t(`categories.${cat.toLowerCase()}`) })}
-                                    </p>
-                                    <button
-                                        onClick={() => fetchAllNews()}
-                                        className="bg-blue-600/10 text-blue-400 px-6 py-2 rounded-xl border border-blue-500/20 hover:bg-blue-600/20 transition-all font-bold text-xs flex items-center gap-2 uppercase tracking-widest"
-                                    >
-                                        <RefreshCcw className={`w-3 h-3 ${syncing ? 'animate-spin' : ''}`} />
-                                        {t('reconnect_feed')}
-                                    </button>
-                                </div>
-                            )}
+                                ) : (
+                                    <div className="text-center py-16 bg-slate-800/20 rounded-3xl border border-slate-800/50 flex flex-col items-center">
+                                        <div className="bg-slate-800/40 p-5 rounded-full mb-4 border border-slate-700/50">
+                                            <ShieldAlert className="w-8 h-8 text-slate-500" />
+                                        </div>
+                                        <h3 className="text-xl font-bold text-white mb-2">
+                                            {t('no_news_found') || 'No News Found'}
+                                        </h3>
+                                        <p className="text-slate-400 max-w-sm mx-auto mb-6 text-sm">
+                                            No news found in the last 24 hours for {t(`categories.${cat.toLowerCase()}`)}.
+                                        </p>
+                                        <button
+                                            onClick={() => fetchAllNews()}
+                                            className="bg-blue-600/10 text-blue-400 px-6 py-2 rounded-xl border border-blue-500/20 hover:bg-blue-600/20 transition-all font-bold text-xs flex items-center gap-2 uppercase tracking-widest"
+                                        >
+                                            <RefreshCcw className={`w-3 h-3 ${syncing ? 'animate-spin' : ''}`} />
+                                            {t('reconnect_feed')}
+                                        </button>
+                                    </div>
+                                );
+                            })()}
                         </div>
                     ))}
                 </div>
