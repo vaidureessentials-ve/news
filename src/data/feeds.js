@@ -67,9 +67,8 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'Google UN', url: 'https://news.google.com/rss/search?q=united+nations+global+security&hl=en-IN&gl=IN&ceid=IN:en' }
     ],
     'Stock': [
-        { name: 'Moneycontrol', url: 'https://www.moneycontrol.com/rss/marketreports.xml' },
-        { name: 'Economic Times Markets', url: 'https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms' },
-        { name: 'ET Stocks', url: 'https://economictimes.indiatimes.com/markets/stocks/rssfeeds/2146842.cms' },
+        { name: 'Google News Stocks', url: 'https://news.google.com/rss/search?q=stock+market+india+nifty+sensex&hl=en-IN&gl=IN&ceid=IN:en' },
+        { name: 'Economic Times Markets', url: 'https://economictimes.indiatimes.com/markets/stocks/rssfeeds/2146842.cms' },
         { name: 'Livemint Markets', url: 'https://www.livemint.com/rss/markets' },
         { name: 'Business Standard Markets', url: 'https://www.business-standard.com/rss/markets-106.rss' },
         { name: 'Financial Express Markets', url: 'https://www.financialexpress.com/market/feed/' },
@@ -116,6 +115,7 @@ export const HI_CATEGORY_FEEDS = {
         { name: 'Navbharat World', url: 'https://navbharattimes.indiatimes.com/world/rss.cms' }
     ],
     'Stock': [
+        { name: 'Google News Hindi', url: 'https://news.google.com/rss/search?q=%E0%A4%B6%E0%A5%87%E0%A4%AF%E0%A4%B0+%E0%A4%AC%E0%A4%BE%E0%A4%9C%E0%A4%BE%E0%A4%B0+%E0%A4%A8%E0%A4%BF%E0%A4%AB%E0%A5%8D%E0%A4%9F%E0%A5%80+%E0%A4%B8%E0%A5%87%E0%A4%82%E0%A4%B8%E0%A5%87%E0%A4%95%E0%A5%8D%E0%A4%B8&hl=hi&gl=IN&ceid=IN:hi' },
         { name: 'Live Hindustan Markets', url: 'https://api.livehindustan.com/feeds/rss/business/stock-market/rssfeed.xml' },
         { name: 'Moneycontrol Hindi', url: 'https://hindi.moneycontrol.com/rss/market-news.xml' },
         { name: 'ET Swadesh', url: 'https://hindi.etnownews.com/feeds/gns-etn-hindi-markets' },
@@ -129,29 +129,34 @@ export const HI_CATEGORY_FEEDS = {
 export const CATEGORY_KEYWORDS = {
     'Tech': [
         'tech', 'technology', 'software', 'hardware', 'ai', 'artificial intelligence',
-        'startup', 'digital', 'innovation', 'gadget', 'smartphone', 'laptop', 'app',
-        'crypto', 'blockchain', 'semiconductor', 'chip', 'cloud', 'cyber', 'gadgets',
-        'तकनीक', 'प्रौद्योगिकी', 'सॉफ्टवेयर', 'हार्डवेयर', 'एआई', 'स्मार्टफोन'
+        'artifical', 'intelligence', 'startup', 'digital', 'innovation', 'gadget', 'smartphone', 'laptop', 'app',
+        'crypto', 'blockchain', 'semiconductor', 'chip', 'cloud', 'cyber', 'gadgets', 'google', 'apple', 'microsoft',
+        'amazon', 'meta', 'tesla', 'nvidia', 'openai', 'samsung', 'intel', 'amd', 'computing', 'india', 'global',
+        'तकनीक', 'प्रौद्योगिकी', 'सॉफ्टवेयर', 'हार्डवेयर', 'एआई', 'स्मार्टफोन', 'गूगल', 'एप्पल'
     ],
     'Business': [
         'business', 'corporate', 'company', 'companies', 'startup', 'acquire', 'acquisition',
         'merger', 'ceo', 'industry', 'market', 'commerce', 'enterprise', 'profit', 'revenue',
-        'व्यापार', 'व्यवसाय', 'कॉर्पोरेट', 'कंपनी', 'उद्योग'
+        'billion', 'million', 'funding', 'investment', 'invest', 'india', 'global', 'adani', 'reliance', 'tata',
+        'व्यापार', 'व्यवसाय', 'कॉर्पोरेट', 'कंपनी', 'उद्योग', 'अडानी', 'रिलायंस'
     ],
     'Economy': [
         'economy', 'gdp', 'inflation', 'fiscal', 'rbi', 'budget', 'tax', 'interest rate',
-        'monetary', 'policy', 'recession', 'growth', 'trade', 'export', 'import',
+        'monetary', 'policy', 'recession', 'growth', 'trade', 'export', 'import', 'india', 'global',
+        'bank', 'finance', 'economic', 'development', 'investment',
         'अर्थव्यवस्था', 'जीडीपी', 'मुद्रास्फीति', 'बजट', 'कर', 'आरबीआई'
     ],
     'Geopolitics': [
         'geopolitics', 'diplomacy', 'foreign policy', 'international', 'summit', 'un',
         'sanctions', 'conflict', 'war', 'border', 'nations', 'relations', 'china', 'usa',
-        'russia', 'ukraine', 'israel', 'modi', 'biden', 'putin',
+        'russia', 'ukraine', 'israel', 'modi', 'biden', 'putin', 'india', 'global', 'world',
+        'strategic', 'diplomatic', 'foreign', 'security',
         'भू-राजनीति', 'कूटनीति', 'विदेश नीति', 'अंतरराष्ट्रीय', 'युद्ध', 'सीमा'
     ],
     'Stock': [
         'stock', 'market', 'nifty', 'sensex', 'ipo', 'share', 'dividend', 'invest',
         'trading', 'indices', 'bull', 'bear', 'portfolio', 'equity', 'listing',
+        'bse', 'nse', 'earnings', 'brokerage', 'benchmark',
         'स्टॉक', 'मार्केट', 'शेयर', 'निफ्टी', 'सेंसेक्स', 'आईपीओ'
     ]
 };
@@ -242,5 +247,78 @@ export const CATEGORY_META = {
         subtitle: 'Real-time market intelligence — stocks, indices, IPOs, and financial developments across India and global markets.',
         gradient: 'from-blue-400 via-indigo-400 to-purple-500',
         defaultImage: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=800'
+    },
+    Latest: {
+        route: '/latest',
+        subtitle: 'The absolute latest updates from across the globe, consolidated for your convenience.',
+        gradient: 'from-orange-400 via-red-400 to-rose-500',
+        defaultImage: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800'
     }
 };
+
+// ─────────────────────────────────────────────────────────────
+// CENTRALIZED NEWS PROCESSING LOGIC
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * Standardizes an article from various RSS feed formats.
+ */
+export const normArticle = (item, feed, result, isHindi, category, defaultImage) => {
+    const description = (result.isJson ? (item.description || '') : (item.description || '')).replace(/<[^>]*>?/gm, '');
+    const content = (result.isJson ? (item.content || item.description || '') : (item.content || item.description || '')).replace(/<[^>]*>?/gm, '');
+
+    // Extract thumbnail/image
+    let imageUrl = defaultImage;
+    if (result.isJson) {
+        imageUrl = item.thumbnail || item.enclosure?.link || defaultImage;
+    } else {
+        imageUrl = item.thumbnail || item.enclosure?.url || defaultImage;
+    }
+
+    return {
+        id: `${category}-${feed.name}-${Math.random().toString(36).slice(2)}`,
+        title: item.title || '',
+        imageUrl,
+        sourceName: feed.name,
+        sourceUrl: result.isJson ? item.link : item.link,
+        category,
+        location: isHindi ? 'भारत' : 'India',
+        pubDate: item.pubDate || new Date().toISOString(),
+        shortDescription: description.substring(0, 150) + (description.length > 150 ? '...' : ''),
+        fullContent: content,
+        isLatest: false,
+        isLive: false
+    };
+};
+
+/**
+ * Checks if an article matches the keywords for a specific category.
+ */
+export const isArticleRelevant = (article, category) => {
+    const keywords = CATEGORY_KEYWORDS[category] || [];
+    if (keywords.length === 0) return true;
+
+    const text = `${article.title} ${article.shortDescription} ${article.fullContent}`.toLowerCase();
+    return keywords.some(kw => text.includes(kw.toLowerCase()));
+};
+
+/**
+ * Checks if an article contains blocked keywords or is too old (stale).
+ */
+export const isBlocked = (article) => {
+    const text = `${article.title} ${article.shortDescription}`.toLowerCase();
+
+    // Keyword block
+    if (BLOCKED_KEYWORDS.some(kw => text.includes(kw.toLowerCase()))) return true;
+
+    // Staleness block (anything older than 90 days)
+    const pubDate = new Date(article.pubDate);
+    if (!isNaN(pubDate.getTime())) {
+        const threshold = new Date();
+        threshold.setDate(threshold.getDate() - 90);
+        if (pubDate < threshold) return true;
+    }
+
+    return false;
+};
+

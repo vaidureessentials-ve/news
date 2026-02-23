@@ -5,7 +5,7 @@ import { RefreshCcw, ChevronRight, ShieldAlert } from 'lucide-react';
 import NewsCard from '../components/NewsCard';
 import newsFallbackData from '../data/newsData.json';
 
-import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, BLOCKED_KEYWORDS, CATEGORY_KEYWORDS } from '../data/feeds';
+import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, BLOCKED_KEYWORDS, CATEGORY_KEYWORDS, CATEGORY_META, normArticle, isArticleRelevant, isBlocked } from '../data/feeds';
 
 const DEFAULT_IMG = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800';
 
@@ -108,17 +108,6 @@ const Home = () => {
                 }
             ];
 
-            const isArticleRelevant = (item, cat) => {
-                const keywords = CATEGORY_KEYWORDS[cat] || [];
-                if (keywords.length === 0) return true;
-                const text = `${item.title} ${item.description || ''} ${item.content || ''}`.toLowerCase();
-                return keywords.some(kw => text.includes(kw.toLowerCase()));
-            };
-
-            const isArticleBlocked = (item) => {
-                const text = `${item.title} ${item.shortDescription || ''}`.toLowerCase();
-                return BLOCKED_KEYWORDS.some(kw => text.includes(kw.toLowerCase()));
-            };
 
             // ── Per-category fetch ──────────────────────────────────────────────────
             const catPromises = allCats.map(async (cat) => {
@@ -139,27 +128,9 @@ const Home = () => {
                         ? localizedSource
                         : (isHindi && feed.name === 'Economic Times' ? 'इकोनॉमिक टाइम्स' : feed.name);
 
-                    const articles = result.items.map((item, index) => {
-                        const description = result.isJson ? (item.description || '') : (item.description || '');
-                        const content = result.isJson ? (item.content || item.description || '') : (item.content || item.description || '');
-                        const thumbnail = result.isJson
-                            ? (item.thumbnail || item.enclosure?.link || '')
-                            : (item.thumbnail || '');
-                        return {
-                            id: `${cat}-${feed.name}-${index}`.replace(/\s+/g, '-').toLowerCase(),
-                            title: item.title || '',
-                            imageUrl: thumbnail || DEFAULT_IMG,
-                            location: isHindi ? 'भारत' : 'India',
-                            sourceName,
-                            sourceUrl: result.isJson ? item.link : item.link,
-                            category: cat,
-                            pubDate: item.pubDate || new Date().toISOString(),
-                            shortDescription: description.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...',
-                            fullContent: content.replace(/<[^>]*>?/gm, ''),
-                            isLatest: false, isLive: false,
-                            description, content // temporary for relevance check
-                        };
-                    }).filter(a => isArticleRelevant(a, cat) && !isArticleBlocked(a));
+                    const articles = result.items
+                        .map(item => normArticle(item, feed, result, isHindi, cat, CATEGORY_META[cat]?.defaultImage))
+                        .filter(a => isArticleRelevant(a, cat) && !isBlocked(a));
 
                     if (articles.length === 0) return;
                     catArticles = [...catArticles, ...articles];
@@ -226,12 +197,16 @@ const Home = () => {
                         .map(item => ({
                             ...item,
                             title: isHindi ? item.title_hi || item.title : item.title,
+                            imageUrl: item.imageUrl || CATEGORY_META[cat]?.defaultImage,
                             shortDescription: isHindi ? item.shortDescription_hi || item.shortDescription : item.shortDescription,
                             fullContent: isHindi ? item.fullContent_hi || item.fullContent : item.fullContent,
                             isFallback: true
                         }));
                     if (fallback.length > 0) {
-                        setNewsData(prev => ({ ...prev, [cat]: fallback }));
+                        setNewsData(prev => {
+                            if (prev[cat] && prev[cat].length > 0) return prev;
+                            return { ...prev, [cat]: fallback };
+                        });
                     }
                 }
             });
@@ -357,6 +332,7 @@ const Home = () => {
                             : t('hero_subtitle_default')
                         }
                     </p>
+
                 </header>
 
                 <div className="space-y-20">
@@ -396,9 +372,11 @@ const Home = () => {
 
                             {newsData[cat] && newsData[cat].length > 0 ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                    {newsData[cat].slice(0, categoryFilter ? newsData[cat].length : 6).map((article, idx) => (
-                                        <NewsCard key={idx} article={article} />
-                                    ))}
+                                    {newsData[cat]
+                                        .slice(0, categoryFilter ? undefined : 6)
+                                        .map((article, idx) => (
+                                            <NewsCard key={idx} article={article} />
+                                        ))}
                                 </div>
                             ) : (
                                 <div className="text-center py-16 bg-slate-800/20 rounded-3xl border border-slate-800/50 flex flex-col items-center">

@@ -39,7 +39,8 @@ const resources = {
                 "economy": "Economy",
                 "international": "International",
                 "geopolitics": "Geopolitical",
-                "stock": "Stocks"
+                "stock": "Stocks",
+                "latest": "Latest"
             },
             "common": {
                 "loading": "Loading...",
@@ -116,7 +117,8 @@ const resources = {
                 "economy": "अर्थव्यवस्था",
                 "international": "अंतरराष्ट्रीय",
                 "geopolitics": "भू-राजनीति",
-                "stock": "शेयर बाज़ार"
+                "stock": "शेयर बाज़ार",
+                "latest": "ताज़ा खबर"
             },
             "common": {
                 "loading": "लोड हो रहा है...",

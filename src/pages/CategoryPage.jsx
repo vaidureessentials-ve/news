@@ -3,7 +3,7 @@ import { RefreshCcw, ShieldAlert } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import NewsCard from '../components/NewsCard';
 import newsFallbackData from '../data/newsData.json';
-import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, BLOCKED_KEYWORDS, CATEGORY_KEYWORDS, CATEGORY_META } from '../data/feeds';
+import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, BLOCKED_KEYWORDS, CATEGORY_KEYWORDS, CATEGORY_META, normArticle, isArticleRelevant, isBlocked } from '../data/feeds';
 
 // 4-proxy cascade (shared logic)
 const parseXML = (xmlText) => {
@@ -69,11 +69,12 @@ const newsCache = {};
 
 const CategoryPage = ({ category }) => {
     const { t, i18n } = useTranslation();
-    const cacheKey = `${category}-${typeof window !== 'undefined' ? (window.__newsLang || 'en') : 'en'}`;
-    const cached = newsCache[cacheKey] || [];
+    const langCode = i18n.language?.startsWith('hi') ? 'hi' : 'en';
+    const initialCacheKey = `${category}-${langCode}`;
+    const cached = newsCache[initialCacheKey] || [];
 
     const [news, setNews] = useState(cached);
-    const [loading, setLoading] = useState(cached.length === 0); // no spinner if we have cache
+    const [loading, setLoading] = useState(cached.length === 0);
     const [syncing, setSyncing] = useState(false);
     const [countdown, setCountdown] = useState(30);
     const [lastUpdated, setLastUpdated] = useState(null);
@@ -85,41 +86,18 @@ const CategoryPage = ({ category }) => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [category]);
 
-    const normArticle = (item, feed, result, isHindi) => ({
-        id: `${category}-${feed.name}-${Math.random().toString(36).slice(2)}`,
-        title: item.title || '',
-        imageUrl: (result.isJson ? (item.thumbnail || item.enclosure?.link) : item.thumbnail) || meta.defaultImage,
-        sourceName: feed.name,
-        sourceUrl: result.isJson ? item.link : item.link,
-        category,
-        location: isHindi ? 'भारत' : 'India',
-        pubDate: item.pubDate || new Date().toISOString(),
-        shortDescription: ((result.isJson ? item.description : item.description) || '').replace(/<[^>]*>?/gm, '').substring(0, 150) + '...',
-        fullContent: ((result.isJson ? (item.content || item.description) : item.description) || '').replace(/<[^>]*>?/gm, ''),
-        isLatest: false,
-        isLive: false
-    });
-
-    const isArticleRelevant = (item, cat) => {
-        const keywords = CATEGORY_KEYWORDS[cat] || [];
-        if (keywords.length === 0) return true;
-        const text = `${item.title} ${item.description || ''} ${item.content || ''}`.toLowerCase();
-        return keywords.some(kw => text.includes(kw.toLowerCase()));
-    };
-
-    const isBlocked = (item) => {
-        const text = `${item.title} ${item.shortDescription}`.toLowerCase();
-        return BLOCKED_KEYWORDS.some(kw => text.includes(kw.toLowerCase()));
-    };
 
     const fetchNews = async (isBackground = false) => {
         try {
             if (!isBackground) setLoading(true);
             else setSyncing(true);
 
-            const isHindi = i18n.language?.startsWith('hi');
+            const currentLang = i18n.language || 'en';
+            const isHindi = currentLang.startsWith('hi');
+            const langCode = isHindi ? 'hi' : 'en';
             const allFeeds = isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS;
             const feeds = allFeeds[category] || [];
+            const currentCacheKey = `${category}-${langCode}`;
 
             // ── Progressive rendering: update state as each feed resolves ──
             const feedPromises = feeds.map(async (feed) => {
@@ -131,7 +109,7 @@ const CategoryPage = ({ category }) => {
                 if (!result) return [];
 
                 const articles = result.items
-                    .map(item => normArticle(item, feed, result, isHindi))
+                    .map(item => normArticle(item, feed, result, isHindi, category, meta.defaultImage))
                     .filter(a => isArticleRelevant(a, category) && !isBlocked(a));
 
                 if (articles.length > 0) {
@@ -146,12 +124,14 @@ const CategoryPage = ({ category }) => {
                             merged[0].isLatest = true;
                             const now = new Date();
                             merged.forEach(item => {
-                                const diffMin = (now - new Date(item.pubDate)) / (1000 * 60);
-                                item.isLive = diffMin < 180;
+                                const pub = new Date(item.pubDate);
+                                if (!isNaN(pub.getTime())) {
+                                    item.isLive = (now - pub) / (1000 * 60) < 180;
+                                }
                             });
                         }
-                        // Save to cache so revisit is instant
-                        newsCache[cacheKey] = merged;
+                        // Save to correct cache key
+                        newsCache[currentCacheKey] = merged;
                         return merged;
                     });
                     // Hide spinner as soon as first articles arrive
@@ -166,13 +146,18 @@ const CategoryPage = ({ category }) => {
             // Fallback if still nothing after all feeds
             setNews(prev => {
                 if (prev.length > 0) return prev;
-                return newsFallbackData
+                const fallback = newsFallbackData
                     .filter(item => item.category === category)
                     .map(item => ({
                         ...item,
                         imageUrl: item.imageUrl || meta.defaultImage,
                         shortDescription: isHindi ? item.shortDescription_hi || item.shortDescription : item.shortDescription
                     }));
+
+                if (fallback.length > 0) {
+                    newsCache[currentCacheKey] = fallback;
+                }
+                return fallback;
             });
 
             setLastUpdated(new Date());
@@ -186,20 +171,19 @@ const CategoryPage = ({ category }) => {
 
     // Re-fetch when category or language changes
     useEffect(() => {
-        const key = `${category}-${i18n.language?.startsWith('hi') ? 'hi' : 'en'}`;
+        const langCode = i18n.language?.startsWith('hi') ? 'hi' : 'en';
+        const key = `${category}-${langCode}`;
         const hasCached = (newsCache[key] || []).length > 0;
 
         if (!hasCached) {
-            // First visit — clear and show spinner
             setNews([]);
             setLoading(true);
         } else {
-            // Revisit — show cached instantly, sync quietly in background
             setNews(newsCache[key]);
             setLoading(false);
         }
         setCountdown(30);
-        fetchNews(!hasCached ? false : true); // background if cache exists
+        fetchNews(hasCached);
 
         const timer = setInterval(() => {
             setCountdown(prev => {
@@ -264,6 +248,7 @@ const CategoryPage = ({ category }) => {
                             </span>
                         </div>
                     )}
+
                 </header>
 
                 {/* News Grid */}
@@ -274,9 +259,10 @@ const CategoryPage = ({ category }) => {
                     </div>
                 ) : news.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {news.map((article, idx) => (
-                            <NewsCard key={article.sourceUrl || idx} article={article} />
-                        ))}
+                        {news
+                            .map((article, idx) => (
+                                <NewsCard key={article.sourceUrl || idx} article={article} />
+                            ))}
                     </div>
                 ) : (
                     <div className="flex flex-col items-center justify-center py-24 text-center bg-slate-800/10 rounded-3xl border border-slate-800/50">

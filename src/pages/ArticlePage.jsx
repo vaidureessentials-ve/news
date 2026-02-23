@@ -11,13 +11,7 @@ const ArticlePage = () => {
 
     const currentLanguage = i18n.language || 'en';
     const isHindi = currentLanguage.startsWith('hi');
-    const article = location.state?.article || newsData.find((a) => a.id === id);
-
-    if (!article) return null; // Handle loading or error more gracefully
-
-    const displayTitle = isHindi && article.title_hi ? article.title_hi : article.title;
-    const displayShortDesc = isHindi && article.shortDescription_hi ? article.shortDescription_hi : article.shortDescription;
-    const displayFullContent = isHindi && article.fullContent_hi ? article.fullContent_hi : article.fullContent;
+    const article = location.state?.article || newsData.find((a) => String(a.id) === String(id));
 
     if (!article) {
         return (
@@ -32,6 +26,10 @@ const ArticlePage = () => {
             </div>
         );
     }
+
+    const displayTitle = isHindi && article.title_hi ? article.title_hi : article.title;
+    const displayShortDesc = isHindi && article.shortDescription_hi ? article.shortDescription_hi : article.shortDescription;
+    const displayFullContent = isHindi && article.fullContent_hi ? article.fullContent_hi : article.fullContent;
 
     return (
         <div className="min-h-screen bg-slate-900 text-slate-100 py-12 px-4 sm:px-6 lg:px-8">

@@ -4,9 +4,8 @@ import { useTranslation } from 'react-i18next';
 import NewsCard from '../components/NewsCard';
 import newsFallbackData from '../data/newsData.json';
 
-import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, BLOCKED_KEYWORDS, CATEGORY_KEYWORDS } from '../data/feeds';
+import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, BLOCKED_KEYWORDS, CATEGORY_KEYWORDS, CATEGORY_META, normArticle, isArticleRelevant, isBlocked } from '../data/feeds';
 
-const DEFAULT_STOCK_IMAGE = 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=800';
 
 const stockNewsCache = {};
 
@@ -90,31 +89,6 @@ const Stocks = () => {
                 }
             ];
 
-            // Stock-safe block list — only hard non-financial junk
-            const STOCK_BLOCK_KEYWORDS = [
-                'cricket', 'ipl', 'football', 'soccer', 'tennis', 'hockey', 'badminton',
-                'bollywood', 'hollywood', 'tollywood', 'box office', 'ott', 'netflix',
-                'amazon prime', 'disney+', 'hotstar', 'web series', 'tv serial',
-                'celebrity', 'celeb', 'award show', 'filmfare', 'grammy', 'oscars',
-                'gossip', 'breakup', 'wedding reception', 'onlyfans', 'only fans',
-                'adult content', 'porn', 'xxx', 'nude', 'naked', 'nsfw', 'escort',
-                'strip club', 'cam girl', 'sexting', 'explicit content', 'adult film',
-                'nintendo', 'pokemon', 'playstation', 'xbox', 'fortnite', 'minecraft',
-                'esports', 'gaming', 'video game', 'unboxing', 'recipe', 'cooking',
-                'home decor', 'interior design'
-            ];
-
-            const isArticleRelevant = (item, cat) => {
-                const keywords = CATEGORY_KEYWORDS[cat] || [];
-                if (keywords.length === 0) return true;
-                const text = `${item.title} ${item.shortDescription || ''}`.toLowerCase();
-                return keywords.some(kw => text.includes(kw.toLowerCase()));
-            };
-
-            const isBlocked = (article) => {
-                const text = `${article.title} ${article.shortDescription}`.toLowerCase();
-                return BLOCKED_KEYWORDS.some(kw => text.includes(kw));
-            };
 
             // ── Progressive rendering: show articles as each feed finishes ──
             const feedPromises = feeds.map(async (feed) => {
@@ -125,26 +99,9 @@ const Stocks = () => {
                 }
                 if (!result) return [];
 
-                const articles = result.items.map((item, index) => {
-                    const description = (result.isJson ? item.description : item.description) || '';
-                    const thumbnail = result.isJson
-                        ? (item.thumbnail || item.enclosure?.link || '')
-                        : (item.thumbnail || '');
-                    return {
-                        id: `stock-${feed.name}-${index}`.replace(/\s+/g, '-').toLowerCase(),
-                        title: item.title || '',
-                        imageUrl: thumbnail || DEFAULT_STOCK_IMAGE,
-                        sourceName: feed.name,
-                        sourceUrl: result.isJson ? item.link : item.link,
-                        category: 'Stock',
-                        location: isHindi ? 'भारत' : 'India',
-                        pubDate: item.pubDate || new Date().toISOString(),
-                        shortDescription: description.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...',
-                        fullContent: description.replace(/<[^>]*>?/gm, ''),
-                        isLatest: false,
-                        isLive: false
-                    };
-                }).filter(a => isArticleRelevant(a, 'Stock') && !isBlocked(a));
+                const articles = result.items
+                    .map(item => normArticle(item, feed, result, isHindi, 'Stock', CATEGORY_META.Stock.defaultImage))
+                    .filter(a => isArticleRelevant(a, 'Stock') && !isBlocked(a));
 
                 if (articles.length > 0) {
                     setNews(prev => {
@@ -181,7 +138,7 @@ const Stocks = () => {
                     .filter(item => item.category === 'Stock')
                     .map(item => ({
                         ...item,
-                        imageUrl: item.imageUrl || DEFAULT_STOCK_IMAGE,
+                        imageUrl: item.imageUrl || CATEGORY_META.Stock.defaultImage,
                         shortDescription: isHindi
                             ? item.shortDescription_hi || item.shortDescription
                             : item.shortDescription
@@ -279,6 +236,7 @@ const Stocks = () => {
                             </span>
                         </div>
                     )}
+
                 </header>
 
                 {/* News Grid */}
@@ -289,9 +247,10 @@ const Stocks = () => {
                     </div>
                 ) : news.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {news.map((article, idx) => (
-                            <NewsCard key={article.sourceUrl || idx} article={article} />
-                        ))}
+                        {news
+                            .map((article, idx) => (
+                                <NewsCard key={article.sourceUrl || idx} article={article} />
+                            ))}
                     </div>
                 ) : (
                     <div className="flex flex-col items-center justify-center py-24 text-center bg-slate-800/10 rounded-3xl border border-slate-800/50">

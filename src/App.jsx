@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import ArticlePage from './pages/ArticlePage';
 import Stocks from './pages/Stocks';
 import CategoryPage from './pages/CategoryPage';
+import LatestNews from './pages/LatestNews';
 import Data from './pages/Data';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/latest" element={<LatestNews />} />
           <Route path="/news/:id" element={<ArticlePage />} />
           <Route path="/stocks" element={<Stocks />} />
           <Route path="/tech" element={<CategoryPage category="Tech" />} />

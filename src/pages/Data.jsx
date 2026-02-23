@@ -36,8 +36,8 @@ const interestRateData = [
     { date: 'Jun 2023', value: 6.50 },
     { date: 'Jan 2024', value: 6.50 },
     { date: 'Jun 2024', value: 6.50 },
-    { date: 'Oct 2024', value: 6.50 },
     { date: 'Feb 2025', value: 6.25 },
+    { date: 'Feb 2026', value: 5.25 },
 ];
 
 const unemploymentData = [
@@ -74,6 +74,61 @@ const unemploymentData = [
     { date: 'Aug 2024', value: 7.83 },
     { date: 'Nov 2024', value: 7.50 },
     { date: 'Jan 2025', value: 7.90 },
+    { date: 'Jan 2026', value: 5.00 },
+];
+
+const urbanUnemploymentData = [
+    { date: 'Jan 2024', value: 6.50 },
+    { date: 'Apr 2024', value: 6.70 },
+    { date: 'Jul 2024', value: 6.60 },
+    { date: 'Oct 2024', value: 6.80 },
+    { date: 'Jan 2025', value: 6.90 },
+    { date: 'Jan 2026', value: 7.00 },
+];
+
+const ruralUnemploymentData = [
+    { date: 'Jan 2024', value: 3.50 },
+    { date: 'Apr 2024', value: 3.70 },
+    { date: 'Jul 2024', value: 3.60 },
+    { date: 'Oct 2024', value: 3.80 },
+    { date: 'Jan 2025', value: 3.90 },
+    { date: 'Jan 2026', value: 4.20 },
+];
+
+const femaleUnemploymentData = [
+    { date: 'Jan 2024', value: 4.50 },
+    { date: 'Apr 2024', value: 4.70 },
+    { date: 'Jul 2024', value: 4.60 },
+    { date: 'Oct 2024', value: 4.80 },
+    { date: 'Dec 2025', value: 4.90 },
+    { date: 'Jan 2026', value: 5.60 },
+];
+
+const youthUnemploymentData = [
+    { date: 'Jan 2024', value: 13.80 },
+    { date: 'Apr 2024', value: 14.20 },
+    { date: 'Jul 2024', value: 14.00 },
+    { date: 'Oct 2024', value: 14.50 },
+    { date: 'Dec 2025', value: 14.30 },
+    { date: 'Jan 2026', value: 14.70 },
+];
+
+const laborForceParticipationData = [
+    { date: 'Jan 2024', value: 54.50 },
+    { date: 'Apr 2024', value: 55.20 },
+    { date: 'Jul 2024', value: 55.80 },
+    { date: 'Oct 2024', value: 56.00 },
+    { date: 'Dec 2025', value: 56.10 },
+    { date: 'Jan 2026', value: 55.90 },
+];
+
+const workerPopulationData = [
+    { date: 'Jan 2024', value: 52.10 },
+    { date: 'Apr 2024', value: 52.80 },
+    { date: 'Jul 2024', value: 53.20 },
+    { date: 'Oct 2024', value: 53.50 },
+    { date: 'Dec 2025', value: 53.40 },
+    { date: 'Jan 2026', value: 53.10 },
 ];
 
 // ── Custom Tooltip ────────────────────────────────────────────────────
@@ -223,32 +278,122 @@ const Data = () => (
                 <IndicatorCard
                     title="India Interest Rate"
                     subtitle="RBI Repo Rate"
-                    value="6.25%"
-                    change="-0.25%"
+                    value="5.25%"
+                    change="-1.00%"
                     changeDir="down"
-                    date="Feb 2025"
+                    date="Feb 2026"
                     color="#3b82f6"
                     gradientId="interestGrad"
                     sourceUrl="https://tradingeconomics.com/india/interest-rate"
                     data={interestRateData}
                     unit="repo rate"
-                    refValue={6.25}
-                    description="The Reserve Bank of India (RBI) sets the benchmark repo rate — the rate at which it lends to commercial banks. A lower rate encourages borrowing and growth; a higher rate controls inflation. The RBI cut the rate from 6.50% to 6.25% in February 2025, the first cut since May 2020."
+                    refValue={5.25}
+                    description="The Reserve Bank of India (RBI) sets the benchmark repo rate — the rate at which it lends to commercial banks. A lower rate encourages borrowing and growth; a higher rate controls inflation. The RBI cut the rate to 5.25% as of February 2026."
                 />
                 <IndicatorCard
                     title="India Unemployment Rate"
                     subtitle="CMIE Monthly Estimate"
-                    value="7.90%"
-                    change="+0.40%"
-                    changeDir="up"
-                    date="Jan 2025"
+                    value="5.00%"
+                    change="-2.90%"
+                    changeDir="down"
+                    date="Jan 2026"
                     color="#a855f7"
                     gradientId="unempGrad"
                     sourceUrl="https://tradingeconomics.com/india/unemployment-rate"
                     data={unemploymentData}
                     unit="unemployment"
-                    refValue={7.90}
-                    description="India's unemployment rate measures the share of job-seekers unable to find employment. Data is tracked monthly by the Centre for Monitoring Indian Economy (CMIE). The large COVID-19 spike (April 2020: 23.5%) and the 2nd wave (May 2021: 11.9%) are visible in the chart. The rate has stabilised between 7–9% in recent years."
+                    refValue={5.00}
+                    description="India's unemployment rate measures the share of job-seekers unable to find employment. Data is tracked monthly by the Centre for Monitoring Indian Economy (CMIE). The rate dropped to 5.0% in January 2026."
+                />
+                <IndicatorCard
+                    title="Urban Unemployment Rate"
+                    subtitle="PLFS / PIB Estimate"
+                    value="7.00%"
+                    change="+0.10%"
+                    changeDir="up"
+                    date="Jan 2026"
+                    color="#f59e0b"
+                    gradientId="urbanGrad"
+                    sourceUrl="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2228713&reg=1&lang=1"
+                    data={urbanUnemploymentData}
+                    unit="urban unemployment"
+                    refValue={7.00}
+                    description="The Urban Unemployment Rate specifically tracks joblessness in India's cities and towns. It often reflects the health of the formal and service sectors. The rate showed a modest increase to 7.0% according to the latest government data."
+                />
+                <IndicatorCard
+                    title="Rural Unemployment Rate"
+                    subtitle="PLFS / PolicyEdge Estimate"
+                    value="4.20%"
+                    change="+0.30%"
+                    changeDir="up"
+                    date="Jan 2026"
+                    color="#10b981"
+                    gradientId="ruralGrad"
+                    sourceUrl="https://www.policyedge.in/p/plfs-january-2026-labour-market-remains"
+                    data={ruralUnemploymentData}
+                    unit="rural unemployment"
+                    refValue={4.20}
+                    description="The Rural Unemployment Rate measures job-seekers in India's agricultural and rural heartlands. While usually lower than urban rates due to self-employment, trends here are critical for internal consumption and food security. The rate rose to 4.2% in January 2026."
+                />
+                <IndicatorCard
+                    title="Female Unemployment Rate"
+                    subtitle="PLFS / ET Estimate"
+                    value="5.60%"
+                    change="+0.70%"
+                    changeDir="up"
+                    date="Jan 2026"
+                    color="#ec4899"
+                    gradientId="femaleGrad"
+                    sourceUrl="https://economictimes.indiatimes.com/news/economy/indicators/unemployment-rate-up-a-tad-to-5-in-january-higher-rise-for-females/articleshow/128434909.cms"
+                    data={femaleUnemploymentData}
+                    unit="female unemployment"
+                    refValue={5.60}
+                    description="The Female Unemployment Rate tracks the share of women in the labor force who are unable to find work. Recent data shows a sharper increase for females, rising to 5.6% in January 2026, highlighting gender-specific challenges in the labor market."
+                />
+                <IndicatorCard
+                    title="Youth Unemployment Rate"
+                    subtitle="PLFS / Financial Express"
+                    value="14.70%"
+                    change="+0.40%"
+                    changeDir="up"
+                    date="Jan 2026"
+                    color="#6366f1"
+                    gradientId="youthGrad"
+                    sourceUrl="https://www.financialexpress.com/policy/economy/youth-unemployment-rate-rises-14-7-in-january-revised/4145187/"
+                    data={youthUnemploymentData}
+                    unit="youth unemployment"
+                    refValue={14.70}
+                    description="Youth Unemployment (ages 15-29) is a critical metric for long-term economic stability and social development. The rate rose to 14.7% in January 2026, up from 14.3% in December, potentially reflecting seasonal trade slowdowns."
+                />
+                <IndicatorCard
+                    title="Labor Force Participation Rate (LFPR)"
+                    subtitle="PLFS / PIB Estimate"
+                    value="55.90%"
+                    change="-0.20%"
+                    changeDir="down"
+                    date="Jan 2026"
+                    color="#2dd4bf"
+                    gradientId="lfprGrad"
+                    sourceUrl="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2228713&reg=3&lang=2"
+                    data={laborForceParticipationData}
+                    unit="participation rate"
+                    refValue={55.90}
+                    description="LFPR is the percentage of the working-age population (15+) that is either employed or actively seeking work. A decrease to 55.9% in January 2026 suggests a slight contraction in the active labor market pool."
+                />
+                <IndicatorCard
+                    title="Worker Population Ratio (WPR)"
+                    subtitle="PLFS / PIB Estimate"
+                    value="53.10%"
+                    change="-0.30%"
+                    changeDir="down"
+                    date="Jan 2026"
+                    color="#6366f1"
+                    gradientId="wprGrad"
+                    sourceUrl="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2228713&reg=3&lang=1"
+                    data={workerPopulationData}
+                    unit="worker ratio"
+                    refValue={53.10}
+                    description="WPR is the percentage of the total population that is employed. It is a direct indicator of employment levels in the economy. The ratio slipped to 53.1% in January 2026, consistent with broader labor market trends."
                 />
             </div>
 

@@ -85,8 +85,8 @@ const Navbar = () => {
                                 to={cat.route}
                                 onClick={() => handleNavClick(cat.route)}
                                 className={`py-3 px-4 rounded-xl font-semibold text-sm uppercase tracking-wider transition-colors ${isActive(cat.route)
-                                        ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30'
-                                        : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                                    ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30'
+                                    : 'text-slate-300 hover:bg-slate-800 hover:text-white'
                                     }`}
                             >
                                 {cat.label}
