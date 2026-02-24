@@ -287,7 +287,8 @@ export const normArticle = (item, feed, result, isHindi, category, defaultImage)
         shortDescription: description.substring(0, 150) + (description.length > 150 ? '...' : ''),
         fullContent: content,
         isLatest: false,
-        isLive: false
+        isLive: false,
+        isFallback: false
     };
 };
 

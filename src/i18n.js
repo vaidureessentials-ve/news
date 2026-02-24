@@ -24,6 +24,7 @@ const resources = {
             "no_updates": "No live updates for {{category}} at this moment.",
             "syncing": "Syncing Data...",
             "no_news_found": "Intelligence Network Offline",
+            "featured": "FEATURED",
 
             "back_to_home": "Back to Home",
             "back_to_feed": "Back to Feed",
@@ -102,6 +103,7 @@ const resources = {
             "no_updates": "इस समय {{category}} के लिए कोई लाइव अपडेट नहीं है।",
             "syncing": "डेटा सिंक हो रहा है...",
             "no_news_found": "खुफिया नेटवर्क ऑफलाइन है",
+            "featured": "विशेष रुप से प्रदर्शित",
 
             "back_to_home": "होम पर वापस जाएं",
             "back_to_feed": "फीड पर वापस जाएं",

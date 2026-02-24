@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { RefreshCcw, ShieldAlert } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import NewsCard from '../components/NewsCard';
+import newsFallbackData from '../data/newsData.json';
 import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, CATEGORY_META, normArticle, isArticleRelevant, isBlocked } from '../data/feeds';
 
 const LatestNews = () => {
@@ -48,7 +49,12 @@ const LatestNews = () => {
 
     const PROXY_STRATEGIES = [
         async (u) => {
-            const res = await withTimeout(fetch(`https://corsproxy.io/?${encodeURIComponent(u)}`, { cache: 'no-store' }));
+            const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}&count=15&nocache=${Math.random().toString(36).slice(2)}`));
+            const json = await res.json();
+            return json.status === 'ok' && json.items?.length > 0 ? { items: json.items, isJson: true } : null;
+        },
+        async (u) => {
+            const res = await withTimeout(fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`, { cache: 'no-store' }));
             const xml = await res.text();
             const items = parseXML(xml);
             return items.length > 0 ? { items, isJson: false } : null;
@@ -60,9 +66,10 @@ const LatestNews = () => {
             return items.length > 0 ? { items, isJson: false } : null;
         },
         async (u) => {
-            const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}&count=15&nocache=${Math.random().toString(36).slice(2)}`));
-            const json = await res.json();
-            return json.status === 'ok' && json.items?.length > 0 ? { items: json.items, isJson: true } : null;
+            const res = await withTimeout(fetch(`https://corsproxy.io/?${encodeURIComponent(u)}`, { cache: 'no-store' }));
+            const xml = await res.text();
+            const items = parseXML(xml);
+            return items.length > 0 ? { items, isJson: false } : null;
         }
     ];
 
@@ -106,6 +113,16 @@ const LatestNews = () => {
             });
 
             await Promise.allSettled(categoryPromises);
+
+            if (allArticles.length === 0) {
+                const fallback = (newsFallbackData || []).map(item => ({
+                    ...item,
+                    imageUrl: item.imageUrl || CATEGORY_META[item.category]?.defaultImage || CATEGORY_META.Tech.defaultImage,
+                    shortDescription: isHindi ? item.shortDescription_hi || item.shortDescription : item.shortDescription,
+                    isFallback: true
+                }));
+                allArticles = fallback;
+            }
 
             // Sort and unique
             const uniqueArticles = allArticles
@@ -158,7 +175,13 @@ const LatestNews = () => {
                 </header>
 
                 {(() => {
-                    const filteredNews = news.filter(a => (new Date() - new Date(a.pubDate)) / 3600000 < 24);
+                    const now = new Date();
+                    const filteredNews = news.filter(a => {
+                        if (a.isFallback) return true;
+                        const pubDate = new Date(a.pubDate);
+                        if (isNaN(pubDate.getTime())) return true;
+                        return (now - pubDate) / 3600000 < 24;
+                    });
 
                     if (loading && news.length === 0) {
                         return (
@@ -174,7 +197,17 @@ const LatestNews = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                                 {filteredNews
                                     .map((article, idx) => (
-                                        <NewsCard key={article.sourceUrl || idx} article={article} />
+                                        <div key={article.sourceUrl || idx} className="relative group">
+                                            {article.isFallback && (
+                                                <div className="absolute top-4 right-4 z-10">
+                                                    <span className="bg-slate-800/90 text-slate-400 text-[10px] font-bold px-2 py-1 rounded shadow-lg border border-slate-700/50 flex items-center gap-1 backdrop-blur-sm">
+                                                        <ShieldAlert className="w-3 h-3" />
+                                                        {t('featured') || 'FEATURED'}
+                                                    </span>
+                                                </div>
+                                            )}
+                                            <NewsCard article={article} />
+                                        </div>
                                     ))}
                             </div>
                         );
