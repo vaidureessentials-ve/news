@@ -10,10 +10,10 @@ const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const categories = [
-        { id: 'Tech', label: t('categories.tech'), route: '/tech' },
-        { id: 'Business', label: t('categories.business'), route: '/business' },
-        { id: 'Economy', label: t('categories.economy'), route: '/economy' },
         { id: 'Geopolitics', label: t('categories.geopolitics'), route: '/geopolitics' },
+        { id: 'Economy', label: t('categories.economy'), route: '/economy' },
+        { id: 'Business', label: t('categories.business'), route: '/business' },
+        { id: 'Tech', label: t('categories.tech'), route: '/tech' },
         { id: 'Stock', label: t('categories.stock'), route: '/stocks' },
         { id: 'Data', label: 'Data Insights', route: '/data' },
     ];
