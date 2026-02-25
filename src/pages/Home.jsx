@@ -5,7 +5,7 @@ import { RefreshCcw, ChevronRight, ShieldAlert } from 'lucide-react';
 import NewsCard from '../components/NewsCard';
 import newsFallbackData from '../data/newsData.json';
 
-import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, BLOCKED_KEYWORDS, CATEGORY_KEYWORDS, CATEGORY_META, normArticle, isArticleRelevant, isBlocked } from '../data/feeds';
+import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, BLOCKED_KEYWORDS, CATEGORY_KEYWORDS, CATEGORY_META, normArticle, isArticleRelevant, isBlocked, parseXML, diversifySources } from '../data/feeds';
 
 const DEFAULT_IMG = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800';
 
@@ -55,33 +55,7 @@ const Home = () => {
                     new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), ms))
                 ]);
 
-            const parseXML = (xmlText) => {
-                try {
-                    const parser = new DOMParser();
-                    const xml = parser.parseFromString(xmlText, 'text/xml');
-                    const getText = (el, tag) => el?.querySelector(tag)?.textContent?.trim() || '';
-                    const rssItems = Array.from(xml.querySelectorAll('item'));
-                    if (rssItems.length > 0) {
-                        return rssItems.slice(0, 20).map(el => ({
-                            title: getText(el, 'title'),
-                            link: getText(el, 'link') || el.querySelector('link')?.getAttribute('href') || '',
-                            pubDate: getText(el, 'pubDate') || getText(el, 'published') || new Date().toISOString(),
-                            description: getText(el, 'description') || getText(el, 'summary') || '',
-                            content: getText(el, 'encoded') || getText(el, 'content') || getText(el, 'description') || '',
-                            thumbnail: el.querySelector('thumbnail')?.getAttribute('url') || el.querySelector('enclosure')?.getAttribute('url') || ''
-                        }));
-                    }
-                    const atomEntries = Array.from(xml.querySelectorAll('entry'));
-                    return atomEntries.slice(0, 20).map(el => ({
-                        title: getText(el, 'title'),
-                        link: el.querySelector('link')?.getAttribute('href') || getText(el, 'link') || '',
-                        pubDate: getText(el, 'published') || getText(el, 'updated') || new Date().toISOString(),
-                        description: getText(el, 'summary') || getText(el, 'content') || '',
-                        content: getText(el, 'content') || getText(el, 'summary') || '',
-                        thumbnail: el.querySelector('thumbnail')?.getAttribute('url') || ''
-                    }));
-                } catch (_) { return []; }
-            };
+            // parseXML is now imported from feeds.js
 
             const PROXY_STRATEGIES = [
                 async (u) => {
@@ -142,13 +116,14 @@ const Home = () => {
                         const sorted = [...catArticles]
                             .filter((v, i, arr) => arr.findIndex(x => x.sourceUrl === v.sourceUrl) === i)
                             .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-                        if (sorted.length > 0) {
-                            sorted[0].isLatest = true;
+                        const diversified = diversifySources(sorted);
+                        if (diversified.length > 0) {
+                            diversified[0].isLatest = true;
                             const now = new Date();
-                            sorted.forEach(item => { item.isLive = (now - new Date(item.pubDate)) / 60000 < 180; });
+                            diversified.forEach(item => { item.isLive = (now - new Date(item.pubDate)) / 60000 < 180; });
                         }
                         setNewsData(prev => {
-                            const updated = { ...prev, [cat]: sorted };
+                            const updated = { ...prev, [cat]: diversified };
                             const cLk = isHindi ? 'hi' : 'en';
                             homeNewsCache[cLk] = updated;
                             return updated;
@@ -181,12 +156,13 @@ const Home = () => {
                             const merged = [...newOnly, ...existing]
                                 .filter((v, i, arr) => arr.findIndex(x => x.sourceUrl === v.sourceUrl) === i)
                                 .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-                            if (merged.length > 0) {
-                                merged[0].isLatest = true;
+                            const diversified = diversifySources(merged);
+                            if (diversified.length > 0) {
+                                diversified[0].isLatest = true;
                                 const now = new Date();
-                                merged.forEach(item => { item.isLive = (now - new Date(item.pubDate)) / 60000 < 180; });
+                                diversified.forEach(item => { item.isLive = (now - new Date(item.pubDate)) / 60000 < 180; });
                             }
-                            const updated = { ...prev, [cat]: merged };
+                            const updated = { ...prev, [cat]: diversified };
                             const cLk = isHindi ? 'hi' : 'en';
                             homeNewsCache[cLk] = updated;
                             return updated;
@@ -356,8 +332,8 @@ const Home = () => {
                                 {!categoryFilter && newsData[cat]?.length > 0 && (() => {
                                     const routeMap = {
                                         Tech: '/tech', Business: '/business',
-                                        Economy: '/economy', Geopolitics: '/geopolitics',
-                                        Stock: '/stocks'
+                                        Economy: '/economy', Geopolitical: '/geopolitics',
+                                        Stocks: '/stocks'
                                     };
                                     const route = routeMap[cat];
                                     return route ? (

@@ -3,34 +3,10 @@ import { RefreshCcw, ShieldAlert } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import NewsCard from '../components/NewsCard';
 import newsFallbackData from '../data/newsData.json';
-import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, BLOCKED_KEYWORDS, CATEGORY_KEYWORDS, CATEGORY_META, normArticle, isArticleRelevant, isBlocked } from '../data/feeds';
+import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, BLOCKED_KEYWORDS, CATEGORY_KEYWORDS, CATEGORY_META, normArticle, isArticleRelevant, isBlocked, parseXML, diversifySources } from '../data/feeds';
 
 // 4-proxy cascade (shared logic)
-const parseXML = (xmlText) => {
-    try {
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(xmlText, 'text/xml');
-        const getText = (el, tag) => el?.querySelector(tag)?.textContent?.trim() || '';
-        const rssItems = Array.from(xml.querySelectorAll('item'));
-        if (rssItems.length > 0) {
-            return rssItems.slice(0, 25).map(el => ({
-                title: getText(el, 'title'),
-                link: getText(el, 'link') || el.querySelector('link')?.getAttribute('href') || '',
-                pubDate: getText(el, 'pubDate') || getText(el, 'published') || new Date().toISOString(),
-                description: getText(el, 'description') || getText(el, 'summary') || '',
-                thumbnail: el.querySelector('thumbnail')?.getAttribute('url') || el.querySelector('enclosure')?.getAttribute('url') || ''
-            }));
-        }
-        const atomEntries = Array.from(xml.querySelectorAll('entry'));
-        return atomEntries.slice(0, 25).map(el => ({
-            title: getText(el, 'title'),
-            link: el.querySelector('link')?.getAttribute('href') || getText(el, 'link') || '',
-            pubDate: getText(el, 'published') || getText(el, 'updated') || new Date().toISOString(),
-            description: getText(el, 'summary') || getText(el, 'content') || '',
-            thumbnail: el.querySelector('thumbnail')?.getAttribute('url') || ''
-        }));
-    } catch (_) { return []; }
-};
+// parseXML is now imported from feeds.js
 
 // Abort slow proxies after 4 seconds
 const withTimeout = (promise, ms = 4000) =>
@@ -121,10 +97,11 @@ const CategoryPage = ({ category }) => {
                         if (fresh.length === 0) return prev;
                         const merged = [...prev, ...fresh];
                         merged.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-                        if (merged.length > 0) {
-                            merged[0].isLatest = true;
+                        const diversified = diversifySources(merged);
+                        if (diversified.length > 0) {
+                            diversified[0].isLatest = true;
                             const now = new Date();
-                            merged.forEach(item => {
+                            diversified.forEach(item => {
                                 const pub = new Date(item.pubDate);
                                 if (!isNaN(pub.getTime())) {
                                     item.isLive = (now - pub) / (1000 * 60) < 180;
@@ -132,8 +109,8 @@ const CategoryPage = ({ category }) => {
                             });
                         }
                         // Save to correct cache key
-                        newsCache[currentCacheKey] = merged;
-                        return merged;
+                        newsCache[currentCacheKey] = diversified;
+                        return diversified;
                     });
                     // Hide spinner as soon as first articles arrive
                     setLoading(false);

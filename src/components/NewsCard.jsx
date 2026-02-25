@@ -11,23 +11,31 @@ const NewsCard = ({ article }) => {
                     src={article.imageUrl}
                     alt={article.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800';
+                    }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
-                <div className="absolute top-4 left-4 flex gap-2">
+                <div className="absolute top-4 left-4 flex flex-wrap gap-2">
                     <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider bg-blue-600 text-white rounded-full shadow-lg">
                         {t(`categories.${article.category.toLowerCase()}`)}
                     </span>
-                    {article.isLive ? (
+                    {article.sentiment && (
+                        <span className={`px-3 py-1 text-[10px] font-black uppercase tracking-wider rounded-full shadow-lg border border-white/10 ${article.sentiment === 'Positive' ? 'bg-emerald-500 text-white' : article.sentiment === 'Negative' ? 'bg-red-500 text-white' : 'bg-slate-600 text-white'}`}>
+                            {article.sentiment}
+                        </span>
+                    )}
+                    {article.impact && (
+                        <span className={`px-3 py-1 text-[10px] font-black uppercase tracking-wider rounded-full shadow-lg border border-white/10 ${article.impact === 'High' ? 'bg-purple-600 text-white' : article.impact === 'Medium' ? 'bg-orange-500 text-white' : 'bg-blue-400 text-white'}`}>
+                            {article.impact} Impact
+                        </span>
+                    )}
+                    {article.isLive && (
                         <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider bg-red-600 text-white rounded-full shadow-lg animate-pulse flex items-center gap-1">
                             <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping"></span>
                             {t('live')}
                         </span>
-                    ) : (
-                        article.isLatest && (
-                            <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider bg-red-600 text-white rounded-full shadow-lg">
-                                {t('latest')}
-                            </span>
-                        )
                     )}
                 </div>
             </div>

@@ -2,7 +2,7 @@
 // ENGLISH FEEDS
 // ─────────────────────────────────────────────────────────────
 export const EN_CATEGORY_FEEDS = {
-    'Geopolitics': [
+    'Geopolitical': [
         { name: 'The Hindu World', url: 'https://www.thehindu.com/news/international/?service=rss' },
         { name: 'Indian Express World', url: 'https://indianexpress.com/section/world/feed/' },
         { name: 'ET World', url: 'https://economictimes.indiatimes.com/news/international/rssfeeds/13357255.cms' },
@@ -66,7 +66,7 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'Google Tech News', url: 'https://news.google.com/rss/search?q=technology+india&hl=en-IN&gl=IN&ceid=IN:en' },
         { name: 'Digit.in', url: 'https://www.digit.in/rss/news.rss' }
     ],
-    'Stock': [
+    'Stocks': [
         { name: 'Google News Stocks', url: 'https://news.google.com/rss/search?q=stock+market+india+nifty+sensex&hl=en-IN&gl=IN&ceid=IN:en' },
         { name: 'Economic Times Markets', url: 'https://economictimes.indiatimes.com/markets/stocks/rssfeeds/2146842.cms' },
         { name: 'Livemint Markets', url: 'https://www.livemint.com/rss/markets' },
@@ -83,7 +83,7 @@ export const EN_CATEGORY_FEEDS = {
 // HINDI FEEDS
 // ─────────────────────────────────────────────────────────────
 export const HI_CATEGORY_FEEDS = {
-    'Geopolitics': [
+    'Geopolitical': [
         { name: 'BBC Hindi', url: 'https://www.bbc.com/hindi/index.xml' },
         { name: 'LH International', url: 'https://api.livehindustan.com/feeds/rss/international/rssfeed.xml' },
         { name: 'Google News Hindi', url: 'https://news.google.com/rss?hl=hi&gl=IN&ceid=IN:hi' },
@@ -114,7 +114,7 @@ export const HI_CATEGORY_FEEDS = {
         { name: 'ABP Tech', url: 'https://www.abplive.com/technology/feed' },
         { name: 'Navbharat Times Tech', url: 'https://navbharattimes.indiatimes.com/rss.cms?feedtype=sjson' }
     ],
-    'Stock': [
+    'Stocks': [
         { name: 'Google News Hindi', url: 'https://news.google.com/rss/search?q=%E0%A4%B6%E0%A5%87%E0%A4%AF%E0%A4%B0+%E0%A4%AC%E0%A4%BE%E0%A4%9C%E0%A4%BE%E0%A4%B0+%E0%A4%A8%E0%A4%BF%E0%A4%AB%E0%A5%8D%E0%A4%9F%E0%A5%80+%E0%A4%B8%E0%A5%87%E0%A4%82%E0%A4%B8%E0%A5%87%E0%A4%95%E0%A5%8D%E0%A4%B8&hl=hi&gl=IN&ceid=IN:hi' },
         { name: 'Live Hindustan Markets', url: 'https://api.livehindustan.com/feeds/rss/business/stock-market/rssfeed.xml' },
         { name: 'Moneycontrol Hindi', url: 'https://hindi.moneycontrol.com/rss/market-news.xml' },
@@ -127,7 +127,7 @@ export const HI_CATEGORY_FEEDS = {
 // CATEGORY REINFORCEMENT KEYWORDS
 // ─────────────────────────────────────────────────────────────
 export const CATEGORY_KEYWORDS = {
-    'Geopolitics': [
+    'Geopolitical': [
         'geopolitics', 'diplomacy', 'foreign policy', 'international', 'summit', 'un',
         'sanctions', 'conflict', 'war', 'border', 'nations', 'relations', 'china', 'usa',
         'russia', 'ukraine', 'israel', 'modi', 'biden', 'putin', 'india', 'global', 'world',
@@ -150,10 +150,10 @@ export const CATEGORY_KEYWORDS = {
         'tech', 'technology', 'software', 'hardware', 'ai', 'artificial intelligence',
         'artifical', 'intelligence', 'startup', 'digital', 'innovation', 'gadget', 'smartphone', 'laptop', 'app',
         'crypto', 'blockchain', 'semiconductor', 'chip', 'cloud', 'cyber', 'gadgets', 'google', 'apple', 'microsoft',
-        'amazon', 'meta', 'tesla', 'nvidia', 'openai', 'samsung', 'intel', 'amd', 'computing', 'india', 'global',
+        'amazon', 'meta', 'tesla', 'nvidia', 'openai', 'samsung', 'intel', 'amd', 'computing',
         'तकनीक', 'प्रौद्योगिकी', 'सॉफ्टवेयर', 'हार्डवेयर', 'एआई', 'स्मार्टफोन', 'गूगल', 'एप्पल'
     ],
-    'Stock': [
+    'Stocks': [
         'stock', 'market', 'nifty', 'sensex', 'ipo', 'share', 'dividend', 'invest',
         'trading', 'indices', 'bull', 'bear', 'portfolio', 'equity', 'listing',
         'bse', 'nse', 'earnings', 'brokerage', 'benchmark',
@@ -171,11 +171,12 @@ export const BLOCKED_KEYWORDS = [
     'rugby', 'golf', 'athletics', 'swimming', 'boxing', 'mma', 'ufc',
     'wrestling match', 'pga', 'nba', 'nfl', 'wimbledon', 'batsman', 'bowler',
     'wicketkeeper', 'fielder', 'f1 race', 'grand prix', 'premier league',
-    'super league', 'world cup cricket', 't20', 'test match', 'odi match',
+    'super league', 'world cup', 't20', 'test match', 'odi match',
     'playing xi', 'point table', 'scorecard', 'lbw', 'sixer', 'clean-bowled',
-    'atp', 'wta', 'paralympics', 'खेल', 'क्रिकेट', 'स्टेडियम',
+    'atp', 'wta', 'paralympics', 'squad', 'clash', 'match', 'series', 'tournament',
+    'medal', 'pitch', 'cricketer', 'खेल', 'क्रिकेट', 'स्टेडियम',
     'ओलिंपिक', 'फुटबॉल', 'हॉकी', 'बैडमिंटन', 'कुश्ती',
-    'बल्लेबाज', 'गेंदबाज', 'khiladi', 'pahalwan',
+    'बल्लेबाज', 'गेंदबाज', 'खिलाड़ी', 'पिच', 'टूर्नामेंट', 'मैच',
     // Entertainment & Movies
     'movie', 'movies', 'film', 'films', 'cinema', 'bollywood', 'hollywood',
     'tollywood', 'kollywood', 'box office', 'ott', 'netflix', 'amazon prime',
@@ -218,7 +219,7 @@ export const BLOCKED_KEYWORDS = [
 // CATEGORY METADATA
 // ─────────────────────────────────────────────────────────────
 export const CATEGORY_META = {
-    Geopolitics: {
+    Geopolitical: {
         route: '/geopolitics',
         subtitle: 'Comprehensive live coverage of geopolitical trends, diplomacy, and breaking international developments.',
         gradient: 'from-red-400 via-pink-400 to-rose-500',
@@ -242,7 +243,7 @@ export const CATEGORY_META = {
         gradient: 'from-blue-400 via-indigo-400 to-purple-500',
         defaultImage: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800'
     },
-    Stock: {
+    Stocks: {
         route: '/stocks',
         subtitle: 'Real-time market intelligence — stocks, indices, IPOs, and financial developments across India and global markets.',
         gradient: 'from-blue-400 via-indigo-400 to-purple-500',
@@ -260,23 +261,119 @@ export const CATEGORY_META = {
 // CENTRALIZED NEWS PROCESSING LOGIC
 // ─────────────────────────────────────────────────────────────
 
+// ─────────────────────────────────────────────────────────────
+// CENTRALIZED NEWS PROCESSING LOGIC
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * Enhanced XML Parser for various RSS/Atom formats
+ * Captures more metadata, especially images.
+ */
+export const parseXML = (xmlText) => {
+    try {
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(xmlText, 'text/xml');
+        const getText = (el, tag) => {
+            const found = el?.querySelector(tag);
+            return found ? found.textContent?.trim() : '';
+        };
+
+        // Extraction helper for images from various namespaces/tags
+        const getImageUrl = (el) => {
+            // 1. Media namespace (content/thumbnail)
+            const mediaContent = el.querySelector('content[url], media\\:content[url]');
+            if (mediaContent) return mediaContent.getAttribute('url');
+
+            const mediaThumb = el.querySelector('thumbnail[url], media\\:thumbnail[url]');
+            if (mediaThumb) return mediaThumb.getAttribute('url');
+
+            // 2. Enclosures
+            const enclosure = el.querySelector('enclosure[url]');
+            if (enclosure) return enclosure.getAttribute('url');
+
+            // 3. Atom style links
+            const atomLink = el.querySelector('link[rel="enclosure"]');
+            if (atomLink) return atomLink.getAttribute('href');
+
+            // 4. Custom/Standard image tags
+            const imgTag = el.querySelector('image');
+            if (imgTag) {
+                return imgTag.getAttribute('url') || imgTag.textContent?.trim() || '';
+            }
+
+            // 5. Extraction from description/content (regex)
+            const desc = el.querySelector('description, summary, content')?.textContent || '';
+            const imgMatch = desc.match(/<img[^>]+src="([^">]+)"/i);
+            if (imgMatch && imgMatch[1]) return imgMatch[1];
+
+            return '';
+        };
+
+        const rssItems = Array.from(xml.querySelectorAll('item'));
+        if (rssItems.length > 0) {
+            return rssItems.slice(0, 30).map(el => ({
+                title: getText(el, 'title'),
+                link: getText(el, 'link') || el.querySelector('link')?.getAttribute('href') || '',
+                pubDate: getText(el, 'pubDate') || getText(el, 'published') || new Date().toISOString(),
+                description: getText(el, 'description') || getText(el, 'summary') || '',
+                content: el.querySelector('encoded, content\\:encoded')?.textContent || getText(el, 'description'),
+                thumbnail: getImageUrl(el)
+            }));
+        }
+
+        const atomEntries = Array.from(xml.querySelectorAll('entry'));
+        return atomEntries.slice(0, 30).map(el => ({
+            title: getText(el, 'title'),
+            link: el.querySelector('link[rel="alternate"]')?.getAttribute('href') || el.querySelector('link')?.getAttribute('href') || getText(el, 'link') || '',
+            pubDate: getText(el, 'published') || getText(el, 'updated') || new Date().toISOString(),
+            description: getText(el, 'summary') || getText(el, 'content') || '',
+            content: getText(el, 'content') || getText(el, 'summary'),
+            thumbnail: getImageUrl(el)
+        }));
+    } catch (e) {
+        console.warn('XML Parsing failed:', e);
+        return [];
+    }
+};
+
 /**
  * Standardizes an article from various RSS feed formats.
  */
 export const normArticle = (item, feed, result, isHindi, category, defaultImage) => {
-    const description = (result.isJson ? (item.description || '') : (item.description || '')).replace(/<[^>]*>?/gm, '');
-    const content = (result.isJson ? (item.content || item.description || '') : (item.content || item.description || '')).replace(/<[^>]*>?/gm, '');
+    const rawDesc = (result.isJson ? (item.description || '') : (item.description || ''));
+    const rawContent = (result.isJson ? (item.content || item.description || '') : (item.content || item.description || ''));
 
-    // Extract thumbnail/image
-    let imageUrl = defaultImage;
+    // Clean HTML but keep a copy for image extraction if needed
+    const description = rawDesc.replace(/<[^>]*>?/gm, '');
+    const content = rawContent.replace(/<[^>]*>?/gm, '');
+
+    // Extract thumbnail/image with priority on feed-provided ones
+    let imageUrl = '';
     if (result.isJson) {
-        imageUrl = item.thumbnail || item.enclosure?.link || defaultImage;
+        imageUrl = item.thumbnail || item.enclosure?.link || '';
     } else {
-        imageUrl = item.thumbnail || item.enclosure?.url || defaultImage;
+        imageUrl = item.thumbnail || '';
     }
 
+    // Secondary extraction from raw HTML if image is still missing
+    if (!imageUrl) {
+        const imgMatch = (rawDesc + rawContent).match(/<img[^>]+src="([^">]+)"/i);
+        if (imgMatch && imgMatch[1]) imageUrl = imgMatch[1];
+    }
+
+    // Final fallback: category default or dynamic Unsplash
+    if (!imageUrl) {
+        // Use a dynamic Unsplash image with a signature based on the title to avoid same images
+        const query = (category + ' ' + (item.title || '')).split(' ').slice(0, 3).join(',');
+        const sig = Math.abs(item.title?.split('').reduce((a, b) => { a = ((a << 5) - a) + b.charCodeAt(0); return a & a; }, 0) || 0) % 1000;
+        imageUrl = `https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=60&w=800&sig=${sig}&q=${encodeURIComponent(query)}`;
+    }
+
+    const sentiment = analyzeSentiment(item.title, description);
+    const impact = analyzeImpact(item.title, description);
+
     return {
-        id: `${category}-${feed.name}-${Math.random().toString(36).slice(2)}`,
+        id: `${category}-${feed.name}-${Math.abs(item.link?.split('').reduce((a, b) => { a = ((a << 5) - a) + b.charCodeAt(0); return a & a; }, 0) || 0).toString(36)}`,
         title: item.title || '',
         imageUrl,
         sourceName: feed.name,
@@ -284,12 +381,44 @@ export const normArticle = (item, feed, result, isHindi, category, defaultImage)
         category,
         location: isHindi ? 'भारत' : 'India',
         pubDate: item.pubDate || new Date().toISOString(),
-        shortDescription: description.substring(0, 150) + (description.length > 150 ? '...' : ''),
+        shortDescription: description.substring(0, 160) + (description.length > 160 ? '...' : ''),
         fullContent: content,
+        sentiment,
+        impact,
         isLatest: false,
         isLive: false,
         isFallback: false
     };
+};
+
+/**
+ * Heuristic sentiment analysis
+ */
+const analyzeSentiment = (title, desc) => {
+    const text = `${title} ${desc}`.toLowerCase();
+    const pos = ['growth', 'surplus', 'bull', 'rally', 'profit', 'gain', 'rise', 'strong', 'positive', 'recovery', 'expansion', 'dividend', 'ipo success', 'success', 'uptick'];
+    const neg = ['loss', 'recession', 'slump', 'bear', 'crash', 'negative', 'weak', 'decline', 'crisis', 'inflation', 'debt', 'deficit', 'warns', 'drop', 'cut', 'layoff', 'insolvency'];
+
+    let score = 0;
+    pos.forEach(w => { if (text.includes(w)) score++; });
+    neg.forEach(w => { if (text.includes(w)) score--; });
+
+    if (score > 0) return 'Positive';
+    if (score < 0) return 'Negative';
+    return 'Neutral';
+};
+
+/**
+ * Heuristic impact analysis
+ */
+const analyzeImpact = (title, desc) => {
+    const text = `${title} ${desc}`.toLowerCase();
+    const high = ['rbi', 'fed', 'federal reserve', 'central bank', 'policy', 'budget', 'war', 'sanctions', 'gdp', 'inflation data', 'crisis', 'emergency'];
+    const med = ['earning', 'acquisition', 'merger', 'funding', 'invest', 'billion', 'launch', 'partnership', 'ipo', 'stock'];
+
+    if (high.some(w => text.includes(w))) return 'High';
+    if (med.some(w => text.includes(w))) return 'Medium';
+    return 'Low';
 };
 
 /**
@@ -304,6 +433,38 @@ export const isArticleRelevant = (article, category) => {
 };
 
 /**
+ * Re-orders a collection of articles to ensure source variety.
+ * It grouping articles by source and interleaves them.
+ */
+export const diversifySources = (articles, limit = 0) => {
+    if (!articles || articles.length === 0) return [];
+
+    const sourceGroups = {};
+    articles.forEach(article => {
+        const source = article.sourceName || 'Unknown';
+        if (!sourceGroups[source]) sourceGroups[source] = [];
+        sourceGroups[source].push(article);
+    });
+
+    const sources = Object.keys(sourceGroups);
+    const result = [];
+    let maxItems = 0;
+    sources.forEach(s => { maxItems = Math.max(maxItems, sourceGroups[s].length); });
+
+    // Interleave sources
+    for (let i = 0; i < maxItems; i++) {
+        sources.forEach(source => {
+            if (sourceGroups[source][i]) {
+                result.push(sourceGroups[source][i]);
+            }
+        });
+        if (limit > 0 && result.length >= limit) break;
+    }
+
+    return limit > 0 ? result.slice(0, limit) : result;
+};
+
+/**
  * Checks if an article contains blocked keywords or is too old (stale).
  */
 export const isBlocked = (article) => {
@@ -312,11 +473,11 @@ export const isBlocked = (article) => {
     // Keyword block
     if (BLOCKED_KEYWORDS.some(kw => text.includes(kw.toLowerCase()))) return true;
 
-    // Staleness block (anything older than 90 days)
+    // Staleness block (Strictly enforce 24-hour window)
     const pubDate = new Date(article.pubDate);
     if (!isNaN(pubDate.getTime())) {
         const threshold = new Date();
-        threshold.setDate(threshold.getDate() - 90);
+        threshold.setHours(threshold.getHours() - 24);
         if (pubDate < threshold) return true;
     }
 

@@ -3,7 +3,7 @@ import { RefreshCcw, ShieldAlert } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import NewsCard from '../components/NewsCard';
 import newsFallbackData from '../data/newsData.json';
-import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, CATEGORY_META, normArticle, isArticleRelevant, isBlocked } from '../data/feeds';
+import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, CATEGORY_META, normArticle, isArticleRelevant, isBlocked, parseXML, diversifySources } from '../data/feeds';
 
 const LatestNews = () => {
     const { t, i18n } = useTranslation();
@@ -14,33 +14,8 @@ const LatestNews = () => {
 
     const meta = CATEGORY_META.Latest;
 
-    // 4-proxy cascade (shared logic)
-    const parseXML = (xmlText) => {
-        try {
-            const parser = new DOMParser();
-            const xml = parser.parseFromString(xmlText, 'text/xml');
-            const getText = (el, tag) => el?.querySelector(tag)?.textContent?.trim() || '';
-            const rssItems = Array.from(xml.querySelectorAll('item'));
-            if (rssItems.length > 0) {
-                return rssItems.slice(0, 15).map(el => ({
-                    title: getText(el, 'title'),
-                    link: getText(el, 'link') || el.querySelector('link')?.getAttribute('href') || '',
-                    pubDate: getText(el, 'pubDate') || getText(el, 'published') || new Date().toISOString(),
-                    description: getText(el, 'description') || getText(el, 'summary') || '',
-                    thumbnail: el.querySelector('thumbnail')?.getAttribute('url') || el.querySelector('enclosure')?.getAttribute('url') || ''
-                }));
-            }
-            const atomEntries = Array.from(xml.querySelectorAll('entry'));
-            return atomEntries.slice(0, 15).map(el => ({
-                title: getText(el, 'title'),
-                link: el.querySelector('link')?.getAttribute('href') || getText(el, 'link') || '',
-                pubDate: getText(el, 'published') || getText(el, 'updated') || new Date().toISOString(),
-                description: getText(el, 'summary') || getText(el, 'content') || '',
-                thumbnail: el.querySelector('thumbnail')?.getAttribute('url') || ''
-            }));
-        } catch (_) { return []; }
-    };
-
+    // PROXY_STRATEGIES and withTimeout are kept locally for flexibility in fetchAllNews, 
+    // but parseXML is now imported from feeds.js
     const withTimeout = (promise, ms = 4000) =>
         Promise.race([
             promise,
@@ -86,8 +61,7 @@ const LatestNews = () => {
 
             const categoryPromises = categories.map(async (category) => {
                 const feeds = allFeeds[category] || [];
-                // Just take the top 2 feeds from each category to avoid overwhelming
-                const selectedFeeds = feeds.slice(0, 2);
+                const selectedFeeds = feeds; // Fetch from all sources
 
                 const feedPromises = selectedFeeds.map(async (feed) => {
                     let result = null;
@@ -124,12 +98,9 @@ const LatestNews = () => {
                 allArticles = fallback;
             }
 
-            // Sort and unique
-            const uniqueArticles = allArticles
-                .filter((v, i, a) => a.findIndex(t => (t.sourceUrl === v.sourceUrl)) === i)
-                .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+            const diversified = diversifySources(uniqueArticles);
 
-            setNews(uniqueArticles);
+            setNews(diversified);
             setLastUpdated(new Date());
         } catch (err) {
             console.error('Fetch Latest News error:', err);

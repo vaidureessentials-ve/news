@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import NewsCard from '../components/NewsCard';
 import newsFallbackData from '../data/newsData.json';
 
-import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, BLOCKED_KEYWORDS, CATEGORY_KEYWORDS, CATEGORY_META, normArticle, isArticleRelevant, isBlocked } from '../data/feeds';
+import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, BLOCKED_KEYWORDS, CATEGORY_KEYWORDS, CATEGORY_META, normArticle, isArticleRelevant, isBlocked, parseXML, diversifySources } from '../data/feeds';
 
 
 const stockNewsCache = {};
@@ -27,7 +27,7 @@ const Stocks = () => {
 
             const isHindi = i18n.language?.startsWith('hi');
             const allFeeds = isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS;
-            const feeds = allFeeds['Stock'] || [];
+            const feeds = allFeeds['Stocks'] || [];
 
             // Abort slow proxies after 4 seconds
             const withTimeout = (promise, ms = 4000) =>
@@ -36,32 +36,7 @@ const Stocks = () => {
                     new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), ms))
                 ]);
 
-            // Helper: parse RSS/Atom XML into items array
-            const parseXML = (xmlText) => {
-                try {
-                    const parser = new DOMParser();
-                    const xml = parser.parseFromString(xmlText, 'text/xml');
-                    const getText = (el, tag) => el?.querySelector(tag)?.textContent?.trim() || '';
-                    const rssItems = Array.from(xml.querySelectorAll('item'));
-                    if (rssItems.length > 0) {
-                        return rssItems.slice(0, 25).map(el => ({
-                            title: getText(el, 'title'),
-                            link: getText(el, 'link') || el.querySelector('link')?.getAttribute('href') || '',
-                            pubDate: getText(el, 'pubDate') || getText(el, 'published') || new Date().toISOString(),
-                            description: getText(el, 'description') || getText(el, 'summary') || '',
-                            thumbnail: el.querySelector('thumbnail')?.getAttribute('url') || el.querySelector('enclosure')?.getAttribute('url') || ''
-                        }));
-                    }
-                    const atomEntries = Array.from(xml.querySelectorAll('entry'));
-                    return atomEntries.slice(0, 25).map(el => ({
-                        title: getText(el, 'title'),
-                        link: el.querySelector('link')?.getAttribute('href') || getText(el, 'link') || '',
-                        pubDate: getText(el, 'published') || getText(el, 'updated') || new Date().toISOString(),
-                        description: getText(el, 'summary') || getText(el, 'content') || '',
-                        thumbnail: el.querySelector('thumbnail')?.getAttribute('url') || ''
-                    }));
-                } catch (_) { return []; }
-            };
+            // parseXML is now imported from feeds.js
 
             // 4-proxy cascade with timeout
             const PROXY_STRATEGIES = [
@@ -101,8 +76,8 @@ const Stocks = () => {
                 if (!result) return [];
 
                 const articles = result.items
-                    .map(item => normArticle(item, feed, result, isHindi, 'Stock', CATEGORY_META.Stock.defaultImage))
-                    .filter(a => isArticleRelevant(a, 'Stock') && !isBlocked(a));
+                    .map(item => normArticle(item, feed, result, isHindi, 'Stocks', CATEGORY_META.Stocks.defaultImage))
+                    .filter(a => isArticleRelevant(a, 'Stocks') && !isBlocked(a));
 
                 if (articles.length > 0) {
                     setNews(prev => {
@@ -111,17 +86,18 @@ const Stocks = () => {
                         if (fresh.length === 0) return prev;
                         const merged = [...prev, ...fresh];
                         merged.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-                        if (merged.length > 0) {
-                            merged[0].isLatest = true;
+                        const diversified = diversifySources(merged);
+                        if (diversified.length > 0) {
+                            diversified[0].isLatest = true;
                             const now = new Date();
-                            merged.forEach(item => {
+                            diversified.forEach(item => {
                                 item.isLive = (now - new Date(item.pubDate)) / 60000 < 180;
                             });
                         }
                         // Save to cache so revisit is instant
                         const lk = i18n.language?.startsWith('hi') ? 'hi' : 'en';
-                        stockNewsCache[lk] = merged;
-                        return merged;
+                        stockNewsCache[lk] = diversified;
+                        return diversified;
                     });
                     // Hide spinner as soon as the first feed responds
                     setLoading(false);
@@ -136,10 +112,10 @@ const Stocks = () => {
             setNews(prev => {
                 if (prev.length > 0) return prev;
                 return newsFallbackData
-                    .filter(item => item.category === 'Stock')
+                    .filter(item => item.category === 'Stocks')
                     .map(item => ({
                         ...item,
-                        imageUrl: item.imageUrl || CATEGORY_META.Stock.defaultImage,
+                        imageUrl: item.imageUrl || CATEGORY_META.Stocks.defaultImage,
                         shortDescription: isHindi
                             ? item.shortDescription_hi || item.shortDescription
                             : item.shortDescription,
@@ -222,7 +198,7 @@ const Stocks = () => {
                     </div>
 
                     <h1 className="text-4xl md:text-7xl font-extrabold text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 inline-block font-display tracking-tight text-center w-full">
-                        {t('categories.stock')} Updates
+                        {t('categories.stocks')} Updates
                     </h1>
                     <p className="text-slate-400 max-w-2xl mx-auto text-lg md:text-xl font-light">
                         Real-time market intelligence — stocks, indices, IPOs, and financial developments across India and global markets.
@@ -232,7 +208,7 @@ const Stocks = () => {
                     {news.length > 0 && (
                         <div className="mt-8 flex items-center gap-4 border-b border-slate-800 pb-4 text-left">
                             <div className="h-8 w-1.5 bg-blue-600 rounded-full"></div>
-                            <span className="text-2xl md:text-3xl font-bold text-white tracking-tight">{t('categories.stock')}</span>
+                            <span className="text-2xl md:text-3xl font-bold text-white tracking-tight">{t('categories.stocks')}</span>
                             <span className="text-[10px] font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full tracking-widest uppercase">
                                 {news.length}
                             </span>

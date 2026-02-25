@@ -5,7 +5,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 const resources = {
     en: {
         translation: {
-            "app_name": "News",
+            "app_name": "Intelligence",
             "subscribe": "Subscribe",
             "read_more": "Read More",
             "read_full_story": "Read Full Story",
@@ -39,8 +39,8 @@ const resources = {
                 "business": "Business",
                 "economy": "Economy",
                 "international": "International",
-                "geopolitics": "Geopolitical",
-                "stock": "Stocks",
+                "geopolitical": "Geopolitical",
+                "stocks": "Stocks",
                 "latest": "Latest"
             },
             "common": {
@@ -84,7 +84,7 @@ const resources = {
     },
     hi: {
         translation: {
-            "app_name": "न्यूज़",
+            "app_name": "इंटेलिजेंस",
             "subscribe": "सब्सक्राइब करें",
             "read_more": "और पढ़ें",
             "read_full_story": "पूरी खबर पढ़ें",
@@ -118,8 +118,8 @@ const resources = {
                 "business": "व्यापार",
                 "economy": "अर्थव्यवस्था",
                 "international": "अंतरराष्ट्रीय",
-                "geopolitics": "भू-राजनीति",
-                "stock": "शेयर बाज़ार",
+                "geopolitical": "भू-राजनीति",
+                "stocks": "शेयर बाज़ार",
                 "latest": "ताज़ा खबर"
             },
             "common": {

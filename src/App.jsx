@@ -21,7 +21,7 @@ function App() {
           <Route path="/tech" element={<CategoryPage category="Tech" />} />
           <Route path="/business" element={<CategoryPage category="Business" />} />
           <Route path="/economy" element={<CategoryPage category="Economy" />} />
-          <Route path="/geopolitics" element={<CategoryPage category="Geopolitics" />} />
+          <Route path="/geopolitics" element={<CategoryPage category="Geopolitical" />} />
           <Route path="/data" element={<Data />} />
         </Routes>
       </div>
