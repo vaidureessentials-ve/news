@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { RefreshCcw, ShieldAlert } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import NewsCard from '../components/NewsCard';
@@ -64,7 +64,7 @@ const CategoryPage = ({ category }) => {
     }, [category]);
 
 
-    const fetchNews = async (isBackground = false) => {
+    const fetchNews = useCallback(async (isBackground = false) => {
         try {
             if (!isBackground) setLoading(true);
             else setSyncing(true);
@@ -81,12 +81,12 @@ const CategoryPage = ({ category }) => {
                 let result = null;
                 for (const strategy of PROXY_STRATEGIES) {
                     try { result = await strategy(feed.url); if (result) break; }
-                    catch (_) { /* try next proxy */ }
+                    catch { /* try next proxy */ }
                 }
                 if (!result) return [];
 
                 const articles = result.items
-                    .map(item => normArticle(item, feed, result, isHindi, category, meta.defaultImage))
+                    .map(item => normArticle(item, feed, result, isHindi, category))
                     .filter(a => isArticleRelevant(a, category) && !isBlocked(a));
 
                 if (articles.length > 0) {
@@ -146,7 +146,7 @@ const CategoryPage = ({ category }) => {
             setLoading(false);
             setSyncing(false);
         }
-    };
+    }, [category, i18n.language, meta.defaultImage]);
 
     // Re-fetch when category or language changes
     useEffect(() => {
@@ -175,7 +175,7 @@ const CategoryPage = ({ category }) => {
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [category, i18n.language]);
+    }, [category, fetchNews]);
 
     const categoryLabel = t(`categories.${category.toLowerCase()}`) || category;
 

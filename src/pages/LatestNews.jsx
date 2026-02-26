@@ -1,54 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { RefreshCcw, ShieldAlert } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import NewsCard from '../components/NewsCard';
 import newsFallbackData from '../data/newsData.json';
 import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, CATEGORY_META, normArticle, isArticleRelevant, isBlocked, parseXML, diversifySources } from '../data/feeds';
 
+const withTimeout = (promise, ms = 4000) =>
+    Promise.race([
+        promise,
+        new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), ms))
+    ]);
+
+const PROXY_STRATEGIES = [
+    async (u) => {
+        const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}&count=15&nocache=${Math.random().toString(36).slice(2)}`));
+        const json = await res.json();
+        return json.status === 'ok' && json.items?.length > 0 ? { items: json.items, isJson: true } : null;
+    },
+    async (u) => {
+        const res = await withTimeout(fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`, { cache: 'no-store' }));
+        const xml = await res.text();
+        const items = parseXML(xml);
+        return items.length > 0 ? { items, isJson: false } : null;
+    },
+    async (u) => {
+        const res = await withTimeout(fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(u)}&t=${Date.now()}`, { cache: 'no-store' }));
+        const json = await res.json();
+        const items = parseXML(json.contents || '');
+        return items.length > 0 ? { items, isJson: false } : null;
+    },
+    async (u) => {
+        const res = await withTimeout(fetch(`https://corsproxy.io/?${encodeURIComponent(u)}`, { cache: 'no-store' }));
+        const xml = await res.text();
+        const items = parseXML(xml);
+        return items.length > 0 ? { items, isJson: false } : null;
+    }
+];
+
 const LatestNews = () => {
     const { t, i18n } = useTranslation();
     const [news, setNews] = useState([]);
     const [loading, setLoading] = useState(true);
     const [syncing, setSyncing] = useState(false);
-    const [lastUpdated, setLastUpdated] = useState(null);
 
     const meta = CATEGORY_META.Latest;
 
-    // PROXY_STRATEGIES and withTimeout are kept locally for flexibility in fetchAllNews, 
-    // but parseXML is now imported from feeds.js
-    const withTimeout = (promise, ms = 4000) =>
-        Promise.race([
-            promise,
-            new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), ms))
-        ]);
 
-    const PROXY_STRATEGIES = [
-        async (u) => {
-            const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}&count=15&nocache=${Math.random().toString(36).slice(2)}`));
-            const json = await res.json();
-            return json.status === 'ok' && json.items?.length > 0 ? { items: json.items, isJson: true } : null;
-        },
-        async (u) => {
-            const res = await withTimeout(fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`, { cache: 'no-store' }));
-            const xml = await res.text();
-            const items = parseXML(xml);
-            return items.length > 0 ? { items, isJson: false } : null;
-        },
-        async (u) => {
-            const res = await withTimeout(fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(u)}&t=${Date.now()}`, { cache: 'no-store' }));
-            const json = await res.json();
-            const items = parseXML(json.contents || '');
-            return items.length > 0 ? { items, isJson: false } : null;
-        },
-        async (u) => {
-            const res = await withTimeout(fetch(`https://corsproxy.io/?${encodeURIComponent(u)}`, { cache: 'no-store' }));
-            const xml = await res.text();
-            const items = parseXML(xml);
-            return items.length > 0 ? { items, isJson: false } : null;
-        }
-    ];
 
-    const fetchAllNews = async (isBackground = false) => {
+    const fetchAllNewsData = useCallback(async (isBackground = false) => {
         try {
             if (!isBackground) setLoading(true);
             else setSyncing(true);
@@ -57,65 +56,66 @@ const LatestNews = () => {
             const allFeeds = isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS;
             const categories = Object.keys(allFeeds);
 
-            let allArticles = [];
-
             const categoryPromises = categories.map(async (category) => {
                 const feeds = allFeeds[category] || [];
-                const selectedFeeds = feeds; // Fetch from all sources
-
-                const feedPromises = selectedFeeds.map(async (feed) => {
+                const feedPromises = feeds.map(async (feed) => {
                     let result = null;
                     for (const strategy of PROXY_STRATEGIES) {
                         try { result = await strategy(feed.url); if (result) break; }
-                        catch (_) { }
+                        catch (e) { console.debug('LatestNews: Proxy failed', e); }
                     }
                     if (!result) return [];
 
                     const normalized = result.items
-                        .map(item => normArticle(item, feed, result, isHindi, category, CATEGORY_META[category].defaultImage))
+                        .map(item => normArticle(item, feed, result, isHindi, category))
                         .filter(a => isArticleRelevant(a, category) && !isBlocked(a));
 
                     return normalized;
                 });
 
                 const results = await Promise.allSettled(feedPromises);
-                results.forEach(res => {
-                    if (res.status === 'fulfilled') {
-                        allArticles = [...allArticles, ...res.value];
-                    }
-                });
+                const fetchedArticles = results
+                    .filter(res => res.status === 'fulfilled')
+                    .flatMap(res => res.value);
+
+                if (fetchedArticles.length > 0) {
+                    setNews(prev => {
+                        const merged = [...prev, ...fetchedArticles];
+                        const unique = merged.filter((v, i, arr) =>
+                            arr.findIndex(x => x.sourceUrl === v.sourceUrl) === i
+                        );
+                        return diversifySources(unique);
+                    });
+                    if (!isBackground) setLoading(false);
+                }
             });
 
             await Promise.allSettled(categoryPromises);
 
-            if (allArticles.length === 0) {
-                const fallback = (newsFallbackData || []).map(item => ({
+            setNews(prev => {
+                if (prev.length > 0) return prev;
+                return (newsFallbackData || []).map(item => ({
                     ...item,
                     imageUrl: item.imageUrl || CATEGORY_META[item.category]?.defaultImage || CATEGORY_META.Tech.defaultImage,
                     shortDescription: isHindi ? item.shortDescription_hi || item.shortDescription : item.shortDescription,
                     isFallback: true
                 }));
-                allArticles = fallback;
-            }
+            });
 
-            const diversified = diversifySources(uniqueArticles);
-
-            setNews(diversified);
-            setLastUpdated(new Date());
         } catch (err) {
             console.error('Fetch Latest News error:', err);
         } finally {
             setLoading(false);
             setSyncing(false);
         }
-    };
-
-    useEffect(() => {
-        fetchAllNews();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [i18n.language]);
 
-    const filteredNews = news.filter(a => (new Date() - new Date(a.pubDate)) / 3600000 < 24);
+    useEffect(() => {
+        fetchAllNewsData();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [fetchAllNewsData]);
+
+
 
     return (
         <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -194,7 +194,7 @@ const LatestNews = () => {
                                 No articles from the last 24 hours found.
                             </p>
                             <button
-                                onClick={() => fetchAllNews()}
+                                onClick={() => fetchAllNewsData()}
                                 className="bg-blue-600/20 text-blue-400 px-6 py-2 rounded-xl border border-blue-500/20 hover:bg-blue-600/30 transition-all font-bold text-xs flex items-center gap-2 uppercase tracking-widest"
                             >
                                 <RefreshCcw className="w-3 h-3" />

@@ -55,16 +55,15 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'Engadget', url: 'https://www.engadget.com/rss.xml' },
         { name: 'MIT Tech Review', url: 'https://www.technologyreview.com/feed/' },
         { name: 'VentureBeat', url: 'https://venturebeat.com/feed/' },
-        { name: 'ZDNet', url: 'https://www.zdnet.com/news/rss.xml' },
+        { name: 'ZDNet Enterprise', url: 'https://www.zdnet.com/topic/enterprise/rss.xml' },
+        { name: 'The Register', url: 'https://www.theregister.com/headlines.rss' },
+        { name: 'CIO News', url: 'https://www.cio.com/feed/' },
         { name: 'ET Tech', url: 'https://economictimes.indiatimes.com/tech/rssfeeds/13357270.cms' },
         { name: 'Livemint Tech', url: 'https://www.livemint.com/rss/technology' },
-        { name: 'NDTV Gadgets', url: 'https://feeds.feedburner.com/ndtvgadgets-latest' },
-        { name: 'India Today Tech', url: 'https://www.indiatoday.in/rss/1206550' },
         { name: 'Hindustan Times Tech', url: 'https://www.hindustantimes.com/feeds/rss/tech/rssfeed.xml' },
         { name: 'The Hindu Tech', url: 'https://www.thehindu.com/sci-tech/technology/?service=rss' },
         { name: 'News18 Tech', url: 'https://www.news18.com/commonfeeds/v1/eng/rss/tech.xml' },
-        { name: 'Google Tech News', url: 'https://news.google.com/rss/search?q=technology+india&hl=en-IN&gl=IN&ceid=IN:en' },
-        { name: 'Digit.in', url: 'https://www.digit.in/rss/news.rss' }
+        { name: 'Google AI News', url: 'https://news.google.com/rss/search?q=artificial+intelligence+enterprise+software&hl=en-IN&gl=IN&ceid=IN:en' }
     ],
     'Stocks': [
         { name: 'Google News Stocks', url: 'https://news.google.com/rss/search?q=stock+market+india+nifty+sensex&hl=en-IN&gl=IN&ceid=IN:en' },
@@ -107,12 +106,9 @@ export const HI_CATEGORY_FEEDS = {
         { name: 'Google Biz Hindi', url: 'https://news.google.com/rss/search?q=business&hl=hi&gl=IN&ceid=IN:hi' }
     ],
     'Tech': [
-        { name: 'Live Hindustan Tech', url: 'https://api.livehindustan.com/feeds/rss/gadgets/rssfeed.xml' },
-        { name: 'NDTV Gadgets Hindi', url: 'https://hindi.gadgets360.com/rss/news' },
         { name: 'Aaj Tak Tech', url: 'https://www.aajtak.in/rss/technology.xml' },
-        { name: 'Google Tech Hindi', url: 'https://news.google.com/rss/search?q=technology&hl=hi&gl=IN&ceid=IN:hi' },
-        { name: 'ABP Tech', url: 'https://www.abplive.com/technology/feed' },
-        { name: 'Navbharat Times Tech', url: 'https://navbharattimes.indiatimes.com/rss.cms?feedtype=sjson' }
+        { name: 'Google Tech Hindi', url: 'https://news.google.com/rss/search?q=technology+enterprise+software&hl=hi&gl=IN&ceid=IN:hi' },
+        { name: 'ABP Tech', url: 'https://www.abplive.com/technology/feed' }
     ],
     'Stocks': [
         { name: 'Google News Hindi', url: 'https://news.google.com/rss/search?q=%E0%A4%B6%E0%A5%87%E0%A4%AF%E0%A4%B0+%E0%A4%AC%E0%A4%BE%E0%A4%9C%E0%A4%BE%E0%A4%B0+%E0%A4%A8%E0%A4%BF%E0%A4%AB%E0%A5%8D%E0%A4%9F%E0%A5%80+%E0%A4%B8%E0%A5%87%E0%A4%82%E0%A4%B8%E0%A5%87%E0%A4%95%E0%A5%8D%E0%A4%B8&hl=hi&gl=IN&ceid=IN:hi' },
@@ -148,10 +144,11 @@ export const CATEGORY_KEYWORDS = {
     ],
     'Tech': [
         'tech', 'technology', 'software', 'hardware', 'ai', 'artificial intelligence',
-        'artifical', 'intelligence', 'startup', 'digital', 'innovation', 'gadget', 'smartphone', 'laptop', 'app',
-        'crypto', 'blockchain', 'semiconductor', 'chip', 'cloud', 'cyber', 'gadgets', 'google', 'apple', 'microsoft',
-        'amazon', 'meta', 'tesla', 'nvidia', 'openai', 'samsung', 'intel', 'amd', 'computing',
-        'तकनीक', 'प्रौद्योगिकी', 'सॉफ्टवेयर', 'हार्डवेयर', 'एआई', 'स्मार्टफोन', 'गूगल', 'एप्पल'
+        'artifical', 'intelligence', 'enterprise', 'digital transformation', 'innovation',
+        'crypto', 'blockchain', 'semiconductor', 'chip', 'cloud', 'cyber', 'security',
+        'google', 'apple', 'microsoft', 'amazon', 'meta', 'tesla', 'nvidia', 'openai',
+        'samsung', 'intel', 'amd', 'computing', 'cybersecurity', 'fintech', 'saas',
+        'तकनीक', 'प्रौद्योगिकी', 'सॉफ्टवेयर', 'हार्डवेयर', 'एआई', 'गूगल', 'एप्पल'
     ],
     'Stocks': [
         'stock', 'market', 'nifty', 'sensex', 'ipo', 'share', 'dividend', 'invest',
@@ -171,10 +168,12 @@ export const BLOCKED_KEYWORDS = [
     'rugby', 'golf', 'athletics', 'swimming', 'boxing', 'mma', 'ufc',
     'wrestling match', 'pga', 'nba', 'nfl', 'wimbledon', 'batsman', 'bowler',
     'wicketkeeper', 'fielder', 'f1 race', 'grand prix', 'premier league',
-    'super league', 'world cup', 't20', 'test match', 'odi match',
+    'super league', 'world cup', 't20', 'test match', 'odi match', 't20i',
     'playing xi', 'point table', 'scorecard', 'lbw', 'sixer', 'clean-bowled',
     'atp', 'wta', 'paralympics', 'squad', 'clash', 'match', 'series', 'tournament',
-    'medal', 'pitch', 'cricketer', 'खेल', 'क्रिकेट', 'स्टेडियम',
+    'medal', 'pitch', 'cricketer', 'ind vs', 'zim vs', 'pak vs', 'aus vs', 'eng vs', 'v/s',
+    'free tickets', 'chepauk', 'kotla', 'wankhede', 'lords cricket', 'ipl',
+    'खेल', 'क्रिकेट', 'स्टेडियम',
     'ओलिंपिक', 'फुटबॉल', 'हॉकी', 'बैडमिंटन', 'कुश्ती',
     'बल्लेबाज', 'गेंदबाज', 'खिलाड़ी', 'पिच', 'टूर्नामेंट', 'मैच',
     // Entertainment & Movies
@@ -212,6 +211,8 @@ export const BLOCKED_KEYWORDS = [
     'product review', 'hands-on review', 'unboxing', 'deal of the day',
     'discount', 'coupon', 'promo code', 'flash sale', 'mega sale',
     'shopping guide', 'gift guide', 'deal alert', 'limited time offer',
+    'comparison', 'vs phone', 'vs smartphone', 'specs comparison', 'unboxing',
+    'sale price', 'discount code', 'best deal', 'gadget review',
     'lifestyle', 'home decor', 'interior design', 'recipe', 'cooking'
 ];
 
@@ -339,7 +340,7 @@ export const parseXML = (xmlText) => {
 /**
  * Standardizes an article from various RSS feed formats.
  */
-export const normArticle = (item, feed, result, isHindi, category, defaultImage) => {
+export const normArticle = (item, feed, result, isHindi, category) => {
     const rawDesc = (result.isJson ? (item.description || '') : (item.description || ''));
     const rawContent = (result.isJson ? (item.content || item.description || '') : (item.content || item.description || ''));
 
@@ -361,12 +362,9 @@ export const normArticle = (item, feed, result, isHindi, category, defaultImage)
         if (imgMatch && imgMatch[1]) imageUrl = imgMatch[1];
     }
 
-    // Final fallback: category default or dynamic Unsplash
+    // Final fallback: Use the site logo if no image is found in the feed or content
     if (!imageUrl) {
-        // Use a dynamic Unsplash image with a signature based on the title to avoid same images
-        const query = (category + ' ' + (item.title || '')).split(' ').slice(0, 3).join(',');
-        const sig = Math.abs(item.title?.split('').reduce((a, b) => { a = ((a << 5) - a) + b.charCodeAt(0); return a & a; }, 0) || 0) % 1000;
-        imageUrl = `https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=60&w=800&sig=${sig}&q=${encodeURIComponent(query)}`;
+        imageUrl = '/logo.svg';
     }
 
     const sentiment = analyzeSentiment(item.title, description);
@@ -468,12 +466,24 @@ export const diversifySources = (articles, limit = 0) => {
  * Checks if an article contains blocked keywords or is too old (stale).
  */
 export const isBlocked = (article) => {
-    const text = `${article.title} ${article.shortDescription}`.toLowerCase();
+    const title = (article.title || '').toLowerCase();
+    const desc = (article.shortDescription || '').toLowerCase();
+    const text = `${title} ${desc}`;
 
-    // Keyword block
+    // 1. Script block: Filter out non-English/Hindi scripts (e.g., Korean, Chinese, Japanese)
+    // Fix: Use single backslash for Unicode escapes in regex literal
+    const cjkRegex = /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff00-\uffef\uac00-\ud7af]/;
+    if (cjkRegex.test(article.title) || cjkRegex.test(article.shortDescription)) return true;
+
+    // 1b. Robust check: Ensure the article is either English or Hindi
+    const hasEnglish = /[a-zA-Z]/.test(title);
+    const hasHindi = /[\u0900-\u097F]/.test(title);
+    if (!hasEnglish && !hasHindi) return true; // Reject articles with NO English or Hindi characters in title
+
+    // 2. Keyword block
     if (BLOCKED_KEYWORDS.some(kw => text.includes(kw.toLowerCase()))) return true;
 
-    // Staleness block (Strictly enforce 24-hour window)
+    // 3. Staleness block (Strictly enforce 24-hour window)
     const pubDate = new Date(article.pubDate);
     if (!isNaN(pubDate.getTime())) {
         const threshold = new Date();

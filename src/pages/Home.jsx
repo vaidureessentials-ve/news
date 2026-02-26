@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSearchParams, Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { RefreshCcw, ChevronRight, ShieldAlert } from 'lucide-react';
@@ -39,7 +39,7 @@ const Home = () => {
         return () => clearTimeout(timer);
     }, [location.state, loading]);
 
-    const fetchAllNews = async (isBackground = false) => {
+    const fetchAllNews = useCallback(async (isBackground = false) => {
         try {
             if (!isBackground) setLoading(true);
             else setSyncing(true);
@@ -94,18 +94,14 @@ const Home = () => {
                     let result = null;
                     for (const strategy of PROXY_STRATEGIES) {
                         try { result = await strategy(feed.url); if (result) break; }
-                        catch (_) { /* try next proxy */ }
+                        catch { /* try next proxy */ }
                     }
                     if (!result) return;
 
-                    const sourceKey = feed.name.toLowerCase().replace(/\s+/g, '_');
-                    const localizedSource = t(`sources.${sourceKey}`);
-                    const sourceName = localizedSource && localizedSource !== `sources.${sourceKey}`
-                        ? localizedSource
-                        : (isHindi && feed.name === 'Economic Times' ? 'इकोनॉमिक टाइम्स' : feed.name);
+
 
                     const articles = result.items
-                        .map(item => normArticle(item, feed, result, isHindi, cat, CATEGORY_META[cat]?.defaultImage))
+                        .map(item => normArticle(item, feed, result, isHindi, cat))
                         .filter(a => isArticleRelevant(a, cat) && !isBlocked(a));
 
                     if (articles.length === 0) return;
@@ -190,6 +186,8 @@ const Home = () => {
             });
 
             await Promise.allSettled(catPromises);
+            // Ensure loading is false even if everything failed
+            setLoading(false);
             setError(null);
 
         } catch (err) {
@@ -200,7 +198,7 @@ const Home = () => {
             setSyncing(false);
             setLastUpdated(new Date());
         }
-    };
+    }, [i18n.language]);
 
     useEffect(() => {
         const langKey = i18n.language?.startsWith('hi') ? 'hi' : 'en';
@@ -225,16 +223,10 @@ const Home = () => {
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [i18n.language]);
+    }, [fetchAllNews, i18n.language]);
 
-    const handleCategoryClick = (category) => {
-        const element = document.getElementById(`category-${category}`);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            searchParams.delete('category');
-            setSearchParams(searchParams);
-        }
-    };
+
+
 
     if (loading) {
         return (

@@ -80,7 +80,7 @@ const PriceRow = ({ name, flag, price, change, changePct, unit, loading }) => {
 };
 
 const Prices = () => {
-    const { t } = useTranslation();
+    const { t: _t } = useTranslation();
     const [marketData, setMarketData] = useState({});
     const [forexData, setForexData] = useState({});
     const [loading, setLoading] = useState(true);
@@ -135,8 +135,15 @@ const Prices = () => {
     }, [fetchMarketData, fetchForexData]);
 
     useEffect(() => {
-        fetchAll();
-    }, []);
+        const fetchAllData = async () => {
+            setLoading(true);
+            await Promise.all([fetchMarketData(), fetchForexData()]);
+            setLoading(false);
+            setLastUpdated(new Date());
+            setCountdown(60);
+        };
+        fetchAllData();
+    }, [fetchMarketData, fetchForexData]);
 
     useEffect(() => {
         const timer = setInterval(() => {

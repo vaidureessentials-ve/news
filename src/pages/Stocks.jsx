@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { RefreshCcw, ShieldAlert } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import NewsCard from '../components/NewsCard';
@@ -20,7 +20,7 @@ const Stocks = () => {
     const [countdown, setCountdown] = useState(45);
     const [lastUpdated, setLastUpdated] = useState(null);
 
-    const fetchMarketNews = async (isBackground = false) => {
+    const fetchMarketNews = useCallback(async (isBackground = false) => {
         try {
             if (!isBackground) setLoading(true);
             else setSyncing(true);
@@ -71,12 +71,12 @@ const Stocks = () => {
                 let result = null;
                 for (const strategy of PROXY_STRATEGIES) {
                     try { result = await strategy(feed.url); if (result) break; }
-                    catch (_) { /* try next proxy */ }
+                    catch { /* try next proxy */ }
                 }
                 if (!result) return [];
 
                 const articles = result.items
-                    .map(item => normArticle(item, feed, result, isHindi, 'Stocks', CATEGORY_META.Stocks.defaultImage))
+                    .map(item => normArticle(item, feed, result, isHindi, 'Stocks'))
                     .filter(a => isArticleRelevant(a, 'Stocks') && !isBlocked(a));
 
                 if (articles.length > 0) {
@@ -130,7 +130,7 @@ const Stocks = () => {
             setLoading(false);
             setSyncing(false);
         }
-    };
+    }, [i18n.language]);
 
     // Scroll to top on mount / tab switch
     useEffect(() => {
@@ -163,7 +163,7 @@ const Stocks = () => {
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [i18n.language]);
+    }, [fetchMarketNews, i18n.language]);
 
     return (
         <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
