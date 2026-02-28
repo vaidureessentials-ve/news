@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, MapPin, Share2 } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+
 
 const NewsCard = ({ article }) => {
-    const { t } = useTranslation();
+    
     return (
         <div className={`news-card flex flex-col h-full group ${article.isLive ? 'pulse-new border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.15)]' : ''}`}>
             <div className="relative overflow-hidden h-56 md:h-64">
@@ -19,7 +19,7 @@ const NewsCard = ({ article }) => {
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
                 <div className="absolute top-4 left-4 flex flex-wrap gap-2">
                     <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider bg-blue-600 text-white rounded-full shadow-lg">
-                        {t(`categories.${article.category.toLowerCase()}`)}
+                        {article.category}
                     </span>
                     {article.sentiment && (
                         <span className={`px-3 py-1 text-[10px] font-black uppercase tracking-wider rounded-full shadow-lg border border-white/10 ${article.sentiment === 'Positive' ? 'bg-emerald-500 text-white' : article.sentiment === 'Negative' ? 'bg-red-500 text-white' : 'bg-slate-600 text-white'}`}>
@@ -34,7 +34,7 @@ const NewsCard = ({ article }) => {
                     {article.isLive && (
                         <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider bg-red-600 text-white rounded-full shadow-lg animate-pulse flex items-center gap-1">
                             <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping"></span>
-                            {t('live')}
+                            LIVE
                         </span>
                     )}
                 </div>
@@ -49,7 +49,7 @@ const NewsCard = ({ article }) => {
                     <span className="opacity-20">/</span>
                     <span className="flex items-center gap-1">
                         <MapPin className="w-3 h-3" />
-                        {article.location === 'India' || article.location === 'भारत' ? t('india') : article.location}
+                        {article.location === 'India' || article.location === 'भारत' ? 'India' : article.location}
                     </span>
                 </div>
                 <p className="text-slate-400 text-sm mb-6 line-clamp-4 leading-relaxed">
@@ -62,7 +62,7 @@ const NewsCard = ({ article }) => {
                         state={{ article }}
                         className="inline-flex items-center text-blue-400 font-bold text-xs uppercase tracking-widest hover:text-blue-300 transition-colors group/link"
                     >
-                        {t('read_full_story')}
+                        READ FULL STORY
                         <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover/link:translate-x-1" />
                     </Link>
                     {article.sourceUrl && (

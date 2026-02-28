@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { RefreshCcw, ShieldAlert } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+
 import NewsCard from '../components/NewsCard';
 import newsFallbackData from '../data/newsData.json';
 import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, CATEGORY_META, normArticle, isArticleRelevant, isBlocked, parseXML, diversifySources } from '../data/feeds';
@@ -38,7 +38,7 @@ const PROXY_STRATEGIES = [
 ];
 
 const LatestNews = () => {
-    const { t, i18n } = useTranslation();
+
     const [news, setNews] = useState([]);
     const [loading, setLoading] = useState(true);
     const [syncing, setSyncing] = useState(false);
@@ -52,7 +52,7 @@ const LatestNews = () => {
             if (!isBackground) setLoading(true);
             else setSyncing(true);
 
-            const isHindi = i18n.language?.startsWith('hi');
+            const isHindi = false;
             const allFeeds = isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS;
             const categories = Object.keys(allFeeds);
 
@@ -108,7 +108,7 @@ const LatestNews = () => {
             setLoading(false);
             setSyncing(false);
         }
-    }, [i18n.language]);
+    }, ['en']);
 
     useEffect(() => {
         fetchAllNewsData();
@@ -119,14 +119,14 @@ const LatestNews = () => {
 
     return (
         <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-screen-2xl mx-auto">
                 <header className="mb-16 text-center">
                     <div className="flex flex-col items-center gap-1 mb-4">
                         <span className={`${syncing ? 'text-blue-500' : 'text-red-500'} text-[10px] font-black tracking-[0.2em] uppercase flex items-center gap-2`}>
                             {syncing ? (
                                 <>
                                     <RefreshCcw className="w-3 h-3 animate-spin text-blue-400" />
-                                    {t('syncing') || 'Syncing...'}
+                                    {'Syncing...'}
                                 </>
                             ) : (
                                 <>
@@ -141,7 +141,7 @@ const LatestNews = () => {
                     </div>
 
                     <h1 className={`text-4xl md:text-7xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r ${meta.gradient} inline-block font-display tracking-tight text-center w-full`}>
-                        {t('categories.latest') || 'Latest News'} Updates
+                        {'Latest News' || 'Latest News'} Updates
                     </h1>
                 </header>
 
@@ -151,14 +151,16 @@ const LatestNews = () => {
                         if (a.isFallback) return true;
                         const pubDate = new Date(a.pubDate);
                         if (isNaN(pubDate.getTime())) return true;
-                        return (now - pubDate) / 3600000 < 24;
+                        const dayOfWeek = now.getDay();
+                        const maxH = (dayOfWeek === 0 || dayOfWeek === 1 || dayOfWeek === 6) ? 72 : 24;
+                        return (now - pubDate) / 3600000 < maxH;
                     });
 
                     if (loading && news.length === 0) {
                         return (
                             <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
                                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-                                <p className="text-slate-400 font-medium animate-pulse">{t('fetching_headlines') || 'Fetching headlines...'}</p>
+                                <p className="text-slate-400 font-medium animate-pulse">{'Fetching headlines...'}</p>
                             </div>
                         );
                     }
@@ -173,7 +175,7 @@ const LatestNews = () => {
                                                 <div className="absolute top-4 right-4 z-10">
                                                     <span className="bg-slate-800/90 text-slate-400 text-[10px] font-bold px-2 py-1 rounded shadow-lg border border-slate-700/50 flex items-center gap-1 backdrop-blur-sm">
                                                         <ShieldAlert className="w-3 h-3" />
-                                                        {t('featured') || 'FEATURED'}
+                                                        {'FEATURED'}
                                                     </span>
                                                 </div>
                                             )}
@@ -189,7 +191,7 @@ const LatestNews = () => {
                             <div className="bg-slate-800/50 p-6 rounded-full mb-6 border border-slate-700/50">
                                 <ShieldAlert className="w-10 h-10 text-slate-500" />
                             </div>
-                            <h3 className="text-xl font-bold text-white mb-2">{t('no_news_found') || 'No Articles Found'}</h3>
+                            <h3 className="text-xl font-bold text-white mb-2">{'No Articles Found'}</h3>
                             <p className="text-slate-400 max-w-sm mx-auto mb-6 text-sm">
                                 No articles from the last 24 hours found.
                             </p>
@@ -198,7 +200,7 @@ const LatestNews = () => {
                                 className="bg-blue-600/20 text-blue-400 px-6 py-2 rounded-xl border border-blue-500/20 hover:bg-blue-600/30 transition-all font-bold text-xs flex items-center gap-2 uppercase tracking-widest"
                             >
                                 <RefreshCcw className="w-3 h-3" />
-                                {t('reconnect_feed')}
+                                Reconnect Feed
                             </button>
                         </div>
                     );

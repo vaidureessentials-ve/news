@@ -13,7 +13,12 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'Google Geopolitics', url: 'https://news.google.com/rss/search?q=geopolitics+conflict+war+sanctions&hl=en-IN&gl=IN&ceid=IN:en' },
         { name: 'Google China India', url: 'https://news.google.com/rss/search?q=china+india+border+pakistan&hl=en-IN&gl=IN&ceid=IN:en' },
         { name: 'Google US India', url: 'https://news.google.com/rss/search?q=india+united+states+relations&hl=en-IN&gl=IN&ceid=IN:en' },
-        { name: 'Google UN', url: 'https://news.google.com/rss/search?q=united+nations+global+security&hl=en-IN&gl=IN&ceid=IN:en' }
+        { name: 'Google UN', url: 'https://news.google.com/rss/search?q=united+nations+global+security&hl=en-IN&gl=IN&ceid=IN:en' },
+        { name: 'Al Jazeera', url: 'https://www.aljazeera.com/xml/rss/all.xml' },
+        { name: 'BBC World', url: 'http://feeds.bbci.co.uk/news/world/rss.xml' },
+        { name: 'Reuters World', url: 'https://news.google.com/rss/search?q=when:24h+allinurl:reuters.com/world&hl=en-US&gl=US&ceid=US:en' },
+        { name: 'NYT World', url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml' },
+        { name: 'CNN World', url: 'http://rss.cnn.com/rss/edition_world.rss' }
     ],
     'Economy': [
         { name: 'ET Economy', url: 'https://economictimes.indiatimes.com/news/economy/rssfeeds/13733806.cms' },
@@ -26,7 +31,10 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'Google Economy', url: 'https://news.google.com/rss/search?q=india+economy+gdp&hl=en-IN&gl=IN&ceid=IN:en' },
         { name: 'Google RBI', url: 'https://news.google.com/rss/search?q=rbi+interest+rate+india&hl=en-IN&gl=IN&ceid=IN:en' },
         { name: 'Google Inflation', url: 'https://news.google.com/rss/search?q=india+inflation+fiscal+budget&hl=en-IN&gl=IN&ceid=IN:en' },
-        { name: 'Google Trade', url: 'https://news.google.com/rss/search?q=india+trade+export+import&hl=en-IN&gl=IN&ceid=IN:en' }
+        { name: 'Google Trade', url: 'https://news.google.com/rss/search?q=india+trade+export+import&hl=en-IN&gl=IN&ceid=IN:en' },
+        { name: 'WSJ Economy', url: 'https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml' },
+        { name: 'CNBC Economy', url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258' },
+        { name: 'Financial Times', url: 'https://news.google.com/rss/search?q=when:24h+allinurl:ft.com&hl=en-US&gl=US&ceid=US:en' }
     ],
     'Business': [
         { name: 'Economic Times', url: 'https://economictimes.indiatimes.com/news/industry/rssfeeds/13352306.cms' },
@@ -45,7 +53,10 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'Financial Express', url: 'https://www.financialexpress.com/feed/' },
         { name: 'Inc42', url: 'https://inc42.com/feed/' },
         { name: 'YourStory', url: 'https://yourstory.com/feed' },
-        { name: 'Google Business News', url: 'https://news.google.com/rss/search?q=business+india&hl=en-IN&gl=IN&ceid=IN:en' }
+        { name: 'Google Business News', url: 'https://news.google.com/rss/search?q=business+india&hl=en-IN&gl=IN&ceid=IN:en' },
+        { name: 'BBC Business', url: 'http://feeds.bbci.co.uk/news/business/rss.xml' },
+        { name: 'CNN Business', url: 'http://rss.cnn.com/rss/money_latest.rss' },
+        { name: 'Yahoo Finance Business', url: 'https://finance.yahoo.com/news/rssindex' }
     ],
     'Tech': [
         { name: 'TechCrunch', url: 'https://techcrunch.com/feed/' },
@@ -63,7 +74,10 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'Hindustan Times Tech', url: 'https://www.hindustantimes.com/feeds/rss/tech/rssfeed.xml' },
         { name: 'The Hindu Tech', url: 'https://www.thehindu.com/sci-tech/technology/?service=rss' },
         { name: 'News18 Tech', url: 'https://www.news18.com/commonfeeds/v1/eng/rss/tech.xml' },
-        { name: 'Google AI News', url: 'https://news.google.com/rss/search?q=artificial+intelligence+enterprise+software&hl=en-IN&gl=IN&ceid=IN:en' }
+        { name: 'Google AI News', url: 'https://news.google.com/rss/search?q=artificial+intelligence+enterprise+software&hl=en-IN&gl=IN&ceid=IN:en' },
+        { name: 'Hacker News', url: 'https://hnrss.org/frontpage' },
+        { name: 'TechRadar', url: 'https://www.techradar.com/rss' },
+        { name: 'CNET', url: 'https://www.cnet.com/rss/news/' }
     ],
     'Stocks': [
         { name: 'Google News Stocks', url: 'https://news.google.com/rss/search?q=stock+market+india+nifty+sensex&hl=en-IN&gl=IN&ceid=IN:en' },
@@ -74,7 +88,9 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'NDTV Profit', url: 'https://feeds.feedburner.com/ndtvprofit-latest' },
         { name: 'Business Today Markets', url: 'https://www.businesstoday.in/rss/market' },
         { name: 'The Hindu BusinessLine Markets', url: 'https://www.thehindubusinessline.com/markets/?service=rss' },
-        { name: 'Yahoo Finance India', url: 'https://finance.yahoo.com/news/rssindex' }
+        { name: 'Yahoo Finance India', url: 'https://finance.yahoo.com/news/rssindex' },
+        { name: 'Investing.com', url: 'https://news.google.com/rss/search?q=when:24h+allinurl:investing.com/news/stock-market-news&hl=en-US&gl=US&ceid=US:en' },
+        { name: 'MarketWatch', url: 'http://feeds.marketwatch.com/marketwatch/topstories/' }
     ]
 };
 
@@ -170,23 +186,22 @@ export const BLOCKED_KEYWORDS = [
     'wicketkeeper', 'fielder', 'f1 race', 'grand prix', 'premier league',
     'super league', 'world cup', 't20', 'test match', 'odi match', 't20i',
     'playing xi', 'point table', 'scorecard', 'lbw', 'sixer', 'clean-bowled',
-    'atp', 'wta', 'paralympics', 'squad', 'clash', 'match', 'series', 'tournament',
-    'medal', 'pitch', 'cricketer', 'ind vs', 'zim vs', 'pak vs', 'aus vs', 'eng vs', 'v/s',
+    'atp', 'wta', 'paralympics', 'tournament', 'medal', 'cricketer',
+    'ind vs', 'zim vs', 'pak vs', 'aus vs', 'eng vs', 'v/s',
     'free tickets', 'chepauk', 'kotla', 'wankhede', 'lords cricket', 'ipl',
     'खेल', 'क्रिकेट', 'स्टेडियम',
     'ओलिंपिक', 'फुटबॉल', 'हॉकी', 'बैडमिंटन', 'कुश्ती',
-    'बल्लेबाज', 'गेंदबाज', 'खिलाड़ी', 'पिच', 'टूर्नामेंट', 'मैच',
+    'बल्लेबाज', 'गेंदबाज', 'खिलाड़ी', 'टूर्नामेंट',
     // Entertainment & Movies
     'movie', 'movies', 'film', 'films', 'cinema', 'bollywood', 'hollywood',
     'tollywood', 'kollywood', 'box office', 'ott', 'netflix', 'amazon prime',
     'disney+', 'hotstar', 'zee5', 'sonyliv', 'web series', 'tv show', 'tv serial',
-    'actor', 'actress', 'celebrity', 'celeb', 'star', 'stars', 'director', 'producer',
-    'trailer', 'teaser', 'review', 'release date', 'song', 'album', 'music video',
+    'celebrity', 'celeb', 'release date', 'song', 'album', 'music video',
     'award show', 'filmfare', 'iifa', 'oscars', 'grammy', 'bafta', 'cannes',
-    'red carpet', 'fashion', 'gossip', 'dating', 'breakup', 'marriage ceremony',
+    'red carpet', 'gossip', 'marriage ceremony',
     'wedding reception', 'baby shower', 'ex-boyfriend', 'ex-girlfriend',
     'entertainment', 'showbiz', 'limelight', 'paparazzi', 'fan club',
-    'फिल्म', 'सिनेमा', 'बॉलीवुड', 'अभिनेता', 'अभिनेत्री', 'सेलिब्रिटी',
+    'फिल्म', 'सिनेमा', 'बॉलीवुड', 'सेलिब्रिटी',
     'मनोरंजन', 'वेब सीरीज', 'टीवी शो', 'गाना', 'संगीत',
     // Adult / NSFW
     'onlyfans', 'only fans', 'adult content', 'porn', 'pornography', 'xxx',
@@ -367,8 +382,8 @@ export const normArticle = (item, feed, result, isHindi, category) => {
         imageUrl = '/logo.svg';
     }
 
-    const sentiment = analyzeSentiment(item.title, description);
-    const impact = analyzeImpact(item.title, description);
+    const sentiment = analyzeSentiment(item.title, description, category);
+    const impact = analyzeImpact(item.title, description, category);
 
     return {
         id: `${category}-${feed.name}-${Math.abs(item.link?.split('').reduce((a, b) => { a = ((a << 5) - a) + b.charCodeAt(0); return a & a; }, 0) || 0).toString(36)}`,
@@ -390,44 +405,98 @@ export const normArticle = (item, feed, result, isHindi, category) => {
 };
 
 /**
- * Heuristic sentiment analysis
+ * Advanced Financial & Geopolitical Sentiment Analysis
  */
-const analyzeSentiment = (title, desc) => {
+const analyzeSentiment = (title, desc, category) => {
     const text = `${title} ${desc}`.toLowerCase();
-    const pos = ['growth', 'surplus', 'bull', 'rally', 'profit', 'gain', 'rise', 'strong', 'positive', 'recovery', 'expansion', 'dividend', 'ipo success', 'success', 'uptick'];
-    const neg = ['loss', 'recession', 'slump', 'bear', 'crash', 'negative', 'weak', 'decline', 'crisis', 'inflation', 'debt', 'deficit', 'warns', 'drop', 'cut', 'layoff', 'insolvency'];
-
     let score = 0;
-    pos.forEach(w => { if (text.includes(w)) score++; });
-    neg.forEach(w => { if (text.includes(w)) score--; });
 
-    if (score > 0) return 'Positive';
-    if (score < 0) return 'Negative';
+    if (category === 'Stocks' || category === 'Economy' || category === 'Business') {
+        const strongPos = ['surge', 'soar', 'record high', 'breakout', 'outperform', 'upgrade', 'beat estimates', 'record profit', 'multi-bagger', 'bull run', 'surplus'];
+        const strongNeg = ['plunge', 'crash', 'collapse', 'downgrade', 'miss estimates', 'bankruptcy', 'liquidation', 'bear market', 'selloff', 'scam', 'default'];
+        const pos = ['growth', 'bull', 'rally', 'profit', 'gain', 'rise', 'strong', 'positive', 'recovery', 'expansion', 'dividend', 'success', 'uptick', 'hike'];
+        const neg = ['loss', 'recession', 'slump', 'bear', 'negative', 'weak', 'decline', 'crisis', 'inflation', 'debt', 'deficit', 'warns', 'drop', 'cut', 'layoff', 'insolvency', 'tax'];
+
+        strongPos.forEach(w => { if (new RegExp(`\\b${w}\\b`, 'i').test(text)) score += 2; });
+        strongNeg.forEach(w => { if (new RegExp(`\\b${w}\\b`, 'i').test(text)) score -= 2; });
+        pos.forEach(w => { if (new RegExp(`\\b${w}\\b`, 'i').test(text)) score += 1; });
+        neg.forEach(w => { if (new RegExp(`\\b${w}\\b`, 'i').test(text)) score -= 1; });
+    } else {
+        const strongPos = ['peace treaty', 'historic agreement', 'ceasefire', 'breakthrough', 'alliance'];
+        const strongNeg = ['war', 'invasion', 'terrorist', 'missile', 'sanction', 'assassination', 'airstrike', 'genocide'];
+        const pos = ['peace', 'truce', 'agreement', 'deal', 'partnership', 'growth', 'innovation', 'launch', 'pact'];
+        const neg = ['conflict', 'strike', 'attack', 'threat', 'tension', 'condemn', 'crisis', 'protest', 'riot', 'breach', 'hack', 'ban', 'casualty', 'escalate'];
+
+        strongPos.forEach(w => { if (new RegExp(`\\b${w}\\b`, 'i').test(text)) score += 2; });
+        strongNeg.forEach(w => { if (new RegExp(`\\b${w}\\b`, 'i').test(text)) score -= 2; });
+        pos.forEach(w => { if (new RegExp(`\\b${w}\\b`, 'i').test(text)) score += 1; });
+        neg.forEach(w => { if (new RegExp(`\\b${w}\\b`, 'i').test(text)) score -= 1; });
+    }
+
+    if (score >= 2) return 'Positive';
+    if (score <= -2) return 'Negative';
+    if (score === 1) return 'Positive';
+    if (score === -1) return 'Negative';
     return 'Neutral';
 };
 
 /**
- * Heuristic impact analysis
+ * Geopolitical & Financial Impact Scoring
  */
-const analyzeImpact = (title, desc) => {
+const analyzeImpact = (title, desc, category) => {
     const text = `${title} ${desc}`.toLowerCase();
-    const high = ['rbi', 'fed', 'federal reserve', 'central bank', 'policy', 'budget', 'war', 'sanctions', 'gdp', 'inflation data', 'crisis', 'emergency'];
-    const med = ['earning', 'acquisition', 'merger', 'funding', 'invest', 'billion', 'launch', 'partnership', 'ipo', 'stock'];
+    let impactScore = 0;
 
-    if (high.some(w => text.includes(w))) return 'High';
-    if (med.some(w => text.includes(w))) return 'Medium';
+    const critical = ['war', 'nuclear', 'assassination', 'invasion', 'federal reserve', 'rbi rate', 'pandemic', 'emergency', 'martial law', 'crash', 'black swan', 'terror attack'];
+    const high = ['sanctions', 'policy rate', 'interest rate', 'budget', 'gdp', 'inflation', 'military', 'strike', 'tariff', 'acquisition', 'merger', 'scam', 'central bank', 'election', 'supreme court'];
+    const med = ['earning', 'funding', 'invest', 'billion', 'launch', 'partnership', 'ipo', 'stock split', 'resignation', 'summit', 'diplomat', 'regulation'];
+
+    critical.forEach(w => { if (new RegExp(`\\b${w}\\b`, 'i').test(text)) impactScore += 3; });
+    high.forEach(w => { if (new RegExp(`\\b${w}\\b`, 'i').test(text)) impactScore += 2; });
+    med.forEach(w => { if (new RegExp(`\\b${w}\\b`, 'i').test(text)) impactScore += 1; });
+
+    if (impactScore >= 3) return 'High';
+    if (impactScore >= 1) return 'Medium';
     return 'Low';
 };
 
 /**
- * Checks if an article matches the keywords for a specific category.
+ * Smart Rule-Based Classification Model
+ * Verifies if an article genuinely belongs to a category using a weighted scoring system.
  */
 export const isArticleRelevant = (article, category) => {
     const keywords = CATEGORY_KEYWORDS[category] || [];
     if (keywords.length === 0) return true;
 
-    const text = `${article.title} ${article.shortDescription} ${article.fullContent}`.toLowerCase();
-    return keywords.some(kw => text.includes(kw.toLowerCase()));
+    const title = (article.title || '').toLowerCase();
+    const desc = (article.shortDescription || '').toLowerCase();
+    const content = (article.fullContent || '').toLowerCase();
+
+    let score = 0;
+
+    // Core keywords check with weighted scoring
+    keywords.forEach(kw => {
+        const word = kw.toLowerCase();
+
+        // Exact title match is a very strong indicator, description moderate, content weak
+        // Use exact word boundaries for single English words to prevent false positives.
+        // For phrases or non-English characters (like Hindi), fallback to simple includes.
+        const useRegex = !(/[^\w\s]/.test(word)) && !word.includes(' ');
+
+        if (useRegex) {
+            const regex = new RegExp(`\\b${word}\\b`, 'i');
+            if (regex.test(title)) score += 3;
+            else if (regex.test(desc)) score += 2;
+            else if (regex.test(content)) score += 1;
+        } else {
+            if (title.includes(word)) score += 3;
+            else if (desc.includes(word)) score += 2;
+            else if (content.includes(word)) score += 1;
+        }
+    });
+
+    // Require a minimum confidence score to be classified as relevant
+    return score > 0;
 };
 
 /**
@@ -483,11 +552,14 @@ export const isBlocked = (article) => {
     // 2. Keyword block
     if (BLOCKED_KEYWORDS.some(kw => text.includes(kw.toLowerCase()))) return true;
 
-    // 3. Staleness block (Strictly enforce 24-hour window)
+    // 3. Staleness block (24 hours normally, but extended to 72 hours on Weekends and Mondays to prevent blank screens)
     const pubDate = new Date(article.pubDate);
     if (!isNaN(pubDate.getTime())) {
         const threshold = new Date();
-        threshold.setHours(threshold.getHours() - 24);
+        const dayOfWeek = threshold.getDay(); // 0 = Sunday, 1 = Monday, 6 = Saturday
+        const maxStalenessHours = (dayOfWeek === 0 || dayOfWeek === 1 || dayOfWeek === 6) ? 72 : 24;
+
+        threshold.setHours(threshold.getHours() - maxStalenessHours);
         if (pubDate < threshold) return true;
     }
 

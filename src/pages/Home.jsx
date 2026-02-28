@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSearchParams, Link, useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+
 import { RefreshCcw, ChevronRight, ShieldAlert } from 'lucide-react';
 import NewsCard from '../components/NewsCard';
 import newsFallbackData from '../data/newsData.json';
@@ -13,11 +13,11 @@ const DEFAULT_IMG = 'https://images.unsplash.com/photo-1504711434969-e33886168f5
 const homeNewsCache = {};
 
 const Home = () => {
-    const { t, i18n } = useTranslation();
+
     const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
     const categoryFilter = searchParams.get('category');
-    const lk = i18n.language?.startsWith('hi') ? 'hi' : 'en';
+    const lk = false ? 'hi' : 'en';
     const cached = homeNewsCache[lk] || {};
 
     const [newsData, setNewsData] = useState(cached);
@@ -44,7 +44,7 @@ const Home = () => {
             if (!isBackground) setLoading(true);
             else setSyncing(true);
 
-            const isHindi = i18n.language?.startsWith('hi');
+            const isHindi = false;
             const currentFeeds = isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS;
             const allCats = Object.keys(currentFeeds);
 
@@ -198,10 +198,10 @@ const Home = () => {
             setSyncing(false);
             setLastUpdated(new Date());
         }
-    }, [i18n.language]);
+    }, ['en']);
 
     useEffect(() => {
-        const langKey = i18n.language?.startsWith('hi') ? 'hi' : 'en';
+        const langKey = false ? 'hi' : 'en';
         const hasCached = Object.keys(homeNewsCache[langKey] || {}).length > 0;
 
         if (!hasCached) {
@@ -223,7 +223,7 @@ const Home = () => {
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [fetchAllNews, i18n.language]);
+    }, [fetchAllNews, 'en']);
 
 
 
@@ -233,7 +233,7 @@ const Home = () => {
             <div className="min-h-screen bg-slate-900 flex items-center justify-center">
                 <div className="flex flex-col items-center gap-4">
                     <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-                    <p className="text-slate-400 font-medium animate-pulse">{t('fetching_headlines')}</p>
+                    <p className="text-slate-400 font-medium animate-pulse">'Fetching headlines...'</p>
                 </div>
             </div>
         );
@@ -243,20 +243,20 @@ const Home = () => {
         return (
             <div className="min-h-screen bg-slate-900 flex items-center justify-center text-white p-4">
                 <div className="text-center">
-                    <h2 className="text-2xl font-bold mb-4 text-red-500">{t('sync_failed')}</h2>
+                    <h2 className="text-2xl font-bold mb-4 text-red-500">Sync Failed</h2>
                     <p className="text-slate-400">{error}</p>
                     <button
                         onClick={() => window.location.reload()}
                         className="mt-6 bg-blue-600 px-6 py-2 rounded-full hover:bg-blue-500 transition-colors"
                     >
-                        {t('reconnect_feed')}
+                        Reconnect Feed
                     </button>
                 </div>
             </div>
         );
     }
 
-    const isHindi = i18n.language?.startsWith('hi');
+    const isHindi = false;
     const fixedOrder = Object.keys(isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS);
     const allCategories = fixedOrder.filter(cat => newsData[cat]);
     const categoriesToRender = categoryFilter
@@ -265,7 +265,7 @@ const Home = () => {
 
     return (
         <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-screen-2xl mx-auto">
                 <header className="mb-16 text-center">
                     <div className="flex flex-col items-center gap-4 mb-4">
                         <div className="flex flex-col items-center gap-1">
@@ -273,7 +273,7 @@ const Home = () => {
                                 {syncing ? (
                                     <>
                                         <RefreshCcw className="w-3 h-3 animate-spin text-blue-400" />
-                                        {t('syncing') || 'Syncing...'}
+                                        {'Syncing...'}
                                     </>
                                 ) : (
                                     <>
@@ -281,7 +281,7 @@ const Home = () => {
                                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                                             <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
                                         </span>
-                                        {t('live_network')}
+                                        {'Live: GFS Global Network'}
                                     </>
                                 )}
                             </span>
@@ -294,12 +294,12 @@ const Home = () => {
                         </div>
                     </div>
                     <h1 className="text-4xl md:text-7xl font-extrabold text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 inline-block font-display tracking-tight text-center w-full">
-                        {categoryFilter ? t(`categories.${categoryFilter.toLowerCase()}`) + ' Updates' : t('one_platform')}
+                        {categoryFilter ? categoryFilter + ' Updates' : 'Relevant News'}
                     </h1>
                     <p className="text-slate-400 max-w-2xl mx-auto text-lg md:text-xl font-light">
                         {categoryFilter
-                            ? t('hero_subtitle_category', { category: t(`categories.${categoryFilter.toLowerCase()}`).toLowerCase() })
-                            : t('hero_subtitle_default')
+                            ? `Real-time intelligence and updates for ${categoryFilter}.`
+                            : 'Your command center for global business, technology, and strategic shifts.'
                         }
                     </p>
 
@@ -313,7 +313,7 @@ const Home = () => {
                                 <div className="flex items-center gap-4">
                                     <div className="h-8 w-1.5 bg-blue-600 rounded-full"></div>
                                     <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-                                        {t(`categories.${cat.toLowerCase()}`)}
+                                        {cat}
                                     </h2>
                                     {newsData[cat]?.length > 0 && (
                                         <span className="text-[10px] font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full tracking-widest uppercase">
@@ -333,7 +333,7 @@ const Home = () => {
                                             to={route}
                                             className="text-slate-400 hover:text-blue-400 flex items-center gap-1 text-sm font-bold uppercase tracking-widest transition-colors group"
                                         >
-                                            {t('view_all')}
+                                            VIEW ALL
                                             <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                                         </Link>
                                     ) : null;
@@ -346,7 +346,9 @@ const Home = () => {
                                     if (a.isFallback) return true;
                                     const pubDate = new Date(a.pubDate);
                                     if (isNaN(pubDate.getTime())) return true;
-                                    return (now - pubDate) / 3600000 < 24;
+                                    const dayOfWeek = now.getDay();
+                                    const maxH = (dayOfWeek === 0 || dayOfWeek === 1 || dayOfWeek === 6) ? 72 : 24;
+                                    return (now - pubDate) / 3600000 < maxH;
                                 });
                                 return filtered.length > 0 ? (
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -358,7 +360,7 @@ const Home = () => {
                                                         <div className="absolute top-4 right-4 z-10">
                                                             <span className="bg-slate-800/90 text-slate-400 text-[10px] font-bold px-2 py-1 rounded shadow-lg border border-slate-700/50 flex items-center gap-1 backdrop-blur-sm">
                                                                 <ShieldAlert className="w-3 h-3" />
-                                                                {t('featured') || 'FEATURED'}
+                                                                {'FEATURED'}
                                                             </span>
                                                         </div>
                                                     )}
@@ -372,17 +374,17 @@ const Home = () => {
                                             <ShieldAlert className="w-8 h-8 text-slate-500" />
                                         </div>
                                         <h3 className="text-xl font-bold text-white mb-2">
-                                            {t('no_news_found') || 'No News Found'}
+                                            {'No News Found'}
                                         </h3>
                                         <p className="text-slate-400 max-w-sm mx-auto mb-6 text-sm">
-                                            No news found in the last 24 hours for {t(`categories.${cat.toLowerCase()}`)}.
+                                            No news found in the last 24 hours for {cat}.
                                         </p>
                                         <button
                                             onClick={() => fetchAllNews()}
                                             className="bg-blue-600/10 text-blue-400 px-6 py-2 rounded-xl border border-blue-500/20 hover:bg-blue-600/20 transition-all font-bold text-xs flex items-center gap-2 uppercase tracking-widest"
                                         >
                                             <RefreshCcw className={`w-3 h-3 ${syncing ? 'animate-spin' : ''}`} />
-                                            {t('reconnect_feed')}
+                                            Reconnect Feed
                                         </button>
                                     </div>
                                 );

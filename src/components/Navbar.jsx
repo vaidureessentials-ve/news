@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { Menu, X } from 'lucide-react';
-import LanguageSelector from './LanguageSelector';
 
 const Navbar = () => {
-    const { t } = useTranslation();
     const location = useLocation();
     const [menuOpen, setMenuOpen] = useState(false);
 
     const categories = [
-        { id: 'Geopolitical', label: t('categories.geopolitical'), route: '/geopolitics' },
-        { id: 'Economy', label: t('categories.economy'), route: '/economy' },
-        { id: 'Business', label: t('categories.business'), route: '/business' },
-        { id: 'Tech', label: t('categories.tech'), route: '/tech' },
-        { id: 'Stocks', label: t('categories.stocks'), route: '/stocks' },
+        { id: 'Geopolitical', label: 'Geopolitical', route: '/geopolitics' },
+        { id: 'Economy', label: 'Economy', route: '/economy' },
+        { id: 'Business', label: 'Business', route: '/business' },
+        { id: 'Tech', label: 'Tech', route: '/tech' },
+        { id: 'Stocks', label: 'Stocks', route: '/stocks' },
         { id: 'Data', label: 'Data Insights', route: '/data' },
     ];
 
@@ -29,7 +26,7 @@ const Navbar = () => {
 
     return (
         <nav className="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
                 {/* Logo */}
                 <Link
                     to="/"
@@ -42,7 +39,7 @@ const Navbar = () => {
                         className="h-14 w-auto object-contain rounded-xl bg-slate-800/50 p-1 border border-slate-700/50"
                     />
                     <span className="text-2xl font-bold text-white tracking-tight">
-                        {t('app_name')}
+                        News
                     </span>
                 </Link>
 
@@ -63,7 +60,6 @@ const Navbar = () => {
 
                 {/* Right side */}
                 <div className="flex items-center gap-3">
-                    <LanguageSelector />
                     {/* Hamburger — mobile only */}
                     <button
                         className="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
@@ -78,7 +74,7 @@ const Navbar = () => {
             {/* Mobile dropdown */}
             {menuOpen && (
                 <div className="md:hidden border-t border-slate-800 bg-slate-900/95 backdrop-blur-md">
-                    <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1">
+                    <div className="max-w-screen-2xl mx-auto px-4 py-4 flex flex-col gap-1">
                         {categories.map((cat) => (
                             <Link
                                 key={cat.id}

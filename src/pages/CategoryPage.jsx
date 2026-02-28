@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { RefreshCcw, ShieldAlert } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+
 import NewsCard from '../components/NewsCard';
 import newsFallbackData from '../data/newsData.json';
 import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, BLOCKED_KEYWORDS, CATEGORY_KEYWORDS, CATEGORY_META, normArticle, isArticleRelevant, isBlocked, parseXML, diversifySources } from '../data/feeds';
@@ -45,8 +45,8 @@ const PROXY_STRATEGIES = [
 const newsCache = {};
 
 const CategoryPage = ({ category }) => {
-    const { t, i18n } = useTranslation();
-    const langCode = i18n.language?.startsWith('hi') ? 'hi' : 'en';
+
+    const langCode = false ? 'hi' : 'en';
     const initialCacheKey = `${category}-${langCode}`;
     const cached = newsCache[initialCacheKey] || [];
 
@@ -58,9 +58,12 @@ const CategoryPage = ({ category }) => {
 
     const meta = CATEGORY_META[category] || CATEGORY_META['Tech'];
 
+    const activeCategoryRef = React.useRef(category);
+
     // Scroll to top on mount
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        activeCategoryRef.current = category;
     }, [category]);
 
 
@@ -69,7 +72,7 @@ const CategoryPage = ({ category }) => {
             if (!isBackground) setLoading(true);
             else setSyncing(true);
 
-            const currentLang = i18n.language || 'en';
+            const currentLang = 'en';
             const isHindi = currentLang.startsWith('hi');
             const langCode = isHindi ? 'hi' : 'en';
             const allFeeds = isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS;
@@ -92,6 +95,9 @@ const CategoryPage = ({ category }) => {
                 if (articles.length > 0) {
                     // Show articles immediately as this feed completes
                     setNews(prev => {
+                        // Crucial check: Prevent stale closure leak if user has navigated to another tab
+                        if (activeCategoryRef.current !== category) return prev;
+
                         const existingUrls = new Set(prev.map(a => a.sourceUrl));
                         const fresh = articles.filter(a => !existingUrls.has(a.sourceUrl));
                         if (fresh.length === 0) return prev;
@@ -123,6 +129,7 @@ const CategoryPage = ({ category }) => {
 
             // Fallback if still nothing after all feeds
             setNews(prev => {
+                if (activeCategoryRef.current !== category) return prev;
                 if (prev.length > 0) return prev;
                 const fallback = newsFallbackData
                     .filter(item => item.category === category)
@@ -146,11 +153,11 @@ const CategoryPage = ({ category }) => {
             setLoading(false);
             setSyncing(false);
         }
-    }, [category, i18n.language, meta.defaultImage]);
+    }, [category, 'en', meta.defaultImage]);
 
     // Re-fetch when category or language changes
     useEffect(() => {
-        const langCode = i18n.language?.startsWith('hi') ? 'hi' : 'en';
+        const langCode = false ? 'hi' : 'en';
         const key = `${category}-${langCode}`;
         const hasCached = (newsCache[key] || []).length > 0;
 
@@ -176,12 +183,11 @@ const CategoryPage = ({ category }) => {
 
         return () => clearInterval(timer);
     }, [category, fetchNews]);
-
-    const categoryLabel = t(`categories.${category.toLowerCase()}`) || category;
+    const categoryLabel = category;
 
     return (
         <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-screen-2xl mx-auto">
 
                 {/* Hero Header */}
                 <header className="mb-16 text-center">
@@ -190,7 +196,7 @@ const CategoryPage = ({ category }) => {
                             {syncing ? (
                                 <>
                                     <RefreshCcw className="w-3 h-3 animate-spin text-blue-400" />
-                                    {t('syncing') || 'Syncing...'}
+                                    {'Syncing...'}
                                 </>
                             ) : (
                                 <>
@@ -198,7 +204,7 @@ const CategoryPage = ({ category }) => {
                                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                                         <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
                                     </span>
-                                    {t('live_network') || 'Live: GFS Global Network'}
+                                    {'Live: GFS Global Network'}
                                 </>
                             )}
                         </span>
@@ -237,14 +243,16 @@ const CategoryPage = ({ category }) => {
                         if (a.isFallback) return true;
                         const pubDate = new Date(a.pubDate);
                         if (isNaN(pubDate.getTime())) return true;
-                        return (now - pubDate) / 3600000 < 24;
+                        const dayOfWeek = now.getDay();
+                        const maxH = (dayOfWeek === 0 || dayOfWeek === 1 || dayOfWeek === 6) ? 72 : 24;
+                        return (now - pubDate) / 3600000 < maxH;
                     });
 
                     if (loading && news.length === 0) {
                         return (
                             <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
                                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-                                <p className="text-slate-400 font-medium animate-pulse">{t('fetching_headlines') || 'Fetching headlines...'}</p>
+                                <p className="text-slate-400 font-medium animate-pulse">{'Fetching headlines...'}</p>
                             </div>
                         );
                     }
@@ -259,7 +267,7 @@ const CategoryPage = ({ category }) => {
                                                 <div className="absolute top-4 right-4 z-10">
                                                     <span className="bg-slate-800/90 text-slate-400 text-[10px] font-bold px-2 py-1 rounded shadow-lg border border-slate-700/50 flex items-center gap-1 backdrop-blur-sm">
                                                         <ShieldAlert className="w-3 h-3" />
-                                                        {t('featured') || 'FEATURED'}
+                                                        {'FEATURED'}
                                                     </span>
                                                 </div>
                                             )}
@@ -275,7 +283,7 @@ const CategoryPage = ({ category }) => {
                             <div className="bg-slate-800/50 p-6 rounded-full mb-6 border border-slate-700/50">
                                 <ShieldAlert className="w-10 h-10 text-slate-500" />
                             </div>
-                            <h3 className="text-xl font-bold text-white mb-2">{t('no_news_found') || 'No Articles Found'}</h3>
+                            <h3 className="text-xl font-bold text-white mb-2">{'No Articles Found'}</h3>
                             <p className="text-slate-400 max-w-sm mx-auto mb-6 text-sm">
                                 No articles from the last 24 hours found for {categoryLabel}.
                             </p>
@@ -284,7 +292,7 @@ const CategoryPage = ({ category }) => {
                                 className="bg-blue-600/20 text-blue-400 px-6 py-2 rounded-xl border border-blue-500/20 hover:bg-blue-600/30 transition-all font-bold text-xs flex items-center gap-2 uppercase tracking-widest"
                             >
                                 <RefreshCcw className="w-3 h-3" />
-                                {t('reconnect_feed')}
+                                Reconnect Feed
                             </button>
                         </div>
                     );

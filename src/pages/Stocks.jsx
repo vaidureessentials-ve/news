@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { RefreshCcw, ShieldAlert } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+
 import NewsCard from '../components/NewsCard';
 import newsFallbackData from '../data/newsData.json';
 
@@ -10,8 +10,8 @@ import { EN_CATEGORY_FEEDS, HI_CATEGORY_FEEDS, BLOCKED_KEYWORDS, CATEGORY_KEYWOR
 const stockNewsCache = {};
 
 const Stocks = () => {
-    const { t, i18n } = useTranslation();
-    const langKey = i18n.language?.startsWith('hi') ? 'hi' : 'en';
+
+    const langKey = false ? 'hi' : 'en';
     const cached = stockNewsCache[langKey] || [];
 
     const [news, setNews] = useState(cached);
@@ -25,7 +25,7 @@ const Stocks = () => {
             if (!isBackground) setLoading(true);
             else setSyncing(true);
 
-            const isHindi = i18n.language?.startsWith('hi');
+            const isHindi = false;
             const allFeeds = isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS;
             const feeds = allFeeds['Stocks'] || [];
 
@@ -95,7 +95,7 @@ const Stocks = () => {
                             });
                         }
                         // Save to cache so revisit is instant
-                        const lk = i18n.language?.startsWith('hi') ? 'hi' : 'en';
+                        const lk = false ? 'hi' : 'en';
                         stockNewsCache[lk] = diversified;
                         return diversified;
                     });
@@ -130,7 +130,7 @@ const Stocks = () => {
             setLoading(false);
             setSyncing(false);
         }
-    }, [i18n.language]);
+    }, ['en']);
 
     // Scroll to top on mount / tab switch
     useEffect(() => {
@@ -139,7 +139,7 @@ const Stocks = () => {
 
     // Reset + initial fetch on language change
     useEffect(() => {
-        const lk = i18n.language?.startsWith('hi') ? 'hi' : 'en';
+        const lk = false ? 'hi' : 'en';
         const hasCached = (stockNewsCache[lk] || []).length > 0;
 
         if (!hasCached) {
@@ -163,11 +163,11 @@ const Stocks = () => {
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [fetchMarketNews, i18n.language]);
+    }, [fetchMarketNews, 'en']);
 
     return (
         <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-screen-2xl mx-auto">
                 {/* Hero Header — matches Home page category style */}
                 <header className="mb-16 text-center">
                     <div className="flex flex-col items-center gap-4 mb-4">
@@ -176,7 +176,7 @@ const Stocks = () => {
                                 {syncing ? (
                                     <>
                                         <RefreshCcw className="w-3 h-3 animate-spin text-blue-400" />
-                                        {t('syncing') || 'Syncing...'}
+                                        {'Syncing...'}
                                     </>
                                 ) : (
                                     <>
@@ -184,7 +184,7 @@ const Stocks = () => {
                                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                                             <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
                                         </span>
-                                        {t('live_network') || 'Live: GFS Global Network'}
+                                        {'Live: GFS Global Network'}
                                     </>
                                 )}
                             </span>
@@ -198,7 +198,7 @@ const Stocks = () => {
                     </div>
 
                     <h1 className="text-4xl md:text-7xl font-extrabold text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 inline-block font-display tracking-tight text-center w-full">
-                        {t('categories.stocks')} Updates
+                        Stocks Updates
                     </h1>
                     <p className="text-slate-400 max-w-2xl mx-auto text-lg md:text-xl font-light">
                         Real-time market intelligence — stocks, indices, IPOs, and financial developments across India and global markets.
@@ -208,7 +208,7 @@ const Stocks = () => {
                     {news.length > 0 && (
                         <div className="mt-8 flex items-center gap-4 border-b border-slate-800 pb-4 text-left">
                             <div className="h-8 w-1.5 bg-blue-600 rounded-full"></div>
-                            <span className="text-2xl md:text-3xl font-bold text-white tracking-tight">{t('categories.stocks')}</span>
+                            <span className="text-2xl md:text-3xl font-bold text-white tracking-tight">Stocks</span>
                             <span className="text-[10px] font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full tracking-widest uppercase">
                                 {news.length}
                             </span>
@@ -224,14 +224,16 @@ const Stocks = () => {
                         if (a.isFallback) return true;
                         const pubDate = new Date(a.pubDate);
                         if (isNaN(pubDate.getTime())) return true;
-                        return (now - pubDate) / 3600000 < 24;
+                        const dayOfWeek = now.getDay();
+                        const maxH = (dayOfWeek === 0 || dayOfWeek === 1 || dayOfWeek === 6) ? 72 : 24;
+                        return (now - pubDate) / 3600000 < maxH;
                     });
 
                     if (loading && news.length === 0) {
                         return (
                             <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
                                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-                                <p className="text-slate-400 font-medium animate-pulse">{t('fetching_headlines') || 'Fetching market headlines...'}</p>
+                                <p className="text-slate-400 font-medium animate-pulse">{'Fetching market headlines...'}</p>
                             </div>
                         );
                     }
@@ -246,7 +248,7 @@ const Stocks = () => {
                                                 <div className="absolute top-4 right-4 z-10">
                                                     <span className="bg-slate-800/90 text-slate-400 text-[10px] font-bold px-2 py-1 rounded shadow-lg border border-slate-700/50 flex items-center gap-1 backdrop-blur-sm">
                                                         <ShieldAlert className="w-3 h-3" />
-                                                        {t('featured') || 'FEATURED'}
+                                                        {'FEATURED'}
                                                     </span>
                                                 </div>
                                             )}
@@ -262,7 +264,7 @@ const Stocks = () => {
                             <div className="bg-slate-800/50 p-6 rounded-full mb-6 border border-slate-700/50">
                                 <ShieldAlert className="w-10 h-10 text-slate-500" />
                             </div>
-                            <h3 className="text-xl font-bold text-white mb-2">{t('no_news_found') || 'No Market Data Found'}</h3>
+                            <h3 className="text-xl font-bold text-white mb-2">{'No Market Data Found'}</h3>
                             <p className="text-slate-400 max-w-sm mx-auto mb-6 text-sm">
                                 No stock market updates found in the last 24 hours.
                             </p>
@@ -271,7 +273,7 @@ const Stocks = () => {
                                 className="bg-blue-600/20 text-blue-400 px-6 py-2 rounded-xl border border-blue-500/20 hover:bg-blue-600/30 transition-all font-bold text-xs flex items-center gap-2 uppercase tracking-widest"
                             >
                                 <RefreshCcw className="w-3 h-3" />
-                                {t('reconnect_feed')}
+                                Reconnect Feed
                             </button>
                         </div>
                     );
