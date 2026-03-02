@@ -465,6 +465,11 @@ const analyzeImpact = (title, desc, category) => {
  * Verifies if an article genuinely belongs to a category using a weighted scoring system.
  */
 export const isArticleRelevant = (article, category) => {
+    // Aggregator feeds like Google News need strict keyword filtering.
+    // Curated feeds (ET, Livemint, etc.) are trusted to prevent empty categories.
+    const isAggregator = article.sourceName && article.sourceName.toLowerCase().includes('google');
+    if (!isAggregator) return true;
+
     const keywords = CATEGORY_KEYWORDS[category] || [];
     if (keywords.length === 0) return true;
 
