@@ -562,7 +562,7 @@ export const isBlocked = (article) => {
     if (!isNaN(pubDate.getTime())) {
         const threshold = new Date();
         const dayOfWeek = threshold.getDay(); // 0 = Sunday, 1 = Monday, 6 = Saturday
-        const maxStalenessHours = (dayOfWeek === 0 || dayOfWeek === 1 || dayOfWeek === 6) ? 72 : 24;
+        const maxStalenessHours = (dayOfWeek === 0 || dayOfWeek === 1 || dayOfWeek === 6) ? 72 : 48;
 
         threshold.setHours(threshold.getHours() - maxStalenessHours);
         if (pubDate < threshold) return true;
