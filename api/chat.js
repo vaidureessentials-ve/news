@@ -1,4 +1,4 @@
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -17,7 +17,8 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'GEMINI_API_KEY is not configured' });
         }
 
-        const ai = new GoogleGenAI({ apiKey });
+        const genAI = new GoogleGenerativeAI(apiKey);
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
         const prompt = `
 You are a news analysis chatbot.
@@ -33,14 +34,16 @@ Specifically, format your answer strictly into these sections:
 If you cannot find exact news, give a general analysis based on the topic. Provide the output in markdown.
 `;
 
-        const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
-            contents: [{ role: 'user', parts: [{ text: prompt }] }],
-        });
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
 
-        res.status(200).json({ reply: response.text });
+        res.status(200).json({ reply: text });
     } catch (error) {
         console.error('Gemini API error:', error);
-        res.status(500).json({ error: 'Failed to process the request' });
+        res.status(500).json({
+            error: error.message || 'Failed to process the request',
+            details: error.toString()
+        });
     }
 }
