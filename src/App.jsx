@@ -7,6 +7,7 @@ import Stocks from './pages/Stocks';
 import CategoryPage from './pages/CategoryPage';
 import LatestNews from './pages/LatestNews';
 import Data from './pages/Data';
+import ChatbotWidget from './components/ChatbotWidget';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/geopolitics" element={<CategoryPage category="Geopolitical" />} />
           <Route path="/data" element={<Data />} />
         </Routes>
+        <ChatbotWidget />
       </div>
     </Router>
   );

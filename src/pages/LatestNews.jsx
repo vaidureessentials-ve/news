@@ -113,6 +113,12 @@ const LatestNews = () => {
     useEffect(() => {
         fetchAllNewsData();
         window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        const timer = setInterval(() => {
+            fetchAllNewsData(true);
+        }, 30000); // Fetch every 30 seconds
+
+        return () => clearInterval(timer);
     }, [fetchAllNewsData]);
 
 
@@ -151,9 +157,7 @@ const LatestNews = () => {
                         if (a.isFallback) return true;
                         const pubDate = new Date(a.pubDate);
                         if (isNaN(pubDate.getTime())) return true;
-                        const dayOfWeek = now.getDay();
-                        const maxH = (dayOfWeek === 0 || dayOfWeek === 1 || dayOfWeek === 6) ? 72 : 24;
-                        return (now - pubDate) / 3600000 < maxH;
+                        return (now - pubDate) / 3600000 < 24; // Strictly 24 hours
                     });
 
                     if (loading && news.length === 0) {

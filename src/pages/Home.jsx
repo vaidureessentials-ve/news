@@ -347,7 +347,7 @@ const Home = () => {
                                     const pubDate = new Date(a.pubDate);
                                     if (isNaN(pubDate.getTime())) return true;
                                     const dayOfWeek = now.getDay();
-                                    const maxH = (dayOfWeek === 0 || dayOfWeek === 1 || dayOfWeek === 6) ? 72 : 48;
+                                    const maxH = 24; // Strictly 24 hours
                                     return (now - pubDate) / 3600000 < maxH;
                                 });
                                 return filtered.length > 0 ? (
@@ -377,7 +377,7 @@ const Home = () => {
                                             {'No News Found'}
                                         </h3>
                                         <p className="text-slate-400 max-w-sm mx-auto mb-6 text-sm">
-                                            No news found in the last 48 hours for {cat}.
+                                            No news found in the last 24 hours for {cat}.
                                         </p>
                                         <button
                                             onClick={() => fetchAllNews()}

@@ -34,7 +34,8 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'Google Trade', url: 'https://news.google.com/rss/search?q=india+trade+export+import&hl=en-IN&gl=IN&ceid=IN:en' },
         { name: 'WSJ Economy', url: 'https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml' },
         { name: 'CNBC Economy', url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258' },
-        { name: 'Financial Times', url: 'https://news.google.com/rss/search?q=when:24h+allinurl:ft.com&hl=en-US&gl=US&ceid=US:en' }
+        { name: 'Financial Times', url: 'https://news.google.com/rss/search?q=when:24h+allinurl:ft.com&hl=en-US&gl=US&ceid=US:en' },
+        { name: 'Business Today', url: 'https://www.businesstoday.in/rssfeeds/?id=112046' }
     ],
     'Business': [
         { name: 'Economic Times', url: 'https://economictimes.indiatimes.com/news/industry/rssfeeds/13352306.cms' },
@@ -99,13 +100,11 @@ export const EN_CATEGORY_FEEDS = {
 // ─────────────────────────────────────────────────────────────
 export const HI_CATEGORY_FEEDS = {
     'Geopolitical': [
-        { name: 'BBC Hindi', url: 'https://www.bbc.com/hindi/index.xml' },
-        { name: 'LH International', url: 'https://api.livehindustan.com/feeds/rss/international/rssfeed.xml' },
-        { name: 'Google News Hindi', url: 'https://news.google.com/rss?hl=hi&gl=IN&ceid=IN:hi' },
+        { name: 'Live Hindustan World', url: 'https://api.livehindustan.com/feeds/rss/international/rssfeed.xml' },
         { name: 'Aaj Tak World', url: 'https://www.aajtak.in/rss/world.xml' },
-        { name: 'NDTV India World', url: 'https://feeds.feedburner.com/ndtvindia' },
-        { name: 'ABP World', url: 'https://www.abplive.com/world/feed' },
-        { name: 'Navbharat World', url: 'https://navbharattimes.indiatimes.com/world/rss.cms' }
+        { name: 'NDTV World Hindi', url: 'https://feeds.feedburner.com/ndtvindia-world' },
+        { name: 'ABP World', url: 'https://www.abplive.com/lifestyle/travel/feed' },
+        { name: 'Google World Hindi', url: 'https://news.google.com/rss/search?q=world+geopolitics+international&hl=hi&gl=IN&ceid=IN:hi' }
     ],
     'Economy': [
         { name: 'Live Hindustan Eco', url: 'https://api.livehindustan.com/feeds/rss/career/rssfeed.xml' },
@@ -149,7 +148,7 @@ export const CATEGORY_KEYWORDS = {
     'Economy': [
         'economy', 'gdp', 'inflation', 'fiscal', 'rbi', 'budget', 'tax', 'interest rate',
         'monetary', 'policy', 'recession', 'growth', 'trade', 'export', 'import', 'india', 'global',
-        'bank', 'finance', 'economic', 'development', 'investment',
+        'bank', 'finance', 'economic', 'development', 'investment', 'rupee', 'forex', 'jobs', 'employment',
         'अर्थव्यवस्था', 'जीडीपी', 'मुद्रास्फीति', 'बजट', 'कर', 'आरबीआई'
     ],
     'Business': [
@@ -217,7 +216,7 @@ export const BLOCKED_KEYWORDS = [
     'call of duty', 'fortnite', 'minecraft', 'roblox', 'valorant',
     'league of legends', 'dota', 'mobile legends', 'bgmi', 'pubg',
     'console game', 'rpg game', 'fps game', 'game release', 'dlc',
-    // Product Reviews & Lifestyle
+    // Product Reviews, Lifestyle & Personal Problems
     "we've tested", "we have tested", 'best we tested', 'on sale',
     'buyer guide', "buyer's guide", 'best buy', 'top picks', 'top 5',
     'best coffee', 'coffee grinder', 'coffee maker', 'coffee brewer',
@@ -228,7 +227,12 @@ export const BLOCKED_KEYWORDS = [
     'shopping guide', 'gift guide', 'deal alert', 'limited time offer',
     'comparison', 'vs phone', 'vs smartphone', 'specs comparison', 'unboxing',
     'sale price', 'discount code', 'best deal', 'gadget review',
-    'lifestyle', 'home decor', 'interior design', 'recipe', 'cooking'
+    'lifestyle', 'home decor', 'interior design', 'recipe', 'cooking',
+    'my husband', 'my wife', 'my boss', 'my career', 'my job', 'i don\'t earn',
+    'unemployed husband', 'marriage advice', 'relationship advice', 'divorce',
+
+    // Finance / Credit Card Ads
+    '0% intro', 'intro apr', '0% apr', 'credit card offer', 'credit score'
 ];
 
 // ─────────────────────────────────────────────────────────────
@@ -466,9 +470,10 @@ const analyzeImpact = (title, desc, category) => {
  */
 export const isArticleRelevant = (article, category) => {
     // Aggregator feeds like Google News need strict keyword filtering.
-    // Curated feeds (ET, Livemint, etc.) are trusted to prevent empty categories.
+    // Curated feeds (ET, Livemint, etc.) are trusted to prevent empty categories, EXCEPT for Stocks,
+    // where we want to be strict to avoid general business news bleeding in.
     const isAggregator = article.sourceName && article.sourceName.toLowerCase().includes('google');
-    if (!isAggregator) return true;
+    if (!isAggregator && category !== 'Stocks') return true;
 
     const keywords = CATEGORY_KEYWORDS[category] || [];
     if (keywords.length === 0) return true;
@@ -557,12 +562,11 @@ export const isBlocked = (article) => {
     // 2. Keyword block
     if (BLOCKED_KEYWORDS.some(kw => text.includes(kw.toLowerCase()))) return true;
 
-    // 3. Staleness block (24 hours normally, but extended to 72 hours on Weekends and Mondays to prevent blank screens)
+    // 3. Staleness block (Strictly 24 hours)
     const pubDate = new Date(article.pubDate);
     if (!isNaN(pubDate.getTime())) {
         const threshold = new Date();
-        const dayOfWeek = threshold.getDay(); // 0 = Sunday, 1 = Monday, 6 = Saturday
-        const maxStalenessHours = (dayOfWeek === 0 || dayOfWeek === 1 || dayOfWeek === 6) ? 72 : 48;
+        const maxStalenessHours = 24;
 
         threshold.setHours(threshold.getHours() - maxStalenessHours);
         if (pubDate < threshold) return true;
