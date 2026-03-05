@@ -17,7 +17,7 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'GEMINI_API_KEY is not configured' });
         }
 
-        const genAI = new GoogleGenerativeAI(apiKey);
+        const genAI = new GoogleGenerativeAI(apiKey, { apiVersion: 'v1' });
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
         const prompt = `
