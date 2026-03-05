@@ -35,7 +35,7 @@ If you cannot find exact news, give a general analysis based on the topic. Provi
 
         const response = await ai.models.generateContent({
             model: 'gemini-1.5-flash',
-            contents: prompt,
+            contents: [{ role: 'user', parts: [{ text: prompt }] }],
         });
 
         res.status(200).json({ reply: response.text });
