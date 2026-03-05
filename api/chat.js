@@ -34,7 +34,7 @@ If you cannot find exact news, give a general analysis based on the topic. Provi
 `;
 
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-1.5-flash',
             contents: prompt,
         });
 

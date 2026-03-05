@@ -31,31 +31,19 @@ const ChatbotWidget = () => {
         setIsLoading(true);
 
         try {
-            const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-            if (!apiKey) {
-                throw new Error("VITE_GEMINI_API_KEY is not configured in your .env file.");
-            }
-
-            const ai = new GoogleGenAI({ apiKey });
-            const prompt = `
-You are a news analysis chatbot.
-The user is asking about the following news title or topic: "${userMsg}"
-
-Analyze this news topic and provide a detailed summary. 
-Specifically, format your answer strictly into these sections:
-1. **Summary**: A brief overview.
-2. **Positive Points**: List the positive aspects.
-3. **Negative Points**: List the negative aspects.
-4. **Conclusion**: A final overall conclusion.
-
-If you cannot find exact news, give a general analysis based on the topic. Provide the output in markdown.`;
-
-            const response = await ai.models.generateContent({
-                model: 'gemini-2.5-flash',
-                contents: prompt,
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: userMsg })
             });
 
-            setMessages(prev => [...prev, { role: 'bot', content: response.text }]);
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to get response');
+            }
+
+            const data = await response.json();
+            setMessages(prev => [...prev, { role: 'bot', content: data.reply }]);
         } catch (error) {
             console.error('Chat error:', error);
             setMessages(prev => [...prev, { role: 'bot', content: `Error: ${error.message}` }]);
