@@ -37,6 +37,19 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'Financial Times', url: 'https://news.google.com/rss/search?q=when:24h+allinurl:ft.com&hl=en-US&gl=US&ceid=US:en' },
         { name: 'Business Today', url: 'https://www.businesstoday.in/rssfeeds/?id=112046' }
     ],
+    'EconomyUS': [
+        { name: 'WSJ Economy', url: 'https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml' },
+        { name: 'CNBC Economy', url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258' },
+        { name: 'Reuters US Economy', url: 'https://news.google.com/rss/search?q=when:24h+allinurl:reuters.com/business/economy&hl=en-US&gl=US&ceid=US:en' },
+        { name: 'Google US Fed', url: 'https://news.google.com/rss/search?q=federal+reserve+interest+rate+us+economy&hl=en-US&gl=US&ceid=US:en' },
+        { name: 'Google US Inflation', url: 'https://news.google.com/rss/search?q=us+inflation+cpi+data&hl=en-US&gl=US&ceid=US:en' }
+    ],
+    'EconomyEuro': [
+        { name: 'ECB News', url: 'https://www.ecb.europa.eu/home/html/rss.en.html' },
+        { name: 'Reuters Euro Economy', url: 'https://news.google.com/rss/search?q=when:24h+euro+area+economy+ecb&hl=en-GB&gl=GB&ceid=GB:en' },
+        { name: 'FT Euro Economy', url: 'https://news.google.com/rss/search?q=when:24h+allinurl:ft.com/euro-area-economy&hl=en-GB&gl=GB&ceid=GB:en' },
+        { name: 'Google Euro Inflation', url: 'https://news.google.com/rss/search?q=euro+area+inflation+hicp&hl=en-GB&gl=GB&ceid=GB:en' }
+    ],
     'Business': [
         { name: 'Economic Times', url: 'https://economictimes.indiatimes.com/news/industry/rssfeeds/13352306.cms' },
         { name: 'Business Standard', url: 'https://www.business-standard.com/rss/companies-101.rss' },
@@ -112,6 +125,12 @@ export const HI_CATEGORY_FEEDS = {
         { name: 'Aaj Tak Economy', url: 'https://www.aajtak.in/rss/economy.xml' },
         { name: 'Google Economy Hindi', url: 'https://news.google.com/rss/search?q=economy+india&hl=hi&gl=IN&ceid=IN:hi' }
     ],
+    'EconomyUS': [
+        { name: 'Google US Economy Hindi', url: 'https://news.google.com/rss/search?q=us+economy+fed+rate&hl=hi&gl=IN&ceid=IN:hi' }
+    ],
+    'EconomyEuro': [
+        { name: 'Google Euro Economy Hindi', url: 'https://news.google.com/rss/search?q=euro+area+economy+ecb&hl=hi&gl=IN&ceid=IN:hi' }
+    ],
     'Business': [
         { name: 'Live Hindustan Biz', url: 'https://api.livehindustan.com/feeds/rss/business/rssfeed.xml' },
         { name: 'NDTV Business Hindi', url: 'https://feeds.feedburner.com/ndtvindia-business' },
@@ -168,7 +187,7 @@ export const CATEGORY_KEYWORDS = {
     'Stocks': [
         'stock', 'market', 'nifty', 'sensex', 'ipo', 'share', 'dividend', 'invest',
         'trading', 'indices', 'bull', 'bear', 'portfolio', 'equity', 'listing',
-        'bse', 'nse', 'earnings', 'brokerage', 'benchmark',
+        'bse', 'nse', 'earnings', 'brokerage',
         'स्टॉक', 'मार्केट', 'शेयर', 'निफ्टी', 'सेंसेक्स', 'आईपीओ'
     ]
 };
@@ -202,6 +221,8 @@ export const BLOCKED_KEYWORDS = [
     'entertainment', 'showbiz', 'limelight', 'paparazzi', 'fan club',
     'फिल्म', 'सिनेमा', 'बॉलीवुड', 'सेलिब्रिटी',
     'मनोरंजन', 'वेब सीरीज', 'टीवी शो', 'गाना', 'संगीत',
+    'premiere', 'box-office', 'superstar', 'blockbuster', 'advance booking',
+    'tickets', 'theatre', 'trailer', 'screenings',
     // Adult / NSFW
     'onlyfans', 'only fans', 'adult content', 'porn', 'pornography', 'xxx',
     'nude', 'naked', 'nsfw', 'escort', 'erotic', 'erotica', 'sex tape',
@@ -232,7 +253,8 @@ export const BLOCKED_KEYWORDS = [
     'unemployed husband', 'marriage advice', 'relationship advice', 'divorce',
 
     // Finance / Credit Card Ads
-    '0% intro', 'intro apr', '0% apr', 'credit card offer', 'credit score'
+    '0% intro', 'intro apr', '0% apr', 'credit card offer', 'credit score',
+    'interest into 2024', 'interest into 2023', 'avoid credit card interest'
 ];
 
 // ─────────────────────────────────────────────────────────────
@@ -334,7 +356,7 @@ export const parseXML = (xmlText) => {
             return rssItems.slice(0, 30).map(el => ({
                 title: getText(el, 'title'),
                 link: getText(el, 'link') || el.querySelector('link')?.getAttribute('href') || '',
-                pubDate: getText(el, 'pubDate') || getText(el, 'published') || new Date().toISOString(),
+                pubDate: getText(el, 'pubDate') || getText(el, 'published') || '',
                 description: getText(el, 'description') || getText(el, 'summary') || '',
                 content: el.querySelector('encoded, content\\:encoded')?.textContent || getText(el, 'description'),
                 thumbnail: getImageUrl(el)
@@ -345,7 +367,7 @@ export const parseXML = (xmlText) => {
         return atomEntries.slice(0, 30).map(el => ({
             title: getText(el, 'title'),
             link: el.querySelector('link[rel="alternate"]')?.getAttribute('href') || el.querySelector('link')?.getAttribute('href') || getText(el, 'link') || '',
-            pubDate: getText(el, 'published') || getText(el, 'updated') || new Date().toISOString(),
+            pubDate: getText(el, 'published') || getText(el, 'updated') || '',
             description: getText(el, 'summary') || getText(el, 'content') || '',
             content: getText(el, 'content') || getText(el, 'summary'),
             thumbnail: getImageUrl(el)
@@ -447,7 +469,7 @@ const analyzeSentiment = (title, desc, category) => {
 /**
  * Geopolitical & Financial Impact Scoring
  */
-const analyzeImpact = (title, desc, category) => {
+const analyzeImpact = (title, desc) => {
     const text = `${title} ${desc}`.toLowerCase();
     let impactScore = 0;
 
@@ -563,6 +585,8 @@ export const isBlocked = (article) => {
     if (BLOCKED_KEYWORDS.some(kw => text.includes(kw.toLowerCase()))) return true;
 
     // 3. Staleness block (Strictly 24 hours)
+    if (!article.pubDate) return true; // Block articles with no date (usually ads)
+
     const pubDate = new Date(article.pubDate);
     if (!isNaN(pubDate.getTime())) {
         const threshold = new Date();
@@ -570,6 +594,8 @@ export const isBlocked = (article) => {
 
         threshold.setHours(threshold.getHours() - maxStalenessHours);
         if (pubDate < threshold) return true;
+    } else {
+        return true; // Invalid date format
     }
 
     return false;

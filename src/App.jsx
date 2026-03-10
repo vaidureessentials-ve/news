@@ -7,6 +7,8 @@ import Stocks from './pages/Stocks';
 import CategoryPage from './pages/CategoryPage';
 import LatestNews from './pages/LatestNews';
 import Data from './pages/Data';
+import USData from './pages/USData';
+import EuroData from './pages/EuroData';
 import ChatbotWidget from './components/ChatbotWidget';
 
 function App() {
@@ -24,6 +26,8 @@ function App() {
           <Route path="/economy" element={<CategoryPage category="Economy" />} />
           <Route path="/geopolitics" element={<CategoryPage category="Geopolitical" />} />
           <Route path="/data" element={<Data />} />
+          <Route path="/data/us" element={<USData />} />
+          <Route path="/data/euro" element={<EuroData />} />
         </Routes>
         <ChatbotWidget />
       </div>

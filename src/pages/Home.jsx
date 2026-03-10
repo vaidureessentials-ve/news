@@ -17,7 +17,7 @@ const Home = () => {
     const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
     const categoryFilter = searchParams.get('category');
-    const lk = false ? 'hi' : 'en';
+    const lk = 'en';
     const cached = homeNewsCache[lk] || {};
 
     const [newsData, setNewsData] = useState(cached);
@@ -345,8 +345,7 @@ const Home = () => {
                                 const filtered = (newsData[cat] || []).filter(a => {
                                     if (a.isFallback) return true;
                                     const pubDate = new Date(a.pubDate);
-                                    if (isNaN(pubDate.getTime())) return true;
-                                    const dayOfWeek = now.getDay();
+                                    if (isNaN(pubDate.getTime())) return false; // Strictly reject invalid dates
                                     const maxH = 24; // Strictly 24 hours
                                     return (now - pubDate) / 3600000 < maxH;
                                 });

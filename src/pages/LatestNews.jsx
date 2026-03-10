@@ -156,7 +156,7 @@ const LatestNews = () => {
                     const filteredNews = news.filter(a => {
                         if (a.isFallback) return true;
                         const pubDate = new Date(a.pubDate);
-                        if (isNaN(pubDate.getTime())) return true;
+                        if (isNaN(pubDate.getTime())) return false; // Strictly reject invalid dates
                         return (now - pubDate) / 3600000 < 24; // Strictly 24 hours
                     });
 
