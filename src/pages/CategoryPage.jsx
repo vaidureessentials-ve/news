@@ -168,14 +168,14 @@ const CategoryPage = ({ category }) => {
             setNews(newsCache[key]);
             setLoading(false);
         }
-        setCountdown(30);
+        setCountdown(300);
         fetchNews(hasCached);
 
         const timer = setInterval(() => {
             setCountdown(prev => {
                 if (prev <= 1) {
                     fetchNews(true);
-                    return 30;
+                    return 300;
                 }
                 return prev - 1;
             });
@@ -186,8 +186,8 @@ const CategoryPage = ({ category }) => {
     const categoryLabel = category;
 
     return (
-        <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-screen-2xl mx-auto">
+        <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+            <div className="w-full max-w-screen-2xl mx-auto">
 
                 {/* Hero Header */}
                 <header className="mb-16 text-center">
@@ -216,10 +216,10 @@ const CategoryPage = ({ category }) => {
                         )}
                     </div>
 
-                    <h1 className={`text-4xl md:text-7xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r ${meta.gradient} inline-block font-display tracking-tight text-center w-full`}>
+                    <h1 className={`text-3xl sm:text-4xl md:text-7xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r ${meta.gradient} inline-block font-display tracking-tight text-center w-full px-2`}>
                         {categoryLabel} Updates
                     </h1>
-                    <p className="text-slate-400 max-w-2xl mx-auto text-lg md:text-xl font-light">
+                    <p className="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg md:text-xl font-light px-4">
                         {meta.subtitle}
                     </p>
 

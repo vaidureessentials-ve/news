@@ -15,10 +15,9 @@ const homeNewsCache = {};
 const Home = () => {
 
     const location = useLocation();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const categoryFilter = searchParams.get('category');
-    const lk = 'en';
-    const cached = homeNewsCache[lk] || {};
+    const cached = homeNewsCache.en || {};
 
     const [newsData, setNewsData] = useState(cached);
     const [loading, setLoading] = useState(Object.keys(cached).length === 0);
@@ -120,8 +119,7 @@ const Home = () => {
                         }
                         setNewsData(prev => {
                             const updated = { ...prev, [cat]: diversified };
-                            const cLk = isHindi ? 'hi' : 'en';
-                            homeNewsCache[cLk] = updated;
+                            homeNewsCache.en = updated;
                             return updated;
                         });
                         setLoading(false);
@@ -159,8 +157,7 @@ const Home = () => {
                                 diversified.forEach(item => { item.isLive = (now - new Date(item.pubDate)) / 60000 < 180; });
                             }
                             const updated = { ...prev, [cat]: diversified };
-                            const cLk = isHindi ? 'hi' : 'en';
-                            homeNewsCache[cLk] = updated;
+                            homeNewsCache.en = updated;
                             return updated;
                         });
                     }
@@ -186,44 +183,40 @@ const Home = () => {
             });
 
             await Promise.allSettled(catPromises);
-            // Ensure loading is false even if everything failed
-            setLoading(false);
-            setError(null);
 
         } catch (err) {
             if (!isBackground) setError(err.message);
             console.error('fetchAllNews error:', err);
         } finally {
+            // Ensure loading is false even if everything failed
             setLoading(false);
             setSyncing(false);
             setLastUpdated(new Date());
+            // setError(null); // Only clear error if successful, otherwise keep it
         }
-    }, ['en']);
+    }, []);
 
     useEffect(() => {
-        const langKey = false ? 'hi' : 'en';
-        const hasCached = Object.keys(homeNewsCache[langKey] || {}).length > 0;
-
+        const hasCached = Object.keys(homeNewsCache.en || {}).length > 0;
         if (!hasCached) {
             seenUrls.current = new Set();
-            setNewsData({});
-            setLoading(true);
-        } else {
-            setNewsData(homeNewsCache[langKey]);
-            setLoading(false);
         }
-        setCountdown(30);
+        setCountdown(300);
         fetchAllNews(hasCached);
 
         const timer = setInterval(() => {
-            setCountdown(prev => {
-                if (prev <= 1) { fetchAllNews(true); return 30; }
-                return prev - 1;
-            });
+            setCountdown(prev => prev - 1);
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [fetchAllNews, 'en']);
+    }, [fetchAllNews]);
+
+    useEffect(() => {
+        if (countdown <= 0) {
+            setCountdown(300);
+            fetchAllNews(true);
+        }
+    }, [countdown, fetchAllNews]);
 
 
 
@@ -264,8 +257,8 @@ const Home = () => {
         : allCategories;
 
     return (
-        <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-screen-2xl mx-auto">
+        <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+            <div className="w-full max-w-screen-2xl mx-auto">
                 <header className="mb-16 text-center">
                     <div className="flex flex-col items-center gap-4 mb-4">
                         <div className="flex flex-col items-center gap-1">
@@ -279,29 +272,29 @@ const Home = () => {
                                     <>
                                         <span className="flex h-2 w-2 relative">
                                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                                        </span>
-                                        {'Live: GFS Global Network'}
-                                    </>
-                                )}
-                            </span>
-                            {lastUpdated && (
-                                <span className="text-slate-500 text-[10px] tracking-wider font-medium">
-                                    {countdown <= 5 ? 'Next sync soon.' : `Next sync in ${countdown}s.`}
-                                    {' '}Last update: {lastUpdated.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })}
-                                </span>
+                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                                    </span>
+                                    {'Live: GFS Global Network'}
+                                </>
                             )}
-                        </div>
+                        </span>
+                        {lastUpdated && (
+                            <span className="text-slate-500 text-[10px] tracking-wider font-medium">
+                                {countdown <= 5 ? 'Next sync soon.' : `Next sync in ${countdown}s.`}
+                                {' '}Last update: {lastUpdated.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })}
+                            </span>
+                        )}
                     </div>
-                    <h1 className="text-4xl md:text-7xl font-extrabold text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 inline-block font-display tracking-tight text-center w-full">
-                        {categoryFilter ? categoryFilter + ' Updates' : 'Relevant News'}
-                    </h1>
-                    <p className="text-slate-400 max-w-2xl mx-auto text-lg md:text-xl font-light">
-                        {categoryFilter
-                            ? `Real-time intelligence and updates for ${categoryFilter}.`
-                            : 'Your command center for global business, technology, and strategic shifts.'
-                        }
-                    </p>
+                </div>
+                <h1 className="text-3xl sm:text-4xl md:text-7xl font-extrabold text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 inline-block font-display tracking-tight text-center w-full px-2">
+                    {categoryFilter ? categoryFilter + ' Updates' : 'Relevant News'}
+                </h1>
+                <p className="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg md:text-xl font-light px-4">
+                    {categoryFilter
+                        ? `Real-time intelligence and updates for ${categoryFilter}.`
+                        : 'Your command center for global business, technology, and strategic shifts.'
+                    }
+                </p>
 
                 </header>
 
@@ -373,10 +366,10 @@ const Home = () => {
                                             <ShieldAlert className="w-8 h-8 text-slate-500" />
                                         </div>
                                         <h3 className="text-xl font-bold text-white mb-2">
-                                            {'No News Found'}
+                                            {'No Data Points Found'}
                                         </h3>
                                         <p className="text-slate-400 max-w-sm mx-auto mb-6 text-sm">
-                                            No news found in the last 24 hours for {cat}.
+                                            No recent intelligence reports found for {cat}.
                                         </p>
                                         <button
                                             onClick={() => fetchAllNews()}

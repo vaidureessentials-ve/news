@@ -156,18 +156,91 @@ const gdpGrowthData = [
     { date: '2026', value: 7.8 },
 ];
 
+const indiaPopulationData = [
+    { date: '2020', value: 1396.4 },
+    { date: '2021', value: 1408.0 },
+    { date: '2022', value: 1417.2 },
+    { date: '2023', value: 1428.6 },
+    { date: '2024', value: 1441.7 },
+    { date: '2025', value: 1450.3 },
+    { date: '2026', value: 1460.5 },
+];
+
+const indiaPMIData = [
+    { date: 'Sep 2025', value: 57.5 },
+    { date: 'Oct 2025', value: 58.2 },
+    { date: 'Nov 2025', value: 56.4 },
+    { date: 'Dec 2025', value: 57.1 },
+    { date: 'Jan 2026', value: 59.2 },
+    { date: 'Feb 2026', value: 58.8 },
+    { date: 'Mar 2026', value: 59.5 },
+];
+
+const indiaTradeBalanceData = [
+    { date: 'Sep 2025', value: -18.2 },
+    { date: 'Oct 2025', value: -19.5 },
+    { date: 'Nov 2025', value: -20.1 },
+    { date: 'Dec 2025', value: -17.8 },
+    { date: 'Jan 2026', value: -18.5 },
+    { date: 'Feb 2026', value: -17.2 },
+    { date: 'Mar 2026', value: -16.8 },
+];
+
+const indiaDebtGDPData = [
+    { date: '2020', value: 88.5 },
+    { date: '2021', value: 84.7 },
+    { date: '2022', value: 83.1 },
+    { date: '2023', value: 82.5 },
+    { date: '2024', value: 81.8 },
+    { date: '2025', value: 81.2 },
+    { date: '2026', value: 80.5 },
+];
+
+const indiaCPIData = [
+    { date: 'Jan 2025', value: 5.40 },
+    { date: 'Mar 2025', value: 3.34 },
+    { date: 'Jun 2025', value: 3.90 },
+    { date: 'Sep 2025', value: 4.10 },
+    { date: 'Dec 2025', value: 3.80 },
+    { date: 'Jan 2026', value: 2.75 },
+    { date: 'Feb 2026', value: 3.10 },
+    { date: 'Mar 2026', value: 3.20 },
+];
+
+const indiaWPIData = [
+    { date: 'Jan 2025', value: 2.30 },
+    { date: 'Mar 2025', value: 2.05 },
+    { date: 'Jun 2025', value: 1.50 },
+    { date: 'Sep 2025', value: 1.20 },
+    { date: 'Dec 2025', value: 0.83 },
+    { date: 'Jan 2026', value: 1.81 },
+    { date: 'Feb 2026', value: 2.40 },
+    { date: 'Mar 2026', value: 2.50 },
+];
+
+const indiaRPIData = [
+    { date: 'Jan 2025', value: 5.50 },
+    { date: 'Mar 2025', value: 3.34 },
+    { date: 'Jun 2025', value: 4.20 },
+    { date: 'Sep 2025', value: 4.40 },
+    { date: 'Dec 2025', value: 4.10 },
+    { date: 'Jan 2026', value: 3.00 },
+    { date: 'Feb 2026', value: 3.40 },
+    { date: 'Mar 2026', value: 3.50 },
+];
+
 // ── Cache for Economy News ───────────────────────────────────────────
 const economyNewsCache = { en: [] };
 
 // ── Helpers ───────────────────────────────────────────────────────────
-const getLatestTrend = (data) => {
+const getLatestTrend = (data, isPopulation = false) => {
     if (!data || data.length === 0) return { value: 'N/A', change: '0%', dir: 'up', date: 'N/A', ref: 0 };
     const latest = data[data.length - 1];
     const prev = data[data.length - 2] || latest;
     const diff = (latest.value - prev.value).toFixed(2);
     return {
-        value: `${latest.value.toFixed(2)}%`,
-        change: `${Math.abs(diff).toFixed(2)}%`,
+        value: isPopulation ? `${latest.value.toFixed(1)}M` : `${latest.value.toFixed(2)}%`,
+        change: `${Math.abs(diff).toFixed(2)}${isPopulation ? 'M' : '%'}`,
         dir: diff >= 0 ? 'up' : 'down',
         date: latest.date,
         ref: latest.value
@@ -175,13 +248,13 @@ const getLatestTrend = (data) => {
 };
 
 // ── Custom Tooltip ────────────────────────────────────────────────────
-const CustomTooltip = ({ active, payload, label, unit, color }) => {
+const CustomTooltip = ({ active, payload, label, unit, color, isPopulation }) => {
     if (active && payload && payload.length) {
         return (
             <div className="bg-slate-800 border border-slate-600 rounded-xl px-4 py-3 shadow-2xl">
                 <p className="text-slate-400 text-xs mb-1">{label}</p>
                 <p className="font-bold text-white text-lg" style={{ color }}>
-                    {payload[0].value}%
+                    {payload[0].value}{isPopulation ? 'M' : '%'}
                     <span className="text-slate-400 text-xs ml-1">{unit}</span>
                 </p>
             </div>
@@ -192,9 +265,9 @@ const CustomTooltip = ({ active, payload, label, unit, color }) => {
 
 // ── Indicator Card ────────────────────────────────────────────────────
 const IndicatorCard = ({
-    title, subtitle, description, color, gradientId, sourceUrl, data, unit
+    title, subtitle, description, color, gradientId, sourceUrl, data, unit, isPopulation = false
 }) => {
-    const trend = getLatestTrend(data);
+    const trend = getLatestTrend(data, isPopulation);
     const isUp = trend.dir === 'up';
 
     return (
@@ -212,14 +285,14 @@ const IndicatorCard = ({
                         Full Data <ExternalLink className="w-3 h-3" />
                     </a>
                 </div>
-                <div className="mt-5 flex items-end gap-4 flex-wrap">
-                    <span className="text-6xl font-extrabold text-white tracking-tight">{trend.value}</span>
-                    <div className="mb-1">
-                        <span className={`flex items-center gap-1 text-sm font-bold ${isUp ? 'text-red-400' : 'text-emerald-400'}`}>
-                            {isUp ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+                <div className="mt-5 flex items-end gap-3 flex-wrap">
+                    <span className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight">{trend.value}</span>
+                    <div className="mb-0.5 sm:mb-1">
+                        <span className={`flex items-center gap-1 text-xs sm:text-sm font-bold ${isUp ? (isPopulation ? 'text-emerald-400' : 'text-red-400') : (isPopulation ? 'text-red-400' : 'text-emerald-400')}`}>
+                            {isUp ? <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <TrendingDown className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
                             {trend.change} vs previous
                         </span>
-                        <span className="text-xs text-slate-500 mt-0.5 block">As of {trend.date}</span>
+                        <span className="text-[10px] sm:text-xs text-slate-500 mt-0.5 block">As of {trend.date}</span>
                     </div>
                 </div>
             </div>
@@ -234,9 +307,9 @@ const IndicatorCard = ({
                         </defs>
                         <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                         <XAxis dataKey="date" tick={{ fill: '#64748b', fontSize: 11 }} tickLine={false} axisLine={false} interval="preserveStartEnd" />
-                        <YAxis domain={['auto', 'auto']} tick={{ fill: '#64748b', fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={v => `${v}%`} />
-                        <Tooltip content={<CustomTooltip unit={unit} color={color} />} />
-                        <ReferenceLine y={trend.ref} stroke={color} strokeDasharray="4 4" strokeOpacity={0.4} label={{ value: `Latest: ${trend.ref}%`, fill: color, fontSize: 11, position: 'insideTopRight' }} />
+                        <YAxis domain={['auto', 'auto']} tick={{ fill: '#64748b', fontSize: 11 }} tickLine={false} axisLine={false} tickFormatter={v => isPopulation ? `${v}M` : `${v}%`} />
+                        <Tooltip content={<CustomTooltip unit={unit} color={color} isPopulation={isPopulation} />} />
+                        <ReferenceLine y={trend.ref} stroke={color} strokeDasharray="4 4" strokeOpacity={0.4} label={{ value: `Latest: ${trend.value}`, fill: color, fontSize: 11, position: 'insideTopRight' }} />
                         <Area type="monotone" dataKey="value" stroke={color} strokeWidth={2.5} fill={`url(#${gradientId})`} dot={false} activeDot={{ r: 5, fill: color, stroke: '#0f172a', strokeWidth: 2 }} />
                     </AreaChart>
                 </ResponsiveContainer>
@@ -250,19 +323,20 @@ const IndicatorCard = ({
 
 // ── Page Component ─────────────────────────────────────────────────────
 const Data = () => {
-    const isHindi = false;
-    const [news, setNews] = useState(economyNewsCache.en);
-    const [loading, setLoading] = useState(economyNewsCache.en.length === 0);
-    const [syncing, setSyncing] = useState(false);
     const [countdown, setCountdown] = useState(300); // 5 minutes
     const [lastUpdated, setLastUpdated] = useState(new Date());
+
+    const cached = economyNewsCache.en;
+    const [news, setNews] = useState(cached);
+    const [loading, setLoading] = useState(cached.length === 0);
+    const [syncing, setSyncing] = useState(false);
 
     const fetchEconomyNews = useCallback(async (isBackground = false) => {
         try {
             if (!isBackground) setLoading(true);
             else setSyncing(true);
 
-            const feeds = (isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS)['Economy'] || [];
+            const feeds = EN_CATEGORY_FEEDS['Economy'] || [];
             if (feeds.length === 0) return;
 
             const withTimeout = (promise, ms = 4000) =>
@@ -289,7 +363,7 @@ const Data = () => {
                 }
                 if (!result) return [];
                 return result.items
-                    .map(item => normArticle(item, feed, result, isHindi, 'Economy'))
+                    .map(item => normArticle(item, feed, result, false, 'Economy'))
                     .filter(a => isArticleRelevant(a, 'Economy') && !isBlocked(a));
             });
 
@@ -312,28 +386,29 @@ const Data = () => {
             setLoading(false);
             setSyncing(false);
         }
-    }, [isHindi]);
+    }, []);
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         fetchEconomyNews();
 
         const timer = setInterval(() => {
-            setCountdown(prev => {
-                if (prev <= 1) {
-                    fetchEconomyNews(true);
-                    return 300;
-                }
-                return prev - 1;
-            });
+            setCountdown(prev => prev - 1);
         }, 1000);
 
         return () => clearInterval(timer);
     }, [fetchEconomyNews]);
 
+    useEffect(() => {
+        if (countdown <= 0) {
+            setCountdown(300);
+            fetchEconomyNews(true);
+        }
+    }, [countdown, fetchEconomyNews]);
+
     return (
-        <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-5xl mx-auto">
+        <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+            <div className="w-full max-w-6xl mx-auto">
                 <header className="mb-12 text-center">
                     <div className="flex flex-col items-center gap-3 mb-6">
                         <div className="flex items-center gap-2">
@@ -351,30 +426,66 @@ const Data = () => {
                             </span>
                         )}
                     </div>
-                    <h1 className="text-4xl md:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 mb-4 tracking-tight text-center w-full">
+                    <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 mb-4 tracking-tight text-center w-full px-2">
                         Markets & Indicators
                     </h1>
-                    <p className="text-slate-400 max-w-xl mx-auto text-lg">
+                    <p className="text-slate-400 max-w-xl mx-auto text-base sm:text-lg px-4">
                         Automated monitoring of India's macro-economic health — combining long-term historical trends with real-time news.
                     </p>
                 </header>
 
-                <div className="flex flex-col gap-10">
-                    <IndicatorCard title="India GDP Growth" subtitle="Annual Real GDP" color="#fbbf24" gradientId="gdpGrad" sourceUrl="https://tradingeconomics.com/india/gdp-growth-annual" data={gdpGrowthData} unit="growth" description="Annual percentage growth rate of GDP at market prices based on constant local currency. It reflects the overall economic health and expansion of the Indian economy." />
-                    <IndicatorCard title="India Interest Rate" subtitle="RBI Repo Rate" color="#3b82f6" gradientId="interestGrad" sourceUrl="https://tradingeconomics.com/india/interest-rate" data={interestRateData} unit="repo rate" description="The Reserve Bank of India (RBI) sets the benchmark repo rate. A lower rate encourages borrowing and growth; a higher rate controls inflation." />
-                    <IndicatorCard title="India Unemployment Rate" subtitle="CMIE Monthly Estimate" color="#a855f7" gradientId="unempGrad" sourceUrl="https://tradingeconomics.com/india/unemployment-rate" data={unemploymentData} unit="unemployment" description="India's unemployment rate measures the share of job-seekers unable to find employment, tracked monthly by the CMIE." />
-                    <IndicatorCard title="Urban Unemployment Rate" subtitle="PLFS / PIB Estimate" color="#f59e0b" gradientId="urbanGrad" sourceUrl="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2228713" data={urbanUnemploymentData} unit="urban unemployment" description="Tracks joblessness in India's cities and towns, reflecting the health of the formal and service sectors." />
-                    <IndicatorCard title="Rural Unemployment Rate" subtitle="PLFS / PolicyEdge" color="#10b981" gradientId="ruralGrad" sourceUrl="https://www.policyedge.in/p/plfs-january-2026-labour-market-remains" data={ruralUnemploymentData} unit="rural unemployment" description="Measures job-seekers in India's agricultural and rural heartlands. Trends here are critical for internal consumption." />
-                    <IndicatorCard title="Female Unemployment Rate" subtitle="PLFS / ET Estimate" color="#ec4899" gradientId="femaleGrad" sourceUrl="https://economictimes.indiatimes.com/news/economy/indicators/unemployment-rate-up-a-tad-to-5-in-january-higher-rise-for-females/articleshow/128434909.cms" data={femaleUnemploymentData} unit="female unemployment" description="Tracks the share of women in the labor force who are unable to find work. Recent data shows gender-specific challenges." />
-                    <IndicatorCard title="Youth Unemployment Rate" subtitle="PLFS / Financial Express" color="#6366f1" gradientId="youthGrad" sourceUrl="https://www.financialexpress.com/policy/economy/youth-unemployment-rate-rises-14-7-in-january-revised/4145187/" data={youthUnemploymentData} unit="youth unemployment" description="Youth Unemployment (ages 15-29) is a critical metric for long-term economic stability and social development." />
-                    <IndicatorCard title="Labor Force Participation Rate (LFPR)" subtitle="PLFS / PIB Estimate" color="#2dd4bf" gradientId="lfprGrad" sourceUrl="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2228713" data={laborForceParticipationData} unit="participation rate" description="LFPR is the percentage of the working-age population (15+) that is either employed or actively seeking work." />
-                    <IndicatorCard title="Worker Population Ratio (WPR)" subtitle="PLFS / PIB Estimate" color="#6366f1" gradientId="wprGrad" sourceUrl="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2228713" data={workerPopulationData} unit="worker ratio" description="WPR is the percentage of the total population that is employed. It is a direct indicator of employment levels." />
+                <div className="space-y-16">
+                    {/* ── Macro Economic Section ────────────────────────── */}
+                    <section>
+                        <div className="flex items-center gap-4 mb-8">
+                            <div className="h-6 w-1 bg-amber-400 rounded-full"></div>
+                            <h2 className="text-xl font-bold text-white uppercase tracking-wider">Macro Indicators</h2>
+                        </div>
+                        <div className="flex flex-col gap-10">
+                            <IndicatorCard title="India GDP Growth" subtitle="Annual Real GDP" color="#fbbf24" gradientId="gdpGrad" sourceUrl="https://tradingeconomics.com/india/gdp-growth-annual" data={gdpGrowthData} unit="growth" description="Annual percentage growth rate of GDP at market prices based on constant local currency. It reflects the overall economic health and expansion of the Indian economy." />
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                <IndicatorCard title="India Interest Rate" subtitle="RBI Repo Rate" color="#3b82f6" gradientId="interestGrad" sourceUrl="https://tradingeconomics.com/india/interest-rate" data={interestRateData} unit="repo rate" description="The Reserve Bank of India (RBI) sets the benchmark repo rate. A lower rate encourages borrowing and growth; a higher rate controls inflation." />
+                                <IndicatorCard title="India CPI Index" subtitle="Consumer Prices" color="#a855f7" gradientId="cpiGrad" sourceUrl="https://tradingeconomics.com/india/inflation-cpi" data={indiaCPIData} unit="CPI" description="The Consumer Price Index (CPI) measures the average change over time in the prices paid by urban consumers for a market basket of consumer goods and services." />
+                                <IndicatorCard title="Wholesale Price Index (WPI)" subtitle="Producer Prices" color="#f97316" gradientId="wpiGrad" sourceUrl="https://tradingeconomics.com/india/producer-prices" data={indiaWPIData} unit="WPI" description="Measures the change in the price of goods sold and traded in bulk by wholesale businesses to other businesses." />
+                                <IndicatorCard title="Retail Price Index (RPI)" subtitle="Retail Inflation" color="#06b6d4" gradientId="rpiGrad" sourceUrl="https://tradingeconomics.com/india/inflation-cpi" data={indiaRPIData} unit="RPI" description="A measure of inflation that tracks the cost of a representative basket of retail goods and services." />
+                                <IndicatorCard title="Manufacturing PMI" subtitle="S&P Global India" color="#10b981" gradientId="pmiGrad" sourceUrl="https://tradingeconomics.com/india/manufacturing-pmi" data={indiaPMIData} unit="index" description="The Manufacturing Purchasing Managers' Index (PMI) provides an early indicator of manufacturing health. A reading above 50 indicates expansion." />
+                                <IndicatorCard title="Trade Balance" subtitle="Monthly Deficit/Surplus" color="#ef4444" gradientId="tradeGrad" sourceUrl="https://tradingeconomics.com/india/balance-of-trade" data={indiaTradeBalanceData} unit="USD Billion" description="The difference between a country's exports and imports. India typically runs a trade deficit due to energy and electronics imports." />
+                                <IndicatorCard title="Govt Debt to GDP" subtitle="Public Debt Ratio" color="#6366f1" gradientId="debtGrad" sourceUrl="https://tradingeconomics.com/india/government-debt-to-gdp" data={indiaDebtGDPData} unit="%" description="The ratio of a country's public debt to its gross domestic product. It indicates the sustainability of government spending." />
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* ── Demographics Section ───────────────────────────── */}
+                    <section>
+                        <div className="flex items-center gap-4 mb-8">
+                            <div className="h-6 w-1 bg-emerald-400 rounded-full"></div>
+                            <h2 className="text-xl font-bold text-white uppercase tracking-wider">Demographic Outlook</h2>
+                        </div>
+                        <IndicatorCard title="India Total Population" subtitle="Census Bureau Estimate" color="#10b981" gradientId="popIndGrad" sourceUrl="https://tradingeconomics.com/india/population" data={indiaPopulationData} unit="people" isPopulation={true} description="The total number of people residing in India. A key indicator for labor supply and aggregate demand." />
+                    </section>
+
+                    {/* ── Labor Market Section ───────────────────────────── */}
+                    <section>
+                        <div className="flex items-center gap-4 mb-8">
+                            <div className="h-6 w-1 bg-indigo-400 rounded-full"></div>
+                            <h2 className="text-xl font-bold text-white uppercase tracking-wider">Labor Market Insights</h2>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <IndicatorCard title="India Unemployment Rate" subtitle="CMIE Monthly Estimate" color="#a855f7" gradientId="unempGrad" sourceUrl="https://tradingeconomics.com/india/unemployment-rate" data={unemploymentData} unit="unemployment" description="Tracking the share of job-seekers unable to find employment." />
+                            <IndicatorCard title="Urban Unemployment Rate" subtitle="PLFS / PIB Estimate" color="#f59e0b" gradientId="urbanGrad" sourceUrl="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2228713" data={urbanUnemploymentData} unit="urban unemployment" description="Joblessness trends in India's cities and towns." />
+                            <IndicatorCard title="Rural Unemployment Rate" subtitle="PLFS / PolicyEdge" color="#10b981" gradientId="ruralGrad" sourceUrl="https://www.policyedge.in/p/plfs-january-2026-labour-market-remains" data={ruralUnemploymentData} unit="rural unemployment" description="Measures job-seekers in India's agricultural heartlands." />
+                            <IndicatorCard title="Female Unemployment Rate" subtitle="PLFS / ET Estimate" color="#ec4899" gradientId="femaleGrad" sourceUrl="https://economictimes.indiatimes.com/news/economy/indicators/unemployment-rate-up-a-tad-to-5-in-january-higher-rise-for-females/articleshow/128434909.cms" data={femaleUnemploymentData} unit="female unemployment" description="Tracks gender-specific labor market challenges." />
+                            <IndicatorCard title="Youth Unemployment Rate" subtitle="PLFS / Financial Express" color="#6366f1" gradientId="youthGrad" sourceUrl="https://www.financialexpress.com/policy/economy/youth-unemployment-rate-rises-14-7-in-january-revised/4145187/" data={youthUnemploymentData} unit="youth unemployment" description="Indicator for long-term economic stability and development." />
+                            <IndicatorCard title="Labor Force Participation Rate (LFPR)" subtitle="PLFS / PIB Estimate" color="#2dd4bf" gradientId="lfprGrad" sourceUrl="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2228713" data={laborForceParticipationData} unit="participation rate" description="Percentage of working-age population either employed or seeking work." />
+                            <IndicatorCard title="India Employment Rate (WPR)" subtitle="PLFS / PIB Estimate" color="#f43f5e" gradientId="wprGrad" sourceUrl="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2228713" data={workerPopulationData} unit="worker ratio" description="Percentage of the total population that is employed." />
+                        </div>
+                    </section>
                 </div>
 
                 <section className="mt-20">
                     <div className="flex items-center gap-4 mb-8 border-b border-slate-800 pb-4">
                         <div className="h-8 w-1.5 bg-indigo-500 rounded-full"></div>
-                        <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">Latest Ind Data Economic Headlines</h2>
+                        <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">Latest Economy Headlines</h2>
                         <span className="ml-auto text-[10px] font-bold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded-full tracking-widest uppercase">
                             LIVE NEWS
                         </span>

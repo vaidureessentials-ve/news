@@ -23,18 +23,48 @@ const fedFundsData = [
     { date: 'Mar 2026', value: 3.75 },
 ];
 
+const usEmploymentData = [
+    { date: 'Jan 2024', value: 60.2 },
+    { date: 'Mar 2024', value: 60.3 },
+    { date: 'Jun 2024', value: 60.1 },
+    { date: 'Sep 2024', value: 60.2 },
+    { date: 'Dec 2024', value: 60.4 },
+    { date: 'Jan 2025', value: 60.3 },
+    { date: 'Jan 2026', value: 60.5 },
+    { date: 'Mar 2026', value: 60.6 },
+];
+
 const usInflationData = [
-    { date: 'Jan 2023', value: 6.40 },
-    { date: 'Apr 2023', value: 4.90 },
-    { date: 'Jul 2023', value: 3.20 },
-    { date: 'Oct 2023', value: 3.20 },
-    { date: 'Jan 2024', value: 3.10 },
-    { date: 'Apr 2024', value: 3.40 },
-    { date: 'Jul 2024', value: 2.90 },
-    { date: 'Oct 2024', value: 2.60 },
-    { date: 'Dec 2025', value: 2.70 },
+    { date: 'Jan 2025', value: 3.10 },
+    { date: 'Mar 2025', value: 2.40 },
+    { date: 'Jun 2025', value: 2.80 },
+    { date: 'Sep 2025', value: 2.70 },
+    { date: 'Dec 2025', value: 2.50 },
     { date: 'Jan 2026', value: 2.40 },
-    { date: 'Feb 2026', value: 2.35 },
+    { date: 'Feb 2026', value: 2.40 },
+    { date: 'Mar 2026', value: 2.40 },
+];
+
+const usPPIData = [
+    { date: 'Jan 2025', value: 2.00 },
+    { date: 'Mar 2025', value: 1.50 },
+    { date: 'Jun 2025', value: 2.20 },
+    { date: 'Sep 2025', value: 2.50 },
+    { date: 'Dec 2025', value: 2.80 },
+    { date: 'Jan 2026', value: 2.90 },
+    { date: 'Feb 2026', value: 3.00 },
+    { date: 'Mar 2026', value: 2.95 },
+];
+
+const usRPIData = [
+    { date: 'Jan 2025', value: 3.50 },
+    { date: 'Mar 2025', value: 2.80 },
+    { date: 'Jun 2025', value: 3.40 },
+    { date: 'Sep 2025', value: 3.30 },
+    { date: 'Dec 2025', value: 3.10 },
+    { date: 'Jan 2026', value: 3.20 },
+    { date: 'Feb 2026', value: 3.20 },
+    { date: 'Mar 2026', value: 3.15 },
 ];
 
 const usPopulationData = [
@@ -45,6 +75,36 @@ const usPopulationData = [
     { date: '2024', value: 336.7 },
     { date: '2025', value: 342.3 },
     { date: '2026', value: 344.5 },
+];
+
+const usPMIData = [
+    { date: 'Sep 2025', value: 47.5 },
+    { date: 'Oct 2025', value: 48.0 },
+    { date: 'Nov 2025', value: 49.2 },
+    { date: 'Dec 2025', value: 50.1 },
+    { date: 'Jan 2026', value: 51.5 },
+    { date: 'Feb 2026', value: 50.8 },
+    { date: 'Mar 2026', value: 52.3 },
+];
+
+const usTradeBalanceData = [
+    { date: 'Sep 2025', value: -65.2 },
+    { date: 'Oct 2025', value: -67.5 },
+    { date: 'Nov 2025', value: -68.1 },
+    { date: 'Dec 2025', value: -70.3 },
+    { date: 'Jan 2026', value: -69.5 },
+    { date: 'Feb 2026', value: -68.2 },
+    { date: 'Mar 2026', value: -67.8 },
+];
+
+const usDebtGDPData = [
+    { date: '2020', value: 126.5 },
+    { date: '2021', value: 123.7 },
+    { date: '2022', value: 120.1 },
+    { date: '2023', value: 119.5 },
+    { date: '2024', value: 121.2 },
+    { date: '2025', value: 122.8 },
+    { date: '2026', value: 124.5 },
 ];
 
 const usGdpData = [
@@ -113,14 +173,14 @@ const IndicatorCard = ({
                         Full Data <ExternalLink className="w-3 h-3" />
                     </a>
                 </div>
-                <div className="mt-5 flex items-end gap-4 flex-wrap">
-                    <span className="text-6xl font-extrabold text-white tracking-tight">{trend.value}</span>
-                    <div className="mb-1">
-                        <span className={`flex items-center gap-1 text-sm font-bold ${isUp ? (isPopulation ? 'text-emerald-400' : 'text-red-400') : (isPopulation ? 'text-red-400' : 'text-emerald-400')}`}>
-                            {isUp ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+                <div className="mt-5 flex items-end gap-3 flex-wrap">
+                    <span className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight">{trend.value}</span>
+                    <div className="mb-0.5 sm:mb-1">
+                        <span className={`flex items-center gap-1 text-xs sm:text-sm font-bold ${isUp ? (isPopulation ? 'text-emerald-400' : 'text-red-400') : (isPopulation ? 'text-red-400' : 'text-emerald-400')}`}>
+                            {isUp ? <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <TrendingDown className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
                             {trend.change} vs previous
                         </span>
-                        <span className="text-xs text-slate-500 mt-0.5 block">As of {trend.date}</span>
+                        <span className="text-[10px] sm:text-xs text-slate-500 mt-0.5 block">As of {trend.date}</span>
                     </div>
                 </div>
             </div>
@@ -150,19 +210,19 @@ const IndicatorCard = ({
 };
 
 const USData = () => {
-    const isHindi = false;
+    const [countdown, setCountdown] = useState(300);
+    const [lastUpdated, setLastUpdated] = useState(new Date());
+
     const [news, setNews] = useState([]);
     const [loading, setLoading] = useState(true);
     const [syncing, setSyncing] = useState(false);
-    const [countdown, setCountdown] = useState(300);
-    const [lastUpdated, setLastUpdated] = useState(new Date());
 
     const fetchUSNews = useCallback(async (isBackground = false) => {
         try {
             if (!isBackground) setLoading(true);
             else setSyncing(true);
 
-            const feeds = (isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS)['EconomyUS'] || [];
+            const feeds = EN_CATEGORY_FEEDS['EconomyUS'] || [];
             if (feeds.length === 0) return;
 
             const withTimeout = (promise, ms = 4000) =>
@@ -189,7 +249,7 @@ const USData = () => {
                 }
                 if (!result) return [];
                 return result.items
-                    .map(item => normArticle(item, feed, result, isHindi, 'Economy'))
+                    .map(item => normArticle(item, feed, result, false, 'Economy'))
                     .filter(a => isArticleRelevant(a, 'Economy') && !isBlocked(a));
             });
 
@@ -207,23 +267,27 @@ const USData = () => {
             setLoading(false);
             setSyncing(false);
         }
-    }, [isHindi]);
+    }, []);
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         fetchUSNews();
         const timer = setInterval(() => {
-            setCountdown(prev => {
-                if (prev <= 1) { fetchUSNews(true); return 300; }
-                return prev - 1;
-            });
+            setCountdown(prev => prev - 1);
         }, 1000);
         return () => clearInterval(timer);
     }, [fetchUSNews]);
 
+    useEffect(() => {
+        if (countdown <= 0) {
+            setCountdown(300);
+            fetchUSNews(true);
+        }
+    }, [countdown, fetchUSNews]);
+
     return (
-        <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-5xl mx-auto">
+        <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+            <div className="w-full max-w-6xl mx-auto">
                 <header className="mb-12 text-center text-center">
                     <div className="flex flex-col items-center gap-3 mb-6">
                         <div className="flex items-center gap-2">
@@ -239,15 +303,23 @@ const USData = () => {
                             Latest data points · News sync in {Math.floor(countdown / 60)}m {countdown % 60}s · Last sync: {lastUpdated.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })}
                         </span>
                     </div>
-                    <h1 className="text-4xl md:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 mb-4 tracking-tight w-full">
+                    <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 mb-4 tracking-tight w-full text-center px-2">
                         US Markets & Indicators
                     </h1>
                 </header>
 
                 <div className="flex flex-col gap-10">
                     <IndicatorCard title="US GDP Growth" subtitle="Annual Real GDP" color="#fbbf24" gradientId="usGdpGrad" sourceUrl="https://tradingeconomics.com/united-states/gdp-growth-annual" data={usGdpData} unit="growth" description="Annual percentage growth rate of US GDP. It is a key indicator of the health and output of the United States economy." />
-                    <IndicatorCard title="Federal Funds Rate" subtitle="FOMC Benchmark" color="#3b82f6" gradientId="fedGrad" sourceUrl="https://tradingeconomics.com/united-states/interest-rate" data={fedFundsData} unit="interest rate" description="The target interest rate at which commercial banks borrow and lend their excess reserves to each other overnight. It's the primary tool for US monetary policy." />
-                    <IndicatorCard title="US Inflation Rate" subtitle="CPI (Year-over-Year)" color="#a855f7" gradientId="infUSGrad" sourceUrl="https://tradingeconomics.com/united-states/inflation-cpi" data={usInflationData} unit="CPI" description="Measures the average change over time in the prices paid by urban consumers for a market basket of consumer goods and services." />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                        <IndicatorCard title="Federal Funds Rate" subtitle="FOMC Benchmark" color="#3b82f6" gradientId="fedGrad" sourceUrl="https://tradingeconomics.com/united-states/interest-rate" data={fedFundsData} unit="interest rate" description="The target interest rate at which commercial banks borrow and lend their excess reserves to each other overnight. It's the primary tool for US monetary policy." />
+                        <IndicatorCard title="US Inflation Rate" subtitle="CPI (Year-over-Year)" color="#a855f7" gradientId="infUSGrad" sourceUrl="https://tradingeconomics.com/united-states/inflation-cpi" data={usInflationData} unit="CPI" description="Measures the average change over time in the prices paid by urban consumers for a market basket of consumer goods and services." />
+                        <IndicatorCard title="US Employment Rate" subtitle="Employment-Population Ratio" color="#10b981" gradientId="empUSGrad" sourceUrl="https://tradingeconomics.com/united-states/employment-rate" data={usEmploymentData} unit="employment" description="The percentage of the US working-age population that is currently employed. A key metric for labor market strength." />
+                        <IndicatorCard title="Manufacturing PMI" subtitle="S&P Global / ISM" color="#0ea5e9" gradientId="usPmiGrad" sourceUrl="https://tradingeconomics.com/united-states/manufacturing-pmi" data={usPMIData} unit="index" description="The Manufacturing Purchasing Managers' Index (PMI) is a leading indicator of economic health. Readings above 50 signal expansion." />
+                        <IndicatorCard title="Trade Balance" subtitle="Goods & Services" color="#ef4444" gradientId="usTradeGrad" sourceUrl="https://tradingeconomics.com/united-states/balance-of-trade" data={usTradeBalanceData} unit="USD Billion" description="The difference between the value of exports and imports. The US typically maintains a large trade deficit." />
+                        <IndicatorCard title="Debt to GDP" subtitle="Federal Debt Ratio" color="#6366f1" gradientId="usDebtGrad" sourceUrl="https://tradingeconomics.com/united-states/government-debt-to-gdp" data={usDebtGDPData} unit="%" description="Measures the total US federal debt as a percentage of its GDP. A key metric for assessing long-term fiscal health." />
+                        <IndicatorCard title="Producer Price Index (WPI)" subtitle="PPI Wholesale" color="#f97316" gradientId="ppiUSGrad" sourceUrl="https://tradingeconomics.com/united-states/producer-prices" data={usPPIData} unit="PPI" description="Tracks the average change over time in the selling prices received by domestic producers for their output." />
+                        <IndicatorCard title="Retail Price Index (RPI)" subtitle="Retail Price Trends" color="#06b6d4" gradientId="rpiUSGrad" sourceUrl="https://tradingeconomics.com/united-states/retail-sales" data={usRPIData} unit="RPI" description="A measure of price changes in retail goods and services reflecting final consumer costs." />
+                    </div>
                     <IndicatorCard title="US Total Population" subtitle="Census Bureau Estimate" color="#10b981" gradientId="popUSGrad" sourceUrl="https://tradingeconomics.com/united-states/population" data={usPopulationData} unit="people" isPopulation={true} description="The total number of people residing in the United States. A key indicator for labor supply and aggregate demand." />
                 </div>
 

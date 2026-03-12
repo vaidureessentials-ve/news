@@ -32,8 +32,8 @@ const ArticlePage = () => {
     const displayFullContent = isHindi && article.fullContent_hi ? article.fullContent_hi : article.fullContent;
 
     return (
-        <div className="min-h-screen bg-slate-900 text-slate-100 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-5xl mx-auto">
+        <div className="min-h-screen bg-slate-900 text-slate-100 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+            <div className="w-full max-w-5xl mx-auto">
                 <Link
                     to="/"
                     className="inline-flex items-center text-slate-400 hover:text-white mb-8 transition-colors group"
@@ -64,7 +64,7 @@ const ArticlePage = () => {
                             </span>
                         </div>
                     </div>
-                    <h1 className="text-3xl md:text-5xl font-bold mb-6 text-white leading-tight font-display">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-white leading-tight font-display text-center md:text-left">
                         {displayTitle}
                     </h1>
 
@@ -90,11 +90,7 @@ const ArticlePage = () => {
                         </div>
                     </div>
 
-                    <div className="mt-12 pt-8 border-t border-slate-800 flex items-center justify-between">
-                        <button className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
-                            <Share2 className="w-5 h-5" />
-                            Share Article
-                        </button>
+                    <div className="mt-12 pt-8 border-t border-slate-800 flex items-center justify-end">
                         <Link
                             to="/"
                             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition-colors shadow-lg shadow-blue-900/20"

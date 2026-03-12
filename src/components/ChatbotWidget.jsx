@@ -62,8 +62,8 @@ const ChatbotWidget = () => {
                     {/* Header */}
                     <div className="bg-slate-800 p-4 border-b border-slate-700 flex justify-between items-center">
                         <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
-                                <Bot className="w-5 h-5 text-blue-400" />
+                            <div className="w-10 h-10 rounded-full overflow-hidden border border-slate-700/50">
+                                <img src="/bot-icon.png" alt="Bot" className="w-full h-full object-cover" />
                             </div>
                             <div>
                                 <h3 className="text-white font-bold text-sm leading-tight">News Analyst</h3>
@@ -83,8 +83,8 @@ const ChatbotWidget = () => {
                         {messages.map((msg, idx) => (
                             <div key={idx} className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                                 {msg.role === 'bot' && (
-                                    <div className="w-8 h-8 rounded-full bg-slate-800 flex-shrink-0 flex items-center justify-center border border-slate-700">
-                                        <Bot className="w-4 h-4 text-blue-400" />
+                                    <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 border border-slate-700">
+                                        <img src="/bot-icon.png" alt="Bot" className="w-full h-full object-cover" />
                                     </div>
                                 )}
 
@@ -112,8 +112,8 @@ const ChatbotWidget = () => {
                         ))}
                         {isLoading && (
                             <div className="flex gap-3 justify-start">
-                                <div className="w-8 h-8 rounded-full bg-slate-800 flex-shrink-0 flex items-center justify-center border border-slate-700">
-                                    <Bot className="w-4 h-4 text-blue-400" />
+                                <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 border border-slate-700">
+                                    <img src="/bot-icon.png" alt="Bot" className="w-full h-full object-cover" />
                                 </div>
                                 <div className="bg-slate-800 border border-slate-700 rounded-2xl rounded-tl-sm p-3 flex items-center gap-2">
                                     <Loader2 className="w-4 h-4 text-blue-400 animate-spin" />
@@ -151,9 +151,9 @@ const ChatbotWidget = () => {
             {!isOpen && (
                 <button
                     onClick={toggleChat}
-                    className="w-14 h-14 bg-blue-600 hover:bg-blue-500 text-white rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_25px_rgba(37,99,235,0.5)] transition-all transform hover:scale-105"
+                    className="w-16 h-16 bg-blue-600 hover:bg-blue-500 text-white rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_25px_rgba(37,99,235,0.5)] transition-all transform hover:scale-105 overflow-hidden p-0"
                 >
-                    <MessageSquare className="w-6 h-6" />
+                    <img src="/bot-icon.png" alt="Chat" className="w-full h-full object-cover" />
                 </button>
             )}
         </div>

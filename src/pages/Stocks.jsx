@@ -11,7 +11,7 @@ const stockNewsCache = {};
 
 const Stocks = () => {
 
-    const langKey = false ? 'hi' : 'en';
+    const langKey = 'en';
     const cached = stockNewsCache[langKey] || [];
 
     const [news, setNews] = useState(cached);
@@ -95,8 +95,7 @@ const Stocks = () => {
                             });
                         }
                         // Save to cache so revisit is instant
-                        const lk = false ? 'hi' : 'en';
-                        stockNewsCache[lk] = diversified;
+                        stockNewsCache.en = diversified;
                         return diversified;
                     });
                     // Hide spinner as soon as the first feed responds
@@ -126,11 +125,8 @@ const Stocks = () => {
             setLastUpdated(new Date());
         } catch (error) {
             console.error('fetchMarketNews error:', error);
-        } finally {
-            setLoading(false);
-            setSyncing(false);
         }
-    }, ['en']);
+    }, []);
 
     // Scroll to top on mount / tab switch
     useEffect(() => {
@@ -139,35 +135,29 @@ const Stocks = () => {
 
     // Reset + initial fetch on language change
     useEffect(() => {
-        const lk = false ? 'hi' : 'en';
-        const hasCached = (stockNewsCache[lk] || []).length > 0;
+        const langKey = 'en';
+        const hasCached = (stockNewsCache[langKey] || []).length > 0;
 
-        if (!hasCached) {
-            setNews([]);
-            setLoading(true);
-        } else {
-            setNews(stockNewsCache[lk]);
-            setLoading(false);
-        }
-        setCountdown(45);
+        setCountdown(300);
         fetchMarketNews(hasCached); // background if already cached
 
         const timer = setInterval(() => {
-            setCountdown(prev => {
-                if (prev <= 1) {
-                    fetchMarketNews(true);
-                    return 45;
-                }
-                return prev - 1;
-            });
+            setCountdown(prev => prev - 1);
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [fetchMarketNews, 'en']);
+    }, [fetchMarketNews]);
+
+    useEffect(() => {
+        if (countdown <= 0) {
+            setCountdown(300);
+            fetchMarketNews(true);
+        }
+    }, [countdown, fetchMarketNews]);
 
     return (
-        <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-screen-2xl mx-auto">
+        <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+            <div className="w-full max-w-screen-2xl mx-auto">
                 {/* Hero Header — matches Home page category style */}
                 <header className="mb-16 text-center">
                     <div className="flex flex-col items-center gap-4 mb-4">
@@ -197,10 +187,10 @@ const Stocks = () => {
                         </div>
                     </div>
 
-                    <h1 className="text-4xl md:text-7xl font-extrabold text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 inline-block font-display tracking-tight text-center w-full">
+                    <h1 className="text-3xl sm:text-4xl md:text-7xl font-extrabold text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 inline-block font-display tracking-tight text-center w-full px-2">
                         Stocks Updates
                     </h1>
-                    <p className="text-slate-400 max-w-2xl mx-auto text-lg md:text-xl font-light">
+                    <p className="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg md:text-xl font-light px-4">
                         Real-time market intelligence — stocks, indices, IPOs, and financial developments across India and global markets.
                     </p>
 
@@ -224,7 +214,6 @@ const Stocks = () => {
                         if (a.isFallback) return true;
                         const pubDate = new Date(a.pubDate);
                         if (isNaN(pubDate.getTime())) return true;
-                        const dayOfWeek = now.getDay();
                         const maxH = 24; // Strictly 24 hours
                         return (now - pubDate) / 3600000 < maxH;
                     });

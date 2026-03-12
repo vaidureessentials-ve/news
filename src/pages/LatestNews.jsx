@@ -116,7 +116,7 @@ const LatestNews = () => {
 
         const timer = setInterval(() => {
             fetchAllNewsData(true);
-        }, 30000); // Fetch every 30 seconds
+        }, 300000); // Fetch every 5 minutes
 
         return () => clearInterval(timer);
     }, [fetchAllNewsData]);
@@ -124,8 +124,8 @@ const LatestNews = () => {
 
 
     return (
-        <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-screen-2xl mx-auto">
+        <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+            <div className="w-full max-w-screen-2xl mx-auto">
                 <header className="mb-16 text-center">
                     <div className="flex flex-col items-center gap-1 mb-4">
                         <span className={`${syncing ? 'text-blue-500' : 'text-red-500'} text-[10px] font-black tracking-[0.2em] uppercase flex items-center gap-2`}>
@@ -146,8 +146,8 @@ const LatestNews = () => {
                         </span>
                     </div>
 
-                    <h1 className={`text-4xl md:text-7xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r ${meta.gradient} inline-block font-display tracking-tight text-center w-full`}>
-                        {'Latest News' || 'Latest News'} Updates
+                    <h1 className={`text-3xl sm:text-4xl md:text-7xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r ${meta.gradient} inline-block font-display tracking-tight text-center w-full px-2`}>
+                        Latest Updates
                     </h1>
                 </header>
 

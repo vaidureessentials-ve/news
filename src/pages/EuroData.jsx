@@ -23,18 +23,48 @@ const ecbRateData = [
     { date: 'Mar 2026', value: 2.15 },
 ];
 
+const euroEmploymentData = [
+    { date: 'Jan 2024', value: 70.1 },
+    { date: 'Mar 2024', value: 70.2 },
+    { date: 'Jun 2024', value: 70.4 },
+    { date: 'Sep 2024', value: 70.3 },
+    { date: 'Dec 2024', value: 70.5 },
+    { date: 'Jan 2025', value: 70.4 },
+    { date: 'Jan 2026', value: 70.6 },
+    { date: 'Mar 2026', value: 70.7 },
+];
+
 const euroInflationData = [
-    { date: 'Jan 2023', value: 8.60 },
-    { date: 'Apr 2023', value: 7.00 },
-    { date: 'Jul 2023', value: 5.30 },
-    { date: 'Oct 2023', value: 2.90 },
-    { date: 'Jan 2024', value: 2.80 },
-    { date: 'Apr 2024', value: 2.40 },
-    { date: 'Jul 2024', value: 2.60 },
-    { date: 'Oct 2024', value: 2.00 },
-    { date: 'Dec 2025', value: 1.80 },
+    { date: 'Jan 2025', value: 2.40 },
+    { date: 'Mar 2025', value: 1.80 },
+    { date: 'Jun 2025', value: 2.10 },
+    { date: 'Sep 2025', value: 2.20 },
+    { date: 'Dec 2025', value: 2.00 },
     { date: 'Jan 2026', value: 1.70 },
     { date: 'Feb 2026', value: 1.90 },
+    { date: 'Mar 2026', value: 1.95 },
+];
+
+const euroPPIData = [
+    { date: 'Jan 2025', value: -4.50 },
+    { date: 'Mar 2025', value: -3.80 },
+    { date: 'Jun 2025', value: -2.70 },
+    { date: 'Sep 2025', value: -2.30 },
+    { date: 'Dec 2025', value: -2.10 },
+    { date: 'Jan 2026', value: -2.10 },
+    { date: 'Feb 2026', value: -1.80 },
+    { date: 'Mar 2026', value: -1.75 },
+];
+
+const euroRPIData = [
+    { date: 'Jan 2025', value: 2.40 },
+    { date: 'Mar 2025', value: 2.10 },
+    { date: 'Jun 2025', value: 2.30 },
+    { date: 'Sep 2025', value: 2.40 },
+    { date: 'Dec 2025', value: 2.20 },
+    { date: 'Jan 2026', value: 2.10 },
+    { date: 'Feb 2026', value: 2.25 },
+    { date: 'Mar 2026', value: 2.30 },
 ];
 
 const euroPopulationData = [
@@ -47,6 +77,36 @@ const euroPopulationData = [
     { date: '2024', value: 351.1 },
     { date: '2025', value: 351.4 },
     { date: '2026', value: 352.4 },
+];
+
+const euroPMIData = [
+    { date: 'Sep 2025', value: 44.5 },
+    { date: 'Oct 2025', value: 45.2 },
+    { date: 'Nov 2025', value: 46.1 },
+    { date: 'Dec 2025', value: 45.8 },
+    { date: 'Jan 2026', value: 46.5 },
+    { date: 'Feb 2026', value: 47.1 },
+    { date: 'Mar 2026', value: 47.8 },
+];
+
+const euroTradeBalanceData = [
+    { date: 'Sep 2025', value: 10.5 },
+    { date: 'Oct 2025', value: 11.2 },
+    { date: 'Nov 2025', value: 12.1 },
+    { date: 'Dec 2025', value: 12.6 },
+    { date: 'Jan 2026', value: 13.1 },
+    { date: 'Feb 2026', value: 13.5 },
+    { date: 'Mar 2026', value: 14.1 },
+];
+
+const euroDebtGDPData = [
+    { date: '2020', value: 97.2 },
+    { date: '2021', value: 95.4 },
+    { date: '2022', value: 91.5 },
+    { date: '2023', value: 89.9 },
+    { date: '2024', value: 88.6 },
+    { date: '2025', value: 87.8 },
+    { date: '2026', value: 87.1 },
 ];
 
 const euroGdpData = [
@@ -115,14 +175,14 @@ const IndicatorCard = ({
                         Full Data <ExternalLink className="w-3 h-3" />
                     </a>
                 </div>
-                <div className="mt-5 flex items-end gap-4 flex-wrap">
-                    <span className="text-6xl font-extrabold text-white tracking-tight">{trend.value}</span>
-                    <div className="mb-1">
-                        <span className={`flex items-center gap-1 text-sm font-bold ${isUp ? (isPopulation ? 'text-emerald-400' : 'text-red-400') : (isPopulation ? 'text-red-400' : 'text-emerald-400')}`}>
-                            {isUp ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+                <div className="mt-5 flex items-end gap-3 flex-wrap">
+                    <span className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight">{trend.value}</span>
+                    <div className="mb-0.5 sm:mb-1">
+                        <span className={`flex items-center gap-1 text-xs sm:text-sm font-bold ${isUp ? (isPopulation ? 'text-emerald-400' : 'text-red-400') : (isPopulation ? 'text-red-400' : 'text-emerald-400')}`}>
+                            {isUp ? <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <TrendingDown className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
                             {trend.change} vs previous
                         </span>
-                        <span className="text-xs text-slate-500 mt-0.5 block">As of {trend.date}</span>
+                        <span className="text-[10px] sm:text-xs text-slate-500 mt-0.5 block">As of {trend.date}</span>
                     </div>
                 </div>
             </div>
@@ -152,19 +212,19 @@ const IndicatorCard = ({
 };
 
 const EuroData = () => {
-    const isHindi = false;
+    const [countdown, setCountdown] = useState(300);
+    const [lastUpdated, setLastUpdated] = useState(new Date());
+
     const [news, setNews] = useState([]);
     const [loading, setLoading] = useState(true);
     const [syncing, setSyncing] = useState(false);
-    const [countdown, setCountdown] = useState(300);
-    const [lastUpdated, setLastUpdated] = useState(new Date());
 
     const fetchEuroNews = useCallback(async (isBackground = false) => {
         try {
             if (!isBackground) setLoading(true);
             else setSyncing(true);
 
-            const feeds = (isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS)['EconomyEuro'] || [];
+            const feeds = EN_CATEGORY_FEEDS['EconomyEuro'] || [];
             if (feeds.length === 0) return;
 
             const withTimeout = (promise, ms = 4000) =>
@@ -191,7 +251,7 @@ const EuroData = () => {
                 }
                 if (!result) return [];
                 return result.items
-                    .map(item => normArticle(item, feed, result, isHindi, 'Economy'))
+                    .map(item => normArticle(item, feed, result, false, 'Economy'))
                     .filter(a => isArticleRelevant(a, 'Economy') && !isBlocked(a));
             });
 
@@ -209,23 +269,27 @@ const EuroData = () => {
             setLoading(false);
             setSyncing(false);
         }
-    }, [isHindi]);
+    }, []);
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         fetchEuroNews();
         const timer = setInterval(() => {
-            setCountdown(prev => {
-                if (prev <= 1) { fetchEuroNews(true); return 300; }
-                return prev - 1;
-            });
+            setCountdown(prev => prev - 1);
         }, 1000);
         return () => clearInterval(timer);
     }, [fetchEuroNews]);
 
+    useEffect(() => {
+        if (countdown <= 0) {
+            setCountdown(300);
+            fetchEuroNews(true);
+        }
+    }, [countdown, fetchEuroNews]);
+
     return (
-        <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-5xl mx-auto">
+        <div className="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+            <div className="w-full max-w-6xl mx-auto">
                 <header className="mb-12 text-center">
                     <div className="flex flex-col items-center gap-3 mb-6">
                         <div className="flex items-center gap-2">
@@ -241,15 +305,23 @@ const EuroData = () => {
                             Latest data points · News sync in {Math.floor(countdown / 60)}m {countdown % 60}s · Last sync: {lastUpdated.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })}
                         </span>
                     </div>
-                    <h1 className="text-4xl md:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 mb-4 tracking-tight w-full">
+                    <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 mb-4 tracking-tight w-full text-center px-2">
                         Euro Area Markets
                     </h1>
                 </header>
 
                 <div className="flex flex-col gap-10">
                     <IndicatorCard title="Euro Area GDP Growth" subtitle="Annual Real GDP" color="#fbbf24" gradientId="euroGdpGrad" sourceUrl="https://tradingeconomics.com/euro-area/gdp-growth-annual" data={euroGdpData} unit="growth" description="Annual percentage growth rate of Euro Area GDP. It highlights the economic performance of countries using the Euro." />
-                    <IndicatorCard title="ECB Refinancing Rate" subtitle="ECB Policy Benchmark" color="#3b82f6" gradientId="ecbGrad" sourceUrl="https://tradingeconomics.com/euro-area/interest-rate" data={ecbRateData} unit="interest rate" description="The rate at which the European Central Bank provides liquidity to the banking system. It's the key interest rate for the Euro Area." />
-                    <IndicatorCard title="Euro Inflation (HICP)" subtitle="Harmonised Index" color="#a855f7" gradientId="infEuroGrad" sourceUrl="https://tradingeconomics.com/euro-area/inflation-cpi" data={euroInflationData} unit="HICP" description="Consumer price inflation as measured by the Harmonised Index of Consumer Prices (HICP), the primary measure for ECB price stability." />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                        <IndicatorCard title="ECB Refinancing Rate" subtitle="ECB Policy Benchmark" color="#3b82f6" gradientId="ecbGrad" sourceUrl="https://tradingeconomics.com/euro-area/interest-rate" data={ecbRateData} unit="interest rate" description="The rate at which the European Central Bank provides liquidity to the banking system. It's the key interest rate for the Euro Area." />
+                        <IndicatorCard title="Euro Inflation (HICP)" subtitle="Harmonised Index" color="#a855f7" gradientId="infEuroGrad" sourceUrl="https://tradingeconomics.com/euro-area/inflation-cpi" data={euroInflationData} unit="HICP" description="Consumer price inflation as measured by the Harmonised Index of Consumer Prices (HICP), the primary measure for ECB price stability." />
+                        <IndicatorCard title="Euro Area Employment Rate" subtitle="Employment Rate (15-64)" color="#10b981" gradientId="empEuroGrad" sourceUrl="https://tradingeconomics.com/euro-area/employment-rate" data={euroEmploymentData} unit="employment" description="The percentage of the Euro Area's working-age population (15-64) that is currently employed." />
+                        <IndicatorCard title="Manufacturing PMI" subtitle="S&P Global Eurozone" color="#0ea5e9" gradientId="euroPmiGrad" sourceUrl="https://tradingeconomics.com/euro-area/manufacturing-pmi" data={euroPMIData} unit="index" description="The Manufacturing Purchasing Managers' Index (PMI) highlights the health of the Eurozone manufacturing sector. A reading above 50 indicates expansion." />
+                        <IndicatorCard title="Trade Balance" subtitle="Goods & Services" color="#10b981" gradientId="euroTradeGrad" sourceUrl="https://tradingeconomics.com/euro-area/balance-of-trade" data={euroTradeBalanceData} unit="EUR Billion" description="The difference between the value of exports and imports for the Euro Area. The region often maintains a trade surplus." />
+                        <IndicatorCard title="Govt Debt to GDP" subtitle="Eurozone Debt Ratio" color="#6366f1" gradientId="euroDebtGrad" sourceUrl="https://tradingeconomics.com/euro-area/government-debt-to-gdp" data={euroDebtGDPData} unit="%" description="The ratio of total public debt to gross domestic product for the Euro Area. Key to assessing regional fiscal stability." />
+                        <IndicatorCard title="Producer Price Index (WPI)" subtitle="PPI Wholesale" color="#f97316" gradientId="ppiEuroGrad" sourceUrl="https://tradingeconomics.com/euro-area/producer-prices" data={euroPPIData} unit="PPI" description="Tracks the average change over time in the prices received by domestic producers for their output." />
+                        <IndicatorCard title="Retail Price Index (RPI)" subtitle="Retail Price Trends" color="#06b6d4" gradientId="rpiEuroGrad" sourceUrl="https://tradingeconomics.com/euro-area/consumer-price-index-cpi" data={euroRPIData} unit="RPI" description="A measure of inflation reflecting the final cost of a representative basket of retail goods and services." />
+                    </div>
                     <IndicatorCard title="Euro Area Population" subtitle="EA19 Total Estimate" color="#10b981" gradientId="popEuroGrad" sourceUrl="https://tradingeconomics.com/euro-area/population" data={euroPopulationData} unit="people" isPopulation={true} description="The total population of the Euro Area member states. Reflects the demographic foundation of the single currency zone." />
                 </div>
 
