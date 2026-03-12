@@ -250,7 +250,8 @@ const Home = () => {
     }
 
     const isHindi = false;
-    const fixedOrder = Object.keys(isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS);
+    const fixedOrder = Object.keys(isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS)
+        .filter(cat => !['EconomyUS', 'EconomyEuro'].includes(cat));
     const allCategories = fixedOrder.filter(cat => newsData[cat]);
     const categoriesToRender = categoryFilter
         ? allCategories.filter(cat => cat.toLowerCase() === categoryFilter.toLowerCase())

@@ -590,7 +590,7 @@ export const isBlocked = (article) => {
     const pubDate = new Date(article.pubDate);
     if (!isNaN(pubDate.getTime())) {
         const threshold = new Date();
-        const maxStalenessHours = 24;
+        const maxStalenessHours = 48;
 
         threshold.setHours(threshold.getHours() - maxStalenessHours);
         if (pubDate < threshold) return true;

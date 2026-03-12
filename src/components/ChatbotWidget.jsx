@@ -5,7 +5,7 @@ import { GoogleGenAI } from '@google/genai';
 const ChatbotWidget = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState([
-        { role: 'bot', content: 'Hi! Ask me to analyze any news topic.' }
+        { role: 'bot', content: 'Hey there! How\'s it going? I\'m your GFS assistant. How can I help you with news or strategic analysis today?' }
     ]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -131,7 +131,7 @@ const ChatbotWidget = () => {
                                 type="text"
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
-                                placeholder="Ask about a news topic..."
+                                placeholder="Say hello or ask about a news topic..."
                                 className="w-full bg-slate-900 border border-slate-700 text-white rounded-full pl-4 pr-12 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-slate-500"
                                 disabled={isLoading}
                             />
