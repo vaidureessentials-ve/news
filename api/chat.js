@@ -19,14 +19,17 @@ export default async function handler(req, res) {
         }
 
         const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" }, { apiVersion: 'v1' });
+        const model = genAI.getGenerativeModel({
+            model: "gemini-2.5-flash",
+            tools: [{ googleSearch: {} }]
+        }, { apiVersion: 'v1beta' });
 
         const prompt = `
 You are a helpful and intelligent news and strategic intelligence assistant for GFS (Global Font of Strategic intelligence).
 
 Your goals:
-1. Be friendly and conversational. If the user greets you (e.g., "Hi", "Hello", "How are you?"), respond warmly and ask how you can help them with news or analysis today.
-2. If the user asks about a specific news topic, title, or event, provide a professional and structured analysis.
+1. Be friendly and conversational. If the user greets you (e.g., "Hi", "Hello"), respond warmly and ask how you can help them with news or analysis.
+2. If the user asks about a specific news topic, title, or event, you MUST use your Google Search tool to find the absolute latest, up-to-date information before answering. Provide a professional and structured analysis.
 3. If providing news analysis, format your answer strictly into these sections:
    - **Summary**: A brief overview of the situation.
    - **Positive Points**: List the positive aspects or implications.

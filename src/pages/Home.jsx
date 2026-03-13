@@ -201,7 +201,7 @@ const Home = () => {
         if (!hasCached) {
             seenUrls.current = new Set();
         }
-        setCountdown(300);
+        setCountdown(30);
         fetchAllNews(hasCached);
 
         const timer = setInterval(() => {
@@ -213,7 +213,7 @@ const Home = () => {
 
     useEffect(() => {
         if (countdown <= 0) {
-            setCountdown(300);
+            setCountdown(30);
             fetchAllNews(true);
         }
     }, [countdown, fetchAllNews]);
@@ -250,9 +250,8 @@ const Home = () => {
     }
 
     const isHindi = false;
-    const fixedOrder = Object.keys(isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS)
-        .filter(cat => !['EconomyUS', 'EconomyEuro'].includes(cat));
-    const allCategories = fixedOrder.filter(cat => newsData[cat]);
+    const fixedOrder = Object.keys(isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS);
+    const allCategories = fixedOrder;
     const categoriesToRender = categoryFilter
         ? allCategories.filter(cat => cat.toLowerCase() === categoryFilter.toLowerCase())
         : allCategories;
@@ -307,7 +306,7 @@ const Home = () => {
                                 <div className="flex items-center gap-4">
                                     <div className="h-8 w-1.5 bg-blue-600 rounded-full"></div>
                                     <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-                                        {cat}
+                                        {cat === 'EconomyUS' ? 'US Economy' : cat === 'EconomyEuro' ? 'Euro Economy' : cat}
                                     </h2>
                                     {newsData[cat]?.length > 0 && (
                                         <span className="text-[10px] font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full tracking-widest uppercase">
@@ -319,7 +318,7 @@ const Home = () => {
                                     const routeMap = {
                                         Tech: '/tech', Business: '/business',
                                         Economy: '/economy', Geopolitical: '/geopolitics',
-                                        Stocks: '/stocks'
+                                        Stocks: '/stocks', EconomyUS: '/data/us', EconomyEuro: '/data/euro'
                                     };
                                     const route = routeMap[cat];
                                     return route ? (

@@ -5,7 +5,7 @@ import { GoogleGenAI } from '@google/genai';
 const ChatbotWidget = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState([
-        { role: 'bot', content: 'Hey there! How\'s it going? I\'m your GFS assistant. How can I help you with news or strategic analysis today?' }
+        { role: 'bot', content: 'Hey there! I\'m your GFS assistant. How can I help you with news or strategic analysis today?' }
     ]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);

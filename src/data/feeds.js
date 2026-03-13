@@ -252,9 +252,31 @@ export const BLOCKED_KEYWORDS = [
     'my husband', 'my wife', 'my boss', 'my career', 'my job', 'i don\'t earn',
     'unemployed husband', 'marriage advice', 'relationship advice', 'divorce',
 
-    // Finance / Credit Card Ads
+    // Finance / Credit Card Ads / Promotions
     '0% intro', 'intro apr', '0% apr', 'credit card offer', 'credit score',
-    'interest into 2024', 'interest into 2023', 'avoid credit card interest'
+    'interest into 2024', 'interest into 2023', 'avoid credit card interest',
+    'cash back', 'cashback', 'best cash back card', 'experts: this is the',
+    'best credit card', 'welcome bonus', 'sign-up bonus', 'points card',
+    'credit card of', 'home equity', 'equity into cash', 'mortgage rate',
+    'refinance', 'reverse mortgage', 'cash you can use', 'personal loan',
+    'cash out of your home', 'best options for cash', 'home loan',
+
+    // Regional Indian Politics / Elections
+    'sasikala', 'political party', 'coming polls', 'assembly polls',
+    'chief minister', 'mlas', 'assembly election', 'lok sabha',
+    
+    // Generic / Placeholder Titles
+    'here\'s the latest.', 'here is the latest.', 'latest news',
+    'live updates', 'your morning briefing', 'your evening briefing',
+
+    // Entertainment / Bollywood (often slipping into business feeds)
+    'salim merchant', 'arijit singh', 'bollywood', 'actor', 'actress',
+    'movie review', 'box office', 'celebrity', 'ozzy osbourne', 'rock n roll',
+    'music charts', 'dj', 'musician',
+
+    // Sponsored Product Placements / Alcohol
+    'picadilly', 'camikara', 'aged rum', 'rum awards', 'best aged rum',
+    'single malt', 'whiskey', 'liquor brand'
 ];
 
 // ─────────────────────────────────────────────────────────────
@@ -495,6 +517,7 @@ export const isArticleRelevant = (article, category) => {
     // Curated feeds (ET, Livemint, etc.) are trusted to prevent empty categories, EXCEPT for Stocks,
     // where we want to be strict to avoid general business news bleeding in.
     const isAggregator = article.sourceName && article.sourceName.toLowerCase().includes('google');
+    // If it is not Stocks AND not an aggregator feed (Google Search), trust it as relevant.
     if (!isAggregator && category !== 'Stocks') return true;
 
     const keywords = CATEGORY_KEYWORDS[category] || [];
@@ -590,7 +613,7 @@ export const isBlocked = (article) => {
     const pubDate = new Date(article.pubDate);
     if (!isNaN(pubDate.getTime())) {
         const threshold = new Date();
-        const maxStalenessHours = 48;
+        const maxStalenessHours = 24;
 
         threshold.setHours(threshold.getHours() - maxStalenessHours);
         if (pubDate < threshold) return true;
