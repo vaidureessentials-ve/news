@@ -210,7 +210,7 @@ const IndicatorCard = ({
 };
 
 const USData = () => {
-    const [countdown, setCountdown] = useState(300);
+    const [countdown, setCountdown] = useState(30);
     const [lastUpdated, setLastUpdated] = useState(new Date());
 
     const [news, setNews] = useState([]);
@@ -280,7 +280,7 @@ const USData = () => {
 
     useEffect(() => {
         if (countdown <= 0) {
-            setCountdown(300);
+            setCountdown(30);
             fetchUSNews(true);
         }
     }, [countdown, fetchUSNews]);

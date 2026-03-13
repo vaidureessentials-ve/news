@@ -323,7 +323,7 @@ const IndicatorCard = ({
 
 // ── Page Component ─────────────────────────────────────────────────────
 const Data = () => {
-    const [countdown, setCountdown] = useState(300); // 5 minutes
+    const [countdown, setCountdown] = useState(30); // 30 seconds sync
     const [lastUpdated, setLastUpdated] = useState(new Date());
 
     const cached = economyNewsCache.en;
@@ -401,7 +401,7 @@ const Data = () => {
 
     useEffect(() => {
         if (countdown <= 0) {
-            setCountdown(300);
+            setCountdown(30);
             fetchEconomyNews(true);
         }
     }, [countdown, fetchEconomyNews]);

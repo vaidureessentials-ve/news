@@ -138,7 +138,7 @@ const Stocks = () => {
         const langKey = 'en';
         const hasCached = (stockNewsCache[langKey] || []).length > 0;
 
-        setCountdown(300);
+        setCountdown(30);
         fetchMarketNews(hasCached); // background if already cached
 
         const timer = setInterval(() => {
@@ -150,7 +150,7 @@ const Stocks = () => {
 
     useEffect(() => {
         if (countdown <= 0) {
-            setCountdown(300);
+            setCountdown(30);
             fetchMarketNews(true);
         }
     }, [countdown, fetchMarketNews]);

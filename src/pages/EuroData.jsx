@@ -212,7 +212,7 @@ const IndicatorCard = ({
 };
 
 const EuroData = () => {
-    const [countdown, setCountdown] = useState(300);
+    const [countdown, setCountdown] = useState(30);
     const [lastUpdated, setLastUpdated] = useState(new Date());
 
     const [news, setNews] = useState([]);
@@ -282,7 +282,7 @@ const EuroData = () => {
 
     useEffect(() => {
         if (countdown <= 0) {
-            setCountdown(300);
+            setCountdown(30);
             fetchEuroNews(true);
         }
     }, [countdown, fetchEuroNews]);

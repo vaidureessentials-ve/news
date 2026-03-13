@@ -168,14 +168,14 @@ const CategoryPage = ({ category }) => {
             setNews(newsCache[key]);
             setLoading(false);
         }
-        setCountdown(300);
+        setCountdown(30);
         fetchNews(hasCached);
 
         const timer = setInterval(() => {
             setCountdown(prev => {
                 if (prev <= 1) {
                     fetchNews(true);
-                    return 300;
+                    return 30;
                 }
                 return prev - 1;
             });
@@ -243,7 +243,8 @@ const CategoryPage = ({ category }) => {
                         if (a.isFallback) return true;
                         const pubDate = new Date(a.pubDate);
                         if (isNaN(pubDate.getTime())) return false; // Strictly reject invalid dates
-                        return (now - pubDate) / 3600000 < 24; // Strictly 24 hours
+                        const maxH = ['Economy', 'EconomyUS', 'EconomyEuro'].includes(category) ? 72 : 24;
+                        return (now - pubDate) / 3600000 < maxH;
                     });
 
                     if (loading && news.length === 0) {
