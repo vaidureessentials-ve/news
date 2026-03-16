@@ -627,7 +627,7 @@ export const isBlocked = (article) => {
         const now = new Date();
         
         // Economy articles are valid for 72h; others for 48h
-        const isEconomy = category && (category.includes('Economy') || category === 'Economy');
+        const isEconomy = article.category && (article.category.includes('Economy') || article.category === 'Economy');
         const maxStalenessHours = isEconomy ? 72 : 48;
 
         const threshold = new Date(now.getTime() - (maxStalenessHours * 60 * 60 * 1000));
