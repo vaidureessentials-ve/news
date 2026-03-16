@@ -243,7 +243,7 @@ const CategoryPage = ({ category }) => {
                         if (a.isFallback) return true;
                         const pubDate = new Date(a.pubDate);
                         if (isNaN(pubDate.getTime())) return false; // Strictly reject invalid dates
-                        const maxH = ['Economy', 'EconomyUS', 'EconomyEuro'].includes(category) ? 72 : 24;
+                        const maxH = 24;
                         return (now - pubDate) / 3600000 < maxH;
                     });
 

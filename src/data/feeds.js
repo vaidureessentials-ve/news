@@ -16,7 +16,7 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'Google UN', url: 'https://news.google.com/rss/search?q=united+nations+global+security&hl=en-IN&gl=IN&ceid=IN:en' },
         { name: 'Al Jazeera', url: 'https://www.aljazeera.com/xml/rss/all.xml' },
         { name: 'BBC World', url: 'http://feeds.bbci.co.uk/news/world/rss.xml' },
-        { name: 'Reuters World', url: 'https://news.google.com/rss/search?q=when:24h+allinurl:reuters.com/world&hl=en-US&gl=US&ceid=US:en' },
+        { name: 'Reuters World', url: 'https://news.google.com/rss/search?q=reuters.com+world+news&hl=en-US&gl=US&ceid=US:en' },
         { name: 'NYT World', url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml' },
         { name: 'CNN World', url: 'http://rss.cnn.com/rss/edition_world.rss' }
     ],
@@ -34,32 +34,32 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'Google Trade', url: 'https://news.google.com/rss/search?q=india+trade+export+import&hl=en-IN&gl=IN&ceid=IN:en' },
         { name: 'WSJ Economy', url: 'https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml' },
         { name: 'CNBC Economy', url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258' },
-        { name: 'Financial Times', url: 'https://news.google.com/rss/search?q=when:24h+allinurl:ft.com&hl=en-US&gl=US&ceid=US:en' },
+        { name: 'Financial Times', url: 'https://news.google.com/rss/search?q=ft.com+economy&hl=en-US&gl=US&ceid=US:en' },
         { name: 'Business Today', url: 'https://www.businesstoday.in/rssfeeds/?id=112046' },
-        { name: 'Bloomberg Global', url: 'https://news.google.com/rss/search?q=when:72h+allinurl:bloomberg.com/news/economy&hl=en-US&gl=US&ceid=US:en' },
-        { name: 'Forbes Economy', url: 'https://news.google.com/rss/search?q=when:72h+allinurl:forbes.com/economy&hl=en-US&gl=US&ceid=US:en' },
+        { name: 'Bloomberg Global', url: 'https://news.google.com/rss/search?q=bloomberg.com+economy&hl=en-US&gl=US&ceid=US:en' },
+        { name: 'Forbes Economy', url: 'https://news.google.com/rss/search?q=forbes.com+economy&hl=en-US&gl=US&ceid=US:en' },
         { name: 'Google IMF', url: 'https://news.google.com/rss/search?q=IMF+World+Bank+global+economy&hl=en-IN&gl=IN&ceid=IN:en' },
         { name: 'Google Macro', url: 'https://news.google.com/rss/search?q=macroeconomics+global+growth+forecast&hl=en-IN&gl=IN&ceid=IN:en' }
     ],
     'EconomyUS': [
         { name: 'WSJ Economy', url: 'https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml' },
         { name: 'CNBC Economy', url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258' },
-        { name: 'Reuters US Economy', url: 'https://news.google.com/rss/search?q=when:24h+allinurl:reuters.com/business/economy&hl=en-US&gl=US&ceid=US:en' },
+        { name: 'Reuters US Economy', url: 'https://news.google.com/rss/search?q=reuters.com+us+economy&hl=en-US&gl=US&ceid=US:en' },
         { name: 'Google US Fed', url: 'https://news.google.com/rss/search?q=federal+reserve+interest+rate+us+economy&hl=en-US&gl=US&ceid=US:en' },
         { name: 'Google US Inflation', url: 'https://news.google.com/rss/search?q=us+inflation+cpi+data&hl=en-US&gl=US&ceid=US:en' },
         { name: 'Google US Jobs', url: 'https://news.google.com/rss/search?q=us+jobs+report+nonfarm+payrolls&hl=en-US&gl=US&ceid=US:en' },
-        { name: 'Reuters US Eco', url: 'https://news.google.com/rss/search?q=when:72h+allinurl:reuters.com/business/economy&hl=en-US&gl=US&ceid=US:en' },
-        { name: 'Bloomberg US', url: 'https://news.google.com/rss/search?q=when:72h+allinurl:bloomberg.com/businessweek&hl=en-US&gl=US&ceid=US:en' }
+        { name: 'Reuters US Eco', url: 'https://news.google.com/rss/search?q=reuters.com+us+economy+news&hl=en-US&gl=US&ceid=US:en' },
+        { name: 'Bloomberg US', url: 'https://news.google.com/rss/search?q=bloomberg.com+businessweek+us&hl=en-US&gl=US&ceid=US:en' }
     ],
     'EconomyEuro': [
         { name: 'ECB News', url: 'https://www.ecb.europa.eu/home/html/rss.en.html' },
-        { name: 'Reuters Euro Economy', url: 'https://news.google.com/rss/search?q=when:24h+euro+area+economy+ecb&hl=en-GB&gl=GB&ceid=GB:en' },
-        { name: 'FT Euro Economy', url: 'https://news.google.com/rss/search?q=when:24h+allinurl:ft.com/euro-area-economy&hl=en-GB&gl=GB&ceid=GB:en' },
+        { name: 'Reuters Euro Economy', url: 'https://news.google.com/rss/search?q=euro+area+economy+ecb+reuters&hl=en-GB&gl=GB&ceid=GB:en' },
+        { name: 'FT Euro Economy', url: 'https://news.google.com/rss/search?q=ft.com+euro+area+economy&hl=en-GB&gl=GB&ceid=GB:en' },
         { name: 'Google Euro Inflation', url: 'https://news.google.com/rss/search?q=euro+area+inflation+hicp&hl=en-GB&gl=GB&ceid=GB:en' },
         { name: 'Google Euro GDP', url: 'https://news.google.com/rss/search?q=eurozone+gdp+growth+data&hl=en-GB&gl=GB&ceid=GB:en' },
         { name: 'Google ECB Policy', url: 'https://news.google.com/rss/search?q=european+central+bank+monetary+policy&hl=en-GB&gl=GB&ceid=GB:en' },
-        { name: 'BBC Euro Eco', url: 'https://news.google.com/rss/search?q=when:72h+allinurl:bbc.co.uk/news/business+europe+economy&hl=en-GB&gl=GB&ceid=GB:en' },
-        { name: 'Guardian Euro', url: 'https://news.google.com/rss/search?q=when:72h+allinurl:theguardian.com/business/eurozone&hl=en-GB&gl=GB&ceid=GB:en' }
+        { name: 'BBC Euro Eco', url: 'https://news.google.com/rss/search?q=bbc.co.uk+business+europe+economy&hl=en-GB&gl=GB&ceid=GB:en' },
+        { name: 'Guardian Euro', url: 'https://news.google.com/rss/search?q=theguardian.com+business+eurozone&hl=en-GB&gl=GB&ceid=GB:en' }
     ],
     'Business': [
         { name: 'Economic Times', url: 'https://economictimes.indiatimes.com/news/industry/rssfeeds/13352306.cms' },
@@ -114,7 +114,7 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'Business Today Markets', url: 'https://www.businesstoday.in/rss/market' },
         { name: 'The Hindu BusinessLine Markets', url: 'https://www.thehindubusinessline.com/markets/?service=rss' },
         { name: 'Yahoo Finance India', url: 'https://finance.yahoo.com/news/rssindex' },
-        { name: 'Investing.com', url: 'https://news.google.com/rss/search?q=when:24h+allinurl:investing.com/news/stock-market-news&hl=en-US&gl=US&ceid=US:en' },
+        { name: 'Investing.com', url: 'https://news.google.com/rss/search?q=investing.com+stock+market+news&hl=en-US&gl=US&ceid=US:en' },
         { name: 'MarketWatch', url: 'http://feeds.marketwatch.com/marketwatch/topstories/' }
     ]
 };
@@ -232,8 +232,9 @@ export const BLOCKED_KEYWORDS = [
     'entertainment', 'showbiz', 'limelight', 'paparazzi', 'fan club',
     'फिल्म', 'सिनेमा', 'बॉलीवुड', 'सेलिब्रिटी',
     'मनोरंजन', 'वेब सीरीज', 'टीवी शो', 'गाना', 'संगीत',
-    'premiere', 'box-office', 'superstar', 'blockbuster', 'advance booking',
-    'tickets', 'theatre', 'trailer', 'screenings',
+    'premieres', 'box-office', 'superstar', 'blockbuster', 'advance booking',
+    'tickets', 'theatre', 'trailer', 'screenings', 'kpop', 'k-pop', 'bts',
+    'award-winning', 'demon hunters', 'grammys', 'emmys', 'film festival',
     // Adult / NSFW
     'onlyfans', 'only fans', 'adult content', 'porn', 'pornography', 'xxx',
     'nude', 'naked', 'nsfw', 'escort', 'erotic', 'erotica', 'sex tape',
@@ -624,7 +625,7 @@ export const isBlocked = (article) => {
     const pubDate = new Date(article.pubDate);
     if (!isNaN(pubDate.getTime())) {
         const threshold = new Date();
-        const maxStalenessHours = 72; // Allow up to 3 days to support slower feeds (Economy/Euro/US)
+        const maxStalenessHours = 24; // Strict 24h staleness limit
 
         threshold.setHours(threshold.getHours() - maxStalenessHours);
         if (pubDate < threshold) return true;

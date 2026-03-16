@@ -249,8 +249,8 @@ const USData = () => {
                 }
                 if (!result) return [];
                 return result.items
-                    .map(item => normArticle(item, feed, result, false, 'Economy'))
-                    .filter(a => isArticleRelevant(a, 'Economy') && !isBlocked(a));
+                    .map(item => normArticle(item, feed, result, false, 'EconomyUS'))
+                    .filter(a => isArticleRelevant(a, 'EconomyUS') && !isBlocked(a));
             });
 
             const results = await Promise.allSettled(feedPromises);

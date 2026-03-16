@@ -339,8 +339,8 @@ const Home = () => {
                                     if (a.isFallback) return true;
                                     const pubDate = new Date(a.pubDate);
                                     if (isNaN(pubDate.getTime())) return false; // Strictly reject invalid dates
-                                    // Use 72h for Economy categories to prevent them from being empty, otherwise 24h as requested
-                                    const maxH = ['Economy', 'EconomyUS', 'EconomyEuro'].includes(cat) ? 72 : 24; 
+                                    // Use 24h for all categories as requested
+                                    const maxH = 24; 
                                     return (now - pubDate) / 3600000 < maxH;
                                 });
                                 return filtered.length > 0 ? (
