@@ -619,18 +619,21 @@ export const isBlocked = (article) => {
     // 2. Keyword block
     if (BLOCKED_KEYWORDS.some(kw => text.includes(kw.toLowerCase()))) return true;
 
-    // 3. Staleness block (Strictly 24 hours)
-    if (!article.pubDate) return true; // Block articles with no date (usually ads)
+    // 3. Staleness block
+    if (!article.pubDate) return true;
 
     const pubDate = new Date(article.pubDate);
     if (!isNaN(pubDate.getTime())) {
-        const threshold = new Date();
-        const maxStalenessHours = 24; // Strict 24h staleness limit
+        const now = new Date();
+        
+        // Economy articles are valid for 72h; others for 48h
+        const isEconomy = category && (category.includes('Economy') || category === 'Economy');
+        const maxStalenessHours = isEconomy ? 72 : 48;
 
-        threshold.setHours(threshold.getHours() - maxStalenessHours);
+        const threshold = new Date(now.getTime() - (maxStalenessHours * 60 * 60 * 1000));
         if (pubDate < threshold) return true;
     } else {
-        return true; // Invalid date format
+        return true;
     }
 
     return false;

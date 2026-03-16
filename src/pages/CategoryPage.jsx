@@ -242,8 +242,8 @@ const CategoryPage = ({ category }) => {
                     const filteredNews = news.filter(a => {
                         if (a.isFallback) return true;
                         const pubDate = new Date(a.pubDate);
-                        if (isNaN(pubDate.getTime())) return false; // Strictly reject invalid dates
-                        const maxH = 24;
+                        if (isNaN(pubDate.getTime())) return false;
+                        const maxH = 72; // Relaxed to 72h for Economy/General
                         return (now - pubDate) / 3600000 < maxH;
                     });
 

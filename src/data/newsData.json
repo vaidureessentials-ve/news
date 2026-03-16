@@ -1,1 +1,29 @@
-[]
+[
+  {
+    "category": "Economy",
+    "title": "Global Economic Outlook: Navigating Growth and Inflation in 2026",
+    "sourceName": "GFS Intelligence",
+    "pubDate": "2026-03-15T10:00:00Z",
+    "shortDescription": "A comprehensive analysis of global macroeconomic trends, focusing on central bank policies and industrial resilience.",
+    "imageUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=800",
+    "sourceUrl": "https://gfs.network/insights/economy-2026"
+  },
+  {
+    "category": "Geopolitical",
+    "title": "The New Era of Diplomacy: Strategic Alliances in the Indo-Pacific",
+    "sourceName": "GFS Intelligence",
+    "pubDate": "2026-03-15T08:00:00Z",
+    "shortDescription": "Exploring the shifting geopolitical landscape and the role of international summits in maintaining global security.",
+    "imageUrl": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&q=80&w=800",
+    "sourceUrl": "https://gfs.network/insights/geopolitics-2026"
+  },
+  {
+    "category": "Tech",
+    "title": "Quantum Computing Breakthrough: Scaling Beyond 1000 Qubits",
+    "sourceName": "GFS Intelligence",
+    "pubDate": "2026-03-14T14:30:00Z",
+    "shortDescription": "Major tech leaders announce a milestone in quantum scalability, paving the way for enterprise integration.",
+    "imageUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800",
+    "sourceUrl": "https://gfs.network/insights/tech-quantum"
+  }
+]
