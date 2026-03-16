@@ -157,7 +157,7 @@ const LatestNews = () => {
                         if (a.isFallback) return true;
                         const pubDate = new Date(a.pubDate);
                         if (isNaN(pubDate.getTime())) return false; // Strictly reject invalid dates
-                        return (now - pubDate) / 3600000 < 24; // Strictly 24 hours
+                        return (now - pubDate) / 3600000 < 48; // Consistent with feeds.js
                     });
 
                     if (loading && news.length === 0) {

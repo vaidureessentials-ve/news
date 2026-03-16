@@ -214,7 +214,7 @@ const Stocks = () => {
                         if (a.isFallback) return true;
                         const pubDate = new Date(a.pubDate);
                         if (isNaN(pubDate.getTime())) return true;
-                        const maxH = 24; // Strictly 24 hours
+                        const maxH = 48; // Consistent with feeds.js
                         return (now - pubDate) / 3600000 < maxH;
                     });
 
@@ -255,7 +255,7 @@ const Stocks = () => {
                             </div>
                             <h3 className="text-xl font-bold text-white mb-2">{'No Market Data Found'}</h3>
                             <p className="text-slate-400 max-w-sm mx-auto mb-6 text-sm">
-                                No stock market updates found in the last 24 hours.
+                                No stock market updates found in the last 48 hours.
                             </p>
                             <button
                                 onClick={() => fetchMarketNews()}
