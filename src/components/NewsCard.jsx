@@ -18,9 +18,11 @@ const NewsCard = ({ article }) => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
                 <div className="absolute top-4 left-4 flex flex-wrap gap-2">
-                    <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider bg-blue-600 text-white rounded-full shadow-lg">
-                        {article.category}
-                    </span>
+                    {article.category && article.category.toLowerCase() !== 'economy' && (
+                        <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider bg-blue-600 text-white rounded-full shadow-lg">
+                            {article.category}
+                        </span>
+                    )}
                     {article.sentiment && (
                         <span className={`px-3 py-1 text-[10px] font-black uppercase tracking-wider rounded-full shadow-lg border border-white/10 ${article.sentiment === 'Positive' ? 'bg-emerald-500 text-white' : article.sentiment === 'Negative' ? 'bg-red-500 text-white' : 'bg-slate-600 text-white'}`}>
                             {article.sentiment}

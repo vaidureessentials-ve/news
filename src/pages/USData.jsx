@@ -335,7 +335,14 @@ const USData = () => {
                         </div>
                     ) : news.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-center">
-                            {news.map((item, idx) => <NewsCard key={item.sourceUrl || idx} article={item} />)}
+                            {news
+                                .filter(a => {
+                                    if (a.isFallback) return true;
+                                    const pubDate = new Date(a.pubDate);
+                                    if (isNaN(pubDate.getTime())) return false;
+                                    return (new Date() - pubDate) / 3600000 < 72;
+                                })
+                                .map((item, idx) => <NewsCard key={item.sourceUrl || idx} article={item} />)}
                         </div>
                     ) : (
                         <div className="py-20 text-center bg-slate-800/20 rounded-3xl border border-slate-700/30">

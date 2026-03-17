@@ -284,7 +284,7 @@ const CategoryPage = ({ category }) => {
                             </div>
                             <h3 className="text-xl font-bold text-white mb-2">{'No Articles Found'}</h3>
                             <p className="text-slate-400 max-w-sm mx-auto mb-6 text-sm">
-                                No articles from the last 24 hours found for {categoryLabel}.
+                                No recent articles found from our live news network for {categoryLabel}.
                             </p>
                             <button
                                 onClick={() => fetchNews()}

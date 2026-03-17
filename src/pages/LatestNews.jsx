@@ -157,7 +157,9 @@ const LatestNews = () => {
                         if (a.isFallback) return true;
                         const pubDate = new Date(a.pubDate);
                         if (isNaN(pubDate.getTime())) return false; // Strictly reject invalid dates
-                        return (now - pubDate) / 3600000 < 48; // Consistent with feeds.js
+                        const isEconomy = a.category && (a.category.includes('Economy') || a.category === 'Economy');
+                        const maxH = isEconomy ? 72 : 48;
+                        return (now - pubDate) / 3600000 < maxH; 
                     });
 
                     if (loading && news.length === 0) {
@@ -197,7 +199,7 @@ const LatestNews = () => {
                             </div>
                             <h3 className="text-xl font-bold text-white mb-2">{'No Articles Found'}</h3>
                             <p className="text-slate-400 max-w-sm mx-auto mb-6 text-sm">
-                                No articles from the last 24 hours found.
+                                No recent articles found from our live news network.
                             </p>
                             <button
                                 onClick={() => fetchAllNewsData()}
