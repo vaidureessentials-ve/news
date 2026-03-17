@@ -344,6 +344,24 @@ const Home = () => {
                                     const maxH = isEconomy ? 72 : 48; 
                                     return (now - pubDate) / 3600000 < maxH;
                                 });
+
+                                // Dynamic Fallback: If live articles are gone/stale, use newsData.json
+                                if (filtered.length === 0) {
+                                    const fallback = newsFallbackData
+                                        .filter(item => item.category === cat)
+                                        .map(item => ({
+                                            ...item,
+                                            title: isHindi ? item.title_hi || item.title : item.title,
+                                            imageUrl: item.imageUrl || CATEGORY_META[cat]?.defaultImage,
+                                            shortDescription: isHindi ? item.shortDescription_hi || item.shortDescription : item.shortDescription,
+                                            fullContent: isHindi ? item.fullContent_hi || item.fullContent : item.fullContent,
+                                            isFallback: true
+                                        }));
+                                    if (fallback.length > 0) {
+                                        filtered.push(...fallback);
+                                    }
+                                }
+
                                 return filtered.length > 0 ? (
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                                         {filtered

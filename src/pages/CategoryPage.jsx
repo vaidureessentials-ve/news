@@ -247,6 +247,21 @@ const CategoryPage = ({ category }) => {
                         return (now - pubDate) / 3600000 < maxH;
                     });
 
+                    // Dynamic Fallback: If live articles are gone/stale, use newsData.json
+                    if (filteredNews.length === 0) {
+                        const fallback = newsFallbackData
+                            .filter(item => item.category === category)
+                            .map(item => ({
+                                ...item,
+                                imageUrl: item.imageUrl || meta.defaultImage,
+                                shortDescription: isHindi ? item.shortDescription_hi || item.shortDescription : item.shortDescription,
+                                isFallback: true
+                            }));
+                        if (fallback.length > 0) {
+                            filteredNews.push(...fallback);
+                        }
+                    }
+
                     if (loading && news.length === 0) {
                         return (
                             <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
