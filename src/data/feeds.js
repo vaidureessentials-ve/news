@@ -30,27 +30,17 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'CNN World', url: 'http://rss.cnn.com/rss/edition_world.rss', location: 'USA' }
     ],
     'Economy': [
-        { name: 'ET Economy', url: 'https://economictimes.indiatimes.com/news/economy/rssfeeds/13733806.cms' },
-        { name: 'ET Policy', url: 'https://economictimes.indiatimes.com/news/economy/policy/rssfeeds/13357540.cms' },
-        { name: 'ET Finance', url: 'https://economictimes.indiatimes.com/news/economy/finance/rssfeeds/13357559.cms' },
-        { name: 'Business Standard', url: 'https://www.business-standard.com/rss/economy-policy-102.rss' },
-        { name: 'Livemint Economy', url: 'https://www.livemint.com/rss/economy' },
-        { name: 'Financial Express', url: 'https://www.financialexpress.com/economy/feed/' },
-        { name: 'Moneycontrol', url: 'https://www.moneycontrol.com/rss/latestnews.xml' },
-        { name: 'NDTV Economy', url: 'https://www.ndtv.com/rss/economy' },
-        { name: 'Hindu BusinessLine', url: 'https://www.thehindubusinessline.com/economy/feeder/default.rss' },
-        { name: 'Business Today', url: 'https://www.businesstoday.in/rss/economy' },
-        { name: 'Google Economy', url: 'https://news.google.com/rss/search?q=india+economy+gdp&hl=en-IN&gl=IN&ceid=IN:en' },
-        { name: 'Google RBI', url: 'https://news.google.com/rss/search?q=rbi+interest+rate+india&hl=en-IN&gl=IN&ceid=IN:en' },
-        { name: 'Google Inflation', url: 'https://news.google.com/rss/search?q=india+inflation+fiscal+budget&hl=en-IN&gl=IN&ceid=IN:en' },
-        { name: 'Google Trade', url: 'https://news.google.com/rss/search?q=india+trade+export+import&hl=en-IN&gl=IN&ceid=IN:en' },
-        { name: 'WSJ Economy', url: 'https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml' },
         { name: 'CNBC Economy', url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258' },
-        { name: 'Financial Times', url: 'https://news.google.com/rss/search?q=ft.com+economy&hl=en-US&gl=US&ceid=US:en' },
-        { name: 'Bloomberg Global', url: 'https://news.google.com/rss/search?q=bloomberg.com+economy&hl=en-US&gl=US&ceid=US:en' },
-        { name: 'Forbes Economy', url: 'https://news.google.com/rss/search?q=forbes.com+economy&hl=en-US&gl=US&ceid=US:en' },
-        { name: 'Google IMF', url: 'https://news.google.com/rss/search?q=IMF+World+Bank+global+economy&hl=en-IN&gl=IN&ceid=IN:en' },
-        { name: 'Google Macro', url: 'https://news.google.com/rss/search?q=macroeconomics+global+growth+forecast&hl=en-IN&gl=IN&ceid=IN:en' }
+        { name: 'Reuters Business', url: 'https://news.google.com/rss/search?q=reuters.com+economy+global&hl=en-US&gl=US&ceid=US:en' },
+        { name: 'BBC Business', url: 'http://feeds.bbci.co.uk/news/business/rss.xml' },
+        { name: 'Livemint Economy', url: 'https://www.livemint.com/rss/economy' },
+        { name: 'ET Economy', url: 'https://economictimes.indiatimes.com/news/economy/rssfeeds/13733806.cms' },
+        { name: 'Financial Express', url: 'https://www.financialexpress.com/economy/feed/' },
+        { name: 'Business Standard', url: 'https://www.business-standard.com/rss/economy-policy-102.rss' },
+        { name: 'Hindu BusinessLine', url: 'https://www.thehindubusinessline.com/economy/feeder/default.rss' },
+        { name: 'Google Economy', url: 'https://news.google.com/rss/search?q=india+economy+gdp&hl=en-IN&gl=IN&ceid=IN:en' },
+        { name: 'WSJ Economy', url: 'https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml' },
+        { name: 'Bloomberg Global', url: 'https://news.google.com/rss/search?q=bloomberg.com+economy&hl=en-US&gl=US&ceid=US:en' }
     ],
     'US Economy': [
         { name: 'WSJ Economy', url: 'https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml' },
@@ -150,15 +140,11 @@ export const HI_CATEGORY_FEEDS = {
         { name: 'Google World Hindi', url: 'https://news.google.com/rss/search?q=world+geopolitics+international&hl=hi&gl=IN&ceid=IN:hi' }
     ],
     'Economy': [
-        { name: 'Google Economy', url: 'https://news.google.com/rss/search?q=india+economy+gdp&hl=en-IN&gl=IN&ceid=IN:en' },
-        { name: 'CNBC Economy', url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258' },
-        { name: 'Livemint Economy', url: 'https://www.livemint.com/rss/economy' },
-        { name: 'ET Economy', url: 'https://economictimes.indiatimes.com/news/economy/rssfeeds/13733806.cms' },
-        { name: 'ET Policy', url: 'https://economictimes.indiatimes.com/news/economy/policy/rssfeeds/13357540.cms' },
-        { name: 'Business Standard', url: 'https://www.business-standard.com/rss/economy-policy-102.rss' },
-        { name: 'Financial Express', url: 'https://www.financialexpress.com/economy/feed/' },
-        { name: 'Hindu BusinessLine', url: 'https://www.thehindubusinessline.com/economy/feeder/default.rss' },
-        { name: 'Reuters Economy', url: 'https://news.google.com/rss/search?q=reuters.com+economy+global&hl=en-US&gl=US&ceid=US:en' }
+        { name: 'Google Accuracy Hindi', url: 'https://news.google.com/rss/search?q=economy+india&hl=hi&gl=IN&ceid=IN:hi' },
+        { name: 'Aaj Tak Economy', url: 'https://www.aajtak.in/rss/economy.xml' },
+        { name: 'ABP Economics', url: 'https://www.abplive.com/business/feed' },
+        { name: 'NDTV India Economy', url: 'https://feeds.feedburner.com/ndtvindia-business' },
+        { name: 'Live Hindustan Eco', url: 'https://api.livehindustan.com/feeds/rss/business/rssfeed.xml' }
     ],
     'US Economy': [
         { name: 'Google US Economy Hindi', url: 'https://news.google.com/rss/search?q=us+economy+fed+rate&hl=hi&gl=IN&ceid=IN:hi' }
@@ -586,6 +572,8 @@ export const isArticleRelevant = (article, category) => {
     // where we want to be strict to avoid general business news bleeding in.
     const isAggregator = article.sourceName && article.sourceName.toLowerCase().includes('google');
     // If it is not Stocks AND not an aggregator feed (Google Search), trust it as relevant.
+    // Also explicitly trust any 'Economy' feeds to avoid the "No Articles Found" issue.
+    if (category === 'Economy') return true;
     if (!isAggregator && category !== 'Stocks') return true;
 
     const keywords = CATEGORY_KEYWORDS[category] || [];
