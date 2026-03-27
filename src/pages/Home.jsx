@@ -59,7 +59,7 @@ const Home = () => {
             const getShuffledProxies = () => {
                 const PROXY_STRATEGIES = [
                     async (u) => {
-                        const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}&count=20&nocache=${Math.random().toString(36).slice(2)}`));
+                        const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}`));
                         const json = await res.json();
                         return json.status === 'ok' && json.items?.length > 0 ? { items: json.items, isJson: true } : null;
                     },
@@ -339,29 +339,12 @@ const Home = () => {
                                 const filtered = (newsData[cat] || []).filter(a => {
                                     if (a.isFallback) return true;
                                     const pubDate = new Date(a.pubDate);
-                                    if (isNaN(pubDate.getTime())) return false; // Strictly reject invalid dates
-                                    // Use 72h for Economy-related categories, 48h for others
-                                    const isEconomy = cat && (cat.includes('Economy') || cat === 'Economy');
-                                    const maxH = isEconomy ? 72 : 48; 
-                                    return (now - pubDate) / 3600000 < maxH;
+                                    if (isNaN(pubDate.getTime())) return false;
+                                    // Strictly 24 hours per user request
+                                    return (new Date() - pubDate) / 3600000 < 24;
                                 });
 
-                                // Dynamic Fallback: If live articles are gone/stale, use newsData.json
-                                if (filtered.length === 0) {
-                                    const fallback = newsFallbackData
-                                        .filter(item => item.category === cat)
-                                        .map(item => ({
-                                            ...item,
-                                            title: isHindi ? item.title_hi || item.title : item.title,
-                                            imageUrl: item.imageUrl || CATEGORY_META[cat]?.defaultImage,
-                                            shortDescription: isHindi ? item.shortDescription_hi || item.shortDescription : item.shortDescription,
-                                            fullContent: isHindi ? item.fullContent_hi || item.fullContent : item.fullContent,
-                                            isFallback: true
-                                        }));
-                                    if (fallback.length > 0) {
-                                        filtered.push(...fallback);
-                                    }
-                                }
+                                // Fallback removed per user request: "i dont want fix news i want letest news"
 
                                 return filtered.length > 0 ? (
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

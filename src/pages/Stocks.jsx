@@ -41,7 +41,7 @@ const Stocks = () => {
             const getShuffledProxies = () => {
                 const PROXY_STRATEGIES = [
                     async (u) => {
-                        const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}&count=25&nocache=${Math.random().toString(36).slice(2)}`));
+                        const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}`));
                         const json = await res.json();
                         return json.status === 'ok' && json.items?.length > 0 ? { items: json.items, isJson: true } : null;
                     },
@@ -109,21 +109,6 @@ const Stocks = () => {
             });
 
             await Promise.allSettled(feedPromises);
-
-            // Fallback only if completely empty after all feeds
-            setNews(prev => {
-                if (prev.length > 0) return prev;
-                return newsFallbackData
-                    .filter(item => item.category === 'Stocks')
-                    .map(item => ({
-                        ...item,
-                        imageUrl: item.imageUrl || CATEGORY_META.Stocks.defaultImage,
-                        shortDescription: isHindi
-                            ? item.shortDescription_hi || item.shortDescription
-                            : item.shortDescription,
-                        isFallback: true
-                    }));
-            });
 
             setLastUpdated(new Date());
         } catch (error) {
@@ -216,9 +201,8 @@ const Stocks = () => {
                     const filteredNews = news.filter(a => {
                         if (a.isFallback) return true;
                         const pubDate = new Date(a.pubDate);
-                        if (isNaN(pubDate.getTime())) return true;
-                        const maxH = 48; // Consistent with feeds.js
-                        return (now - pubDate) / 3600000 < maxH;
+                        if (isNaN(pubDate.getTime())) return false;
+                        return (new Date() - pubDate) / 3600000 < 24; // Consistent with feeds.js
                     });
 
                     if (loading && news.length === 0) {

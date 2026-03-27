@@ -14,7 +14,7 @@ const withTimeout = (promise, ms = 4000) =>
 const getShuffledProxies = () => {
     const PROXY_STRATEGIES = [
         async (u) => {
-            const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}&count=15&nocache=${Math.random().toString(36).slice(2)}`));
+            const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}`));
             const json = await res.json();
             return json.status === 'ok' && json.items?.length > 0 ? { items: json.items, isJson: true } : null;
         },
@@ -160,30 +160,14 @@ const LatestNews = () => {
                 </header>
 
                 {(() => {
-                    const now = new Date();
                     const filteredNews = news.filter(a => {
                         if (a.isFallback) return true;
                         const pubDate = new Date(a.pubDate);
-                        if (isNaN(pubDate.getTime())) return false; // Strictly reject invalid dates
-                        const isEconomy = a.category && (a.category.includes('Economy') || a.category === 'Economy');
-                        const maxH = isEconomy ? 72 : 48;
-                        return (now - pubDate) / 3600000 < maxH; 
+                        if (isNaN(pubDate.getTime())) return false;
+                        return (new Date() - pubDate) / 3600000 < 24;
                     });
 
-                    // Dynamic Fallback: If live articles are gone/stale, use newsData.json
-                    if (filteredNews.length === 0) {
-                        const fallback = newsFallbackData
-                            .map(item => ({
-                                ...item,
-                                title: isHindi ? item.title_hi || item.title : item.title,
-                                imageUrl: item.imageUrl || (CATEGORY_META[item.category] || CATEGORY_META['Tech']).defaultImage,
-                                shortDescription: isHindi ? item.shortDescription_hi || item.shortDescription : item.shortDescription,
-                                isFallback: true
-                            }));
-                        if (fallback.length > 0) {
-                            filteredNews.push(...fallback);
-                        }
-                    }
+                    // Fallback removed per user request
 
                     if (loading && news.length === 0) {
                         return (

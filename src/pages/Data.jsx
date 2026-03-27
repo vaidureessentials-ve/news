@@ -345,7 +345,7 @@ const Data = () => {
             const getShuffledProxies = () => {
                 const PROXY_STRATEGIES = [
                     async (u) => {
-                        const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}&count=20&nocache=${Math.random().toString(36).slice(2)}`));
+                        const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}`));
                         const json = await res.json();
                         return json.status === 'ok' && json.items?.length > 0 ? { items: json.items, isJson: true } : null;
                     },
@@ -516,10 +516,9 @@ const Data = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {news
                                 .filter(a => {
-                                    if (a.isFallback) return true;
                                     const pubDate = new Date(a.pubDate);
                                     if (isNaN(pubDate.getTime())) return false;
-                                    return (new Date() - pubDate) / 3600000 < 72;
+                                    return (new Date() - pubDate) / 3600000 < 24;
                                 })
                                 .map((item, idx) => (
                                     <NewsCard key={item.sourceUrl || idx} article={item} />

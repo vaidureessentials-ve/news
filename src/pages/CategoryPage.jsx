@@ -18,7 +18,7 @@ const withTimeout = (promise, ms = 4000) =>
 const getShuffledProxies = () => {
     const PROXY_STRATEGIES = [
         async (u) => {
-            const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}&count=25&nocache=${Math.random().toString(36).slice(2)}`));
+            const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}`));
             const json = await res.json();
             return json.status === 'ok' && json.items?.length > 0 ? { items: json.items, isJson: true } : null;
         },
@@ -49,7 +49,9 @@ const newsCache = {};
 
 const CategoryPage = ({ category }) => {
 
-    const langCode = false ? 'hi' : 'en';
+    const currentLang = 'en';
+    const isHindi = currentLang.startsWith('hi');
+    const langCode = isHindi ? 'hi' : 'en';
     const initialCacheKey = `${category}-${langCode}`;
     const cached = newsCache[initialCacheKey] || [];
 
@@ -75,9 +77,6 @@ const CategoryPage = ({ category }) => {
             if (!isBackground) setLoading(true);
             else setSyncing(true);
 
-            const currentLang = 'en';
-            const isHindi = currentLang.startsWith('hi');
-            const langCode = isHindi ? 'hi' : 'en';
             const allFeeds = isHindi ? HI_CATEGORY_FEEDS : EN_CATEGORY_FEEDS;
             const feeds = allFeeds[category] || [];
             const currentCacheKey = `${category}-${langCode}`;
@@ -161,7 +160,6 @@ const CategoryPage = ({ category }) => {
 
     // Re-fetch when category or language changes
     useEffect(() => {
-        const langCode = false ? 'hi' : 'en';
         const key = `${category}-${langCode}`;
         const hasCached = (newsCache[key] || []).length > 0;
 
@@ -247,24 +245,10 @@ const CategoryPage = ({ category }) => {
                         if (a.isFallback) return true;
                         const pubDate = new Date(a.pubDate);
                         if (isNaN(pubDate.getTime())) return false;
-                        const maxH = 72; // Relaxed to 72h for Economy/General
-                        return (now - pubDate) / 3600000 < maxH;
+                        return (now - pubDate) / 3600000 < 24;
                     });
 
-                    // Dynamic Fallback: If live articles are gone/stale, use newsData.json
-                    if (filteredNews.length === 0) {
-                        const fallback = newsFallbackData
-                            .filter(item => item.category === category)
-                            .map(item => ({
-                                ...item,
-                                imageUrl: item.imageUrl || meta.defaultImage,
-                                shortDescription: isHindi ? item.shortDescription_hi || item.shortDescription : item.shortDescription,
-                                isFallback: true
-                            }));
-                        if (fallback.length > 0) {
-                            filteredNews.push(...fallback);
-                        }
-                    }
+                    // Fallback removed per user request: "i dont want fix news i want letest news"
 
                     if (loading && news.length === 0) {
                         return (

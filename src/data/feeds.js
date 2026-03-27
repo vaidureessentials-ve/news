@@ -678,9 +678,8 @@ export const isBlocked = (article) => {
     if (!isNaN(pubDate.getTime())) {
         const now = new Date();
         
-        // Economy articles are valid for 72h; others for 48h
-        const isEconomy = article.category && (article.category.includes('Economy') || article.category === 'Economy');
-        const maxStalenessHours = isEconomy ? 72 : 48;
+        // ALL articles are now valid for only 24h per user requirement
+        const maxStalenessHours = 24;
 
         const threshold = new Date(now.getTime() - (maxStalenessHours * 60 * 60 * 1000));
         if (pubDate < threshold) return true;
