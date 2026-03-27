@@ -150,10 +150,15 @@ export const HI_CATEGORY_FEEDS = {
         { name: 'Google World Hindi', url: 'https://news.google.com/rss/search?q=world+geopolitics+international&hl=hi&gl=IN&ceid=IN:hi' }
     ],
     'Economy': [
-        { name: 'Live Hindustan Eco', url: 'https://api.livehindustan.com/feeds/rss/career/rssfeed.xml' },
+        { name: 'Google Economy', url: 'https://news.google.com/rss/search?q=india+economy+gdp&hl=en-IN&gl=IN&ceid=IN:en' },
         { name: 'CNBC Economy', url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258' },
-        { name: 'Aaj Tak Economy', url: 'https://www.aajtak.in/rss/economy.xml' },
-        { name: 'Google Economy Hindi', url: 'https://news.google.com/rss/search?q=economy+india&hl=hi&gl=IN&ceid=IN:hi' }
+        { name: 'Livemint Economy', url: 'https://www.livemint.com/rss/economy' },
+        { name: 'ET Economy', url: 'https://economictimes.indiatimes.com/news/economy/rssfeeds/13733806.cms' },
+        { name: 'ET Policy', url: 'https://economictimes.indiatimes.com/news/economy/policy/rssfeeds/13357540.cms' },
+        { name: 'Business Standard', url: 'https://www.business-standard.com/rss/economy-policy-102.rss' },
+        { name: 'Financial Express', url: 'https://www.financialexpress.com/economy/feed/' },
+        { name: 'Hindu BusinessLine', url: 'https://www.thehindubusinessline.com/economy/feeder/default.rss' },
+        { name: 'Reuters Economy', url: 'https://news.google.com/rss/search?q=reuters.com+economy+global&hl=en-US&gl=US&ceid=US:en' }
     ],
     'US Economy': [
         { name: 'Google US Economy Hindi', url: 'https://news.google.com/rss/search?q=us+economy+fed+rate&hl=hi&gl=IN&ceid=IN:hi' }
@@ -179,10 +184,7 @@ export const HI_CATEGORY_FEEDS = {
         { name: 'Live Hindustan Markets', url: 'https://api.livehindustan.com/feeds/rss/business/stock-market/rssfeed.xml' },
         { name: 'Moneycontrol Hindi', url: 'https://hindi.moneycontrol.com/rss/market-news.xml' },
         { name: 'ET Swadesh', url: 'https://hindi.etnownews.com/feeds/gns-etn-hindi-markets' },
-        { name: 'ET Swadesh', url: 'https://hindi.etnownews.com/feeds/gns-etn-hindi-markets' },
-        { name: 'Zee Business', url: 'https://www.zeebiz.com/rss' },
-        { name: 'DW Hindi World', url: 'https://rss.dw.com/xml/rss-hin-all', location: 'Germany' },
-        { name: 'Aaj Tak Global Biz', url: 'https://www.aajtak.in/rss/business.xml', location: 'Global' }
+        { name: 'Zee Business', url: 'https://www.zeebiz.com/rss' }
     ]
 };
 
