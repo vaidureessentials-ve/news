@@ -1,26 +1,2 @@
 [
-    {
-        "id": "fallback-economy-1",
-        "title": "India's GDP Growth Projected at 7.1% for FY27 by S&P Global",
-        "imageUrl": "https://images.unsplash.com/photo-1628348068343-c6a848d2b6dd?auto=format&fit=crop&q=80&w=800",
-        "sourceName": "GFS Intelligence",
-        "sourceUrl": "https://economictimes.indiatimes.com/news/economy",
-        "category": "Economy",
-        "location": "India",
-        "pubDate": "2026-03-27T10:00:00Z",
-        "shortDescription": "S&P Global has raised India's GDP growth forecast for the next fiscal year to 7.1%, citing strong domestic consumption and investment momentum.",
-        "fullContent": "S&P Global Ratings has upwardly revised India's real GDP growth forecast for the fiscal year 2026-27 to 7.1%, up from its previous estimate of 6.7%."
-    },
-    {
-        "id": "fallback-economy-2",
-        "title": "Global Inflation Trends: Central Banks Eye Soft Landing in 2026",
-        "imageUrl": "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=800",
-        "sourceName": "Global Financial",
-        "sourceUrl": "https://www.reuters.com/business/economy",
-        "category": "Economy",
-        "location": "Global",
-        "pubDate": "2026-03-26T15:30:00Z",
-        "shortDescription": "Economists predict a steady decline in core inflation across G7 nations, potentially leading to a series of rate cuts by the Federal Reserve and ECB.",
-        "fullContent": "As supply chain pressures ease and monetary policy remains restrictive, global central banks are navigating toward a non-recessionary slowdown."
-    }
 ]
