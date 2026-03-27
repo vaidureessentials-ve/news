@@ -1,2 +1,62 @@
 [
+  {
+    "category": "Tech",
+    "title": "Nvidia Shares Surge as AI Infrastructure Demand Accelerates Globally",
+    "sourceName": "Reuters",
+    "sourceUrl": "https://www.reuters.com/technology",
+    "imageUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800",
+    "shortDescription": "Nvidia stock hit a new record high today as major cloud providers increased their capital expenditure on AI-ready data centers, signaling sustained momentum in the semiconductor sector.",
+    "fullContent": "Nvidia Corporation saw its shares climb over 4% in early trading following reports that top-tier cloud providers are significantly increasing their multi-year investment plans for artificial intelligence infrastructure. Analysts suggest that the demand for H200 and Blackwell chips remains exceptionally high, outstripping supply as enterprises race to integrate generative AI into their core business processes.",
+    "pubDate": "2025-03-27T10:00:00Z"
+  },
+  {
+    "category": "Business",
+    "title": "Global Central Banks Signal Pivot Towards Neutral Monetary Policy",
+    "sourceName": "Reuters Business",
+    "sourceUrl": "https://www.reuters.com/business",
+    "imageUrl": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=800",
+    "shortDescription": "In a series of coordinated briefings, major central bank officials suggested that the era of aggressive tightening is nearing an end as inflation data stabilizes across G7 economies.",
+    "fullContent": "A growing consensus among governors of the world's most influential central banks points toward a strategic shift in monetary policy. With headline inflation retreating toward the 2% target in several major economies, officials are increasingly discussing the 'neutral rate' transition, providing much-needed clarity for global debt and equity markets.",
+    "pubDate": "2025-03-27T09:30:00Z"
+  },
+  {
+    "category": "Economy",
+    "title": "India GDP Growth Forecast Revised Upward on Strong Domestic Consumption",
+    "sourceName": "Reuters Economy",
+    "sourceUrl": "https://www.reuters.com/world/india",
+    "imageUrl": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&q=80&w=800",
+    "shortDescription": "Leading international financial institutions have raised India's GDP growth outlook for the current fiscal year, citing robust urban demand and a significant uptick in manufacturing activity.",
+    "fullContent": "The Indian economy continues to demonstrate resilience in the face of global headwinds. New data highlights a 7.2% projected growth rate, driven by structural reforms and a resurgence in private sector investment. Consumption patterns in tier-2 cities have surprised on the upside, contributing to a balanced growth trajectory.",
+    "pubDate": "2025-03-27T08:45:00Z"
+  },
+  {
+    "category": "Geopolitical",
+    "title": "Strategic Alliances Deepen as Global Leaders Convene for Security Summit",
+    "sourceName": "Reuters World",
+    "sourceUrl": "https://www.reuters.com/world",
+    "imageUrl": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&q=80&w=800",
+    "shortDescription": "Diplomatic efforts to stabilize trade routes and ensure maritime security reached a critical milestone today as several key nations signed a framework agreement for regional cooperation.",
+    "fullContent": "The latest high-level summit has resulted in a significant shift in regional security architecture. The 'Maritime Stability Pact' aims to protect critical undersea infrastructure and ensure the free flow of commerce through disputed waters. Observers note that the inclusion of several non-traditional partners signals a broadening of strategic priorities.",
+    "pubDate": "2025-03-27T07:15:00Z"
+  },
+  {
+    "category": "Stocks",
+    "title": "Wall Street Benchmarks Edge Higher Ahead of Pivotal Employment Data",
+    "sourceName": "Reuters Markets",
+    "sourceUrl": "https://www.reuters.com/markets",
+    "imageUrl": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=800",
+    "shortDescription": "Major indices traded in a narrow range as investors awaited the non-farm payrolls report, which will likely dictate the Federal Reserve's next interest rate move.",
+    "fullContent": "Equity markets showed a mix of caution and optimism today, with the S&P 500 and Nasdaq Composite posting modest gains. Analysts believe that the upcoming labor market data will be the final piece of the puzzle for the Federal Open Market Committee's upcoming policy meeting. Volatility remains low as institutional investors rebalance their portfolios for the quarter-end.",
+    "pubDate": "2025-03-27T06:30:00Z"
+  },
+  {
+    "category": "Global Market",
+    "title": "Eurozone Manufacturing Stabilizes as Energy Costs Recede",
+    "sourceName": "Reuters Business",
+    "sourceUrl": "https://www.reuters.com/markets",
+    "imageUrl": "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=800",
+    "shortDescription": "Manufacturing indexes across the Eurozone showed signs of recovery this month, boosted by falling energy prices and improving supply chain dynamics in the automotive sector.",
+    "fullContent": "The latest Purchasing Managers' Index (PMI) data suggests that the worst may be over for European manufacturers. While headwinds remain, the sharp decline in natural gas prices and a modest recovery in export orders from Asia are providing a much-needed buffer. Executives expressing 'cautious optimism' for the second half of the year.",
+    "pubDate": "2025-03-27T05:00:00Z"
+  }
 ]

@@ -30,6 +30,7 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'CNN World', url: 'http://rss.cnn.com/rss/edition_world.rss', location: 'USA' }
     ],
     'Economy': [
+        { name: 'Reuters Global Economy', url: 'https://news.google.com/rss/search?q=reuters.com+global+economy&hl=en-US&gl=US&ceid=US:en' },
         { name: 'CNBC Economy', url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258' },
         { name: 'Reuters Business', url: 'https://news.google.com/rss/search?q=reuters.com+economy+global&hl=en-US&gl=US&ceid=US:en' },
         { name: 'BBC Business', url: 'http://feeds.bbci.co.uk/news/business/rss.xml' },
@@ -63,6 +64,7 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'Guardian Euro', url: 'https://news.google.com/rss/search?q=theguardian.com+business+eurozone&hl=en-GB&gl=GB&ceid=GB:en' }
     ],
     'Business': [
+        { name: 'Reuters Business', url: 'https://news.google.com/rss/search?q=reuters.com+business+finance&hl=en-US&gl=US&ceid=US:en' },
         { name: 'Economic Times', url: 'https://economictimes.indiatimes.com/news/industry/rssfeeds/13352306.cms' },
         { name: 'Business Standard', url: 'https://www.business-standard.com/rss/companies-101.rss' },
         { name: 'Business Today', url: 'https://www.businesstoday.in/rss/corporate' },
@@ -86,6 +88,7 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'Yahoo Finance Business', url: 'https://finance.yahoo.com/news/rssindex' }
     ],
     'Tech': [
+        { name: 'Reuters Technology', url: 'https://news.google.com/rss/search?q=reuters.com+technology&hl=en-US&gl=US&ceid=US:en' },
         { name: 'TechCrunch', url: 'https://techcrunch.com/feed/' },
         { name: 'Wired', url: 'https://www.wired.com/feed/rss' },
         { name: 'The Verge', url: 'https://www.theverge.com/rss/index.xml' },

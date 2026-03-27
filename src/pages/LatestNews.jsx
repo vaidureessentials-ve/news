@@ -11,31 +11,34 @@ const withTimeout = (promise, ms = 4000) =>
         new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), ms))
     ]);
 
-const PROXY_STRATEGIES = [
-    async (u) => {
-        const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}&count=15&nocache=${Math.random().toString(36).slice(2)}`));
-        const json = await res.json();
-        return json.status === 'ok' && json.items?.length > 0 ? { items: json.items, isJson: true } : null;
-    },
-    async (u) => {
-        const res = await withTimeout(fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`, { cache: 'no-store' }));
-        const xml = await res.text();
-        const items = parseXML(xml);
-        return items.length > 0 ? { items, isJson: false } : null;
-    },
-    async (u) => {
-        const res = await withTimeout(fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(u)}&t=${Date.now()}`, { cache: 'no-store' }));
-        const json = await res.json();
-        const items = parseXML(json.contents || '');
-        return items.length > 0 ? { items, isJson: false } : null;
-    },
-    async (u) => {
-        const res = await withTimeout(fetch(`https://corsproxy.io/?${encodeURIComponent(u)}`, { cache: 'no-store' }));
-        const xml = await res.text();
-        const items = parseXML(xml);
-        return items.length > 0 ? { items, isJson: false } : null;
-    }
-];
+const getShuffledProxies = () => {
+    const PROXY_STRATEGIES = [
+        async (u) => {
+            const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}&count=15&nocache=${Math.random().toString(36).slice(2)}`));
+            const json = await res.json();
+            return json.status === 'ok' && json.items?.length > 0 ? { items: json.items, isJson: true } : null;
+        },
+        async (u) => {
+            const res = await withTimeout(fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`, { cache: 'no-store' }));
+            const xml = await res.text();
+            const items = parseXML(xml);
+            return items.length > 0 ? { items, isJson: false } : null;
+        },
+        async (u) => {
+            const res = await withTimeout(fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(u)}&t=${Date.now()}`, { cache: 'no-store' }));
+            const json = await res.json();
+            const items = parseXML(json.contents || '');
+            return items.length > 0 ? { items, isJson: false } : null;
+        },
+        async (u) => {
+            const res = await withTimeout(fetch(`https://corsproxy.io/?${encodeURIComponent(u)}`, { cache: 'no-store' }));
+            const xml = await res.text();
+            const items = parseXML(xml);
+            return items.length > 0 ? { items, isJson: false } : null;
+        }
+    ];
+    return [...PROXY_STRATEGIES].sort(() => Math.random() - 0.5);
+};
 
 const LatestNews = () => {
 
@@ -60,9 +63,10 @@ const LatestNews = () => {
                 const feeds = allFeeds[category] || [];
                 const feedPromises = feeds.map(async (feed) => {
                     let result = null;
-                    for (const strategy of PROXY_STRATEGIES) {
+                    const shuffled = getShuffledProxies();
+                    for (const strategy of shuffled) {
                         try { result = await strategy(feed.url); if (result) break; }
-                        catch (e) { console.debug('LatestNews: Proxy failed', e); }
+                        catch (e) { /* ignore and try next */ }
                     }
                     if (!result) return [];
 
@@ -90,7 +94,11 @@ const LatestNews = () => {
                 }
             });
 
-            await Promise.allSettled(categoryPromises);
+            // ── Execute categories sequentially to avoid rate-limiting ──────────────
+            for (const categoryPromise of categoryPromises) {
+                await categoryPromise;
+                await new Promise(resolve => setTimeout(resolve, 800));
+            }
 
             setNews(prev => {
                 if (prev.length > 0) return prev;

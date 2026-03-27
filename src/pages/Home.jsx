@@ -56,52 +56,52 @@ const Home = () => {
 
             // parseXML is now imported from feeds.js
 
-            const PROXY_STRATEGIES = [
-                async (u) => {
-                    // rss2json is currently the most reliable for these feeds
-                    const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}&count=20&nocache=${Math.random().toString(36).slice(2)}`));
-                    const json = await res.json();
-                    return json.status === 'ok' && json.items?.length > 0 ? { items: json.items, isJson: true } : null;
-                },
-                async (u) => {
-                    const res = await withTimeout(fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`, { cache: 'no-store' }));
-                    const xml = await res.text();
-                    const items = parseXML(xml);
-                    return items.length > 0 ? { items, isJson: false } : null;
-                },
-                async (u) => {
-                    const res = await withTimeout(fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(u)}&t=${Date.now()}`, { cache: 'no-store' }));
-                    const json = await res.json();
-                    const items = parseXML(json.contents || '');
-                    return items.length > 0 ? { items, isJson: false } : null;
-                },
-                async (u) => {
-                    const res = await withTimeout(fetch(`https://corsproxy.io/?${encodeURIComponent(u)}`, { cache: 'no-store' }));
-                    const xml = await res.text();
-                    const items = parseXML(xml);
-                    return items.length > 0 ? { items, isJson: false } : null;
-                }
-            ];
+            const getShuffledProxies = () => {
+                const PROXY_STRATEGIES = [
+                    async (u) => {
+                        const res = await withTimeout(fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(u)}&count=20&nocache=${Math.random().toString(36).slice(2)}`));
+                        const json = await res.json();
+                        return json.status === 'ok' && json.items?.length > 0 ? { items: json.items, isJson: true } : null;
+                    },
+                    async (u) => {
+                        const res = await withTimeout(fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`, { cache: 'no-store' }));
+                        const xml = await res.text();
+                        const items = parseXML(xml);
+                        return items.length > 0 ? { items, isJson: false } : null;
+                    },
+                    async (u) => {
+                        const res = await withTimeout(fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(u)}&t=${Date.now()}`, { cache: 'no-store' }));
+                        const json = await res.json();
+                        const items = parseXML(json.contents || '');
+                        return items.length > 0 ? { items, isJson: false } : null;
+                    },
+                    async (u) => {
+                        const res = await withTimeout(fetch(`https://corsproxy.io/?${encodeURIComponent(u)}`, { cache: 'no-store' }));
+                        const xml = await res.text();
+                        const items = parseXML(xml);
+                        return items.length > 0 ? { items, isJson: false } : null;
+                    }
+                ];
+                return [...PROXY_STRATEGIES].sort(() => Math.random() - 0.5);
+            };
 
 
-            // ── Per-category fetch ──────────────────────────────────────────────────
-            const catPromises = allCats.map(async (cat) => {
+            // ── Per-category fetch (Sequential to avoid rate-limiting) ──────────────
+            for (const cat of allCats) {
                 const feeds = currentFeeds[cat] || [];
                 let catArticles = [];
 
                 const feedPromises = feeds.map(async (feed) => {
                     let result = null;
-                    for (const strategy of PROXY_STRATEGIES) {
+                    const shuffled = getShuffledProxies();
+                    for (const strategy of shuffled) {
                         try { result = await strategy(feed.url); if (result) break; }
                         catch { /* try next proxy */ }
                     }
-                    if (!result) return;
 
-
-
-                    const articles = result.items
-                        .map(item => normArticle(item, feed, result, isHindi, cat))
-                        .filter(a => isArticleRelevant(a, cat) && !isBlocked(a));
+                    const articles = result?.items
+                        ?.map(item => normArticle(item, feed, result, isHindi, cat))
+                        .filter(a => isArticleRelevant(a, cat) && !isBlocked(a)) || [];
 
                     if (articles.length === 0) return;
                     catArticles = [...catArticles, ...articles];
@@ -180,9 +180,9 @@ const Home = () => {
                         });
                     }
                 }
-            });
-
-            await Promise.allSettled(catPromises);
+                // Breathe between categories
+                await new Promise(resolve => setTimeout(resolve, 600));
+            }
 
         } catch (err) {
             if (!isBackground) setError(err.message);
