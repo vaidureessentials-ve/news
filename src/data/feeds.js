@@ -209,7 +209,8 @@ export const CATEGORY_KEYWORDS = {
         'business', 'corporate', 'company', 'companies', 'startup', 'acquire', 'acquisition',
         'merger', 'ceo', 'industry', 'market', 'commerce', 'enterprise', 'profit', 'revenue',
         'billion', 'million', 'funding', 'investment', 'invest', 'india', 'global', 'adani', 'reliance', 'tata',
-        'व्यापार', 'व्यवसाय', 'कॉर्पोरेट', 'कंपनी', 'उद्योग', 'अडानी', 'रिलायंस'
+        'earnings', 'dividend', 'quarterly', 'shareholder', 'stake', 'venture', 'ipo', 'listing',
+        'व्यापार', 'व्यवसाय', 'कॉर्पोरेट', 'कंपनी', 'उद्योग', 'अडानी', 'रिलायंस', 'मुनाफा', 'निवेश'
     ],
     'Tech': [
         'tech', 'technology', 'software', 'hardware', 'ai', 'artificial intelligence',
@@ -263,6 +264,8 @@ export const BLOCKED_KEYWORDS = [
     'onlyfans', 'only fans', 'adult content', 'porn', 'pornography', 'xxx',
     'nude', 'naked', 'nsfw', 'escort', 'erotic', 'erotica', 'sex tape',
     'strip club', 'stripper', 'cam girl', 'cam model', 'sexting', 'nudes',
+    'bseb', 'class 10', 'class 12', 'board exam', 'scholarship', 'admit card', 'hall ticket',
+    'परीक्षा परिणाम', 'बोर्ड परीक्षा', 'छात्रवृत्ति',
     'explicit content', 'adult film', 'adult video', 'playboy', 'hooker',
     'prostitute', 'prostitution', 'brothel', 'sex worker', 'fetish',
     'lingerie model', 'bikini model', 'crush model', 'look like your',
@@ -571,10 +574,12 @@ export const isArticleRelevant = (article, category) => {
     // Curated feeds (ET, Livemint, etc.) are trusted to prevent empty categories, EXCEPT for Stocks,
     // where we want to be strict to avoid general business news bleeding in.
     const isAggregator = article.sourceName && article.sourceName.toLowerCase().includes('google');
-    // If it is not Stocks AND not an aggregator feed (Google Search), trust it as relevant.
-    // Also explicitly trust any 'Economy' feeds to avoid the "No Articles Found" issue.
-    if (category === 'Economy') return true;
-    if (!isAggregator && category !== 'Stocks') return true;
+    // If it is not Stocks/Business/Tech AND not an aggregator feed, trust it as relevant.
+    // Economy, Geopolitical, and Global Market articles from curated sources are trusted 
+    // to prevent empty categories after latest API changes.
+    const trustedCategories = ['Economy', 'Geopolitical', 'Global Market'];
+    if (trustedCategories.includes(category)) return true;
+    if (!isAggregator && !['Stocks', 'Business', 'Tech'].includes(category)) return true;
 
     const keywords = CATEGORY_KEYWORDS[category] || [];
     if (keywords.length === 0) return true;
