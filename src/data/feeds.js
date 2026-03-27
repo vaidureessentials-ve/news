@@ -2,23 +2,32 @@
 // ENGLISH FEEDS
 // ─────────────────────────────────────────────────────────────
 export const EN_CATEGORY_FEEDS = {
+    'Global Market': [
+        { name: 'Reuters Markets', url: 'https://news.google.com/rss/search?q=reuters.com+global+markets&hl=en-US&gl=US&ceid=US:en', location: 'Global' },
+        { name: 'Bloomberg Markets', url: 'https://news.google.com/rss/search?q=bloomberg.com+markets&hl=en-US&gl=US&ceid=US:en', location: 'USA' },
+        { name: 'FT Markets', url: 'https://news.google.com/rss/search?q=ft.com+markets&hl=en-GB&gl=GB&ceid=GB:en', location: 'UK' },
+        { name: 'Nikkei Asia', url: 'https://asia.nikkei.com/rss/feed/nar', location: 'Japan' },
+        { name: 'SCMP Economy', url: 'https://www.scmp.com/rss/9/feed.xml', location: 'China' },
+        { name: 'Euronews Business', url: 'https://www.euronews.com/rss?level=vertical&name=business', location: 'Europe' },
+        { name: 'CNBC Markets', url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839056', location: 'USA' },
+        { name: 'WSJ Markets', url: 'https://feeds.a.dj.com/rss/RSSMarketsMain.xml', location: 'USA' },
+        { name: 'Al Jazeera Biz', url: 'https://www.aljazeera.com/xml/rss/all.xml', location: 'Middle East' },
+        { name: 'Forbes markets', url: 'https://www.forbes.com/markets/feed/', location: 'USA' }
+    ],
     'Geopolitical': [
-        { name: 'The Hindu World', url: 'https://www.thehindu.com/news/international/?service=rss' },
-        { name: 'Indian Express World', url: 'https://indianexpress.com/section/world/feed/' },
-        { name: 'ET World', url: 'https://economictimes.indiatimes.com/news/international/rssfeeds/13357255.cms' },
-        { name: 'DW English', url: 'https://rss.dw.com/rdf/rss-en-all' },
-        { name: 'Diplomat', url: 'https://thediplomat.com/feed/' },
-        { name: 'Geopolitical Monitor', url: 'https://www.geopoliticalmonitor.com/feed/' },
-        { name: 'Google India World', url: 'https://news.google.com/rss/search?q=india+foreign+policy+diplomacy&hl=en-IN&gl=IN&ceid=IN:en' },
-        { name: 'Google Geopolitics', url: 'https://news.google.com/rss/search?q=geopolitics+conflict+war+sanctions&hl=en-IN&gl=IN&ceid=IN:en' },
-        { name: 'Google China India', url: 'https://news.google.com/rss/search?q=china+india+border+pakistan&hl=en-IN&gl=IN&ceid=IN:en' },
-        { name: 'Google US India', url: 'https://news.google.com/rss/search?q=india+united+states+relations&hl=en-IN&gl=IN&ceid=IN:en' },
-        { name: 'Google UN', url: 'https://news.google.com/rss/search?q=united+nations+global+security&hl=en-IN&gl=IN&ceid=IN:en' },
-        { name: 'Al Jazeera', url: 'https://www.aljazeera.com/xml/rss/all.xml' },
-        { name: 'BBC World', url: 'http://feeds.bbci.co.uk/news/world/rss.xml' },
-        { name: 'Reuters World', url: 'https://news.google.com/rss/search?q=reuters.com+world+news&hl=en-US&gl=US&ceid=US:en' },
-        { name: 'NYT World', url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml' },
-        { name: 'CNN World', url: 'http://rss.cnn.com/rss/edition_world.rss' }
+        { name: 'The Hindu World', url: 'https://www.thehindu.com/news/international/?service=rss', location: 'India' },
+        { name: 'Indian Express World', url: 'https://indianexpress.com/section/world/feed/', location: 'India' },
+        { name: 'ET World', url: 'https://economictimes.indiatimes.com/news/international/rssfeeds/13357255.cms', location: 'India' },
+        { name: 'DW English', url: 'https://rss.dw.com/rdf/rss-en-all', location: 'Germany' },
+        { name: 'Diplomat', url: 'https://thediplomat.com/feed/', location: 'Asia' },
+        { name: 'Geopolitical Monitor', url: 'https://www.geopoliticalmonitor.com/feed/', location: 'Global' },
+        { name: 'Google India World', url: 'https://news.google.com/rss/search?q=india+foreign+policy+diplomacy&hl=en-IN&gl=IN&ceid=IN:en', location: 'India' },
+        { name: 'Google Geopolitics', url: 'https://news.google.com/rss/search?q=geopolitics+conflict+war+sanctions&hl=en-IN&gl=IN&ceid=IN:en', location: 'Global' },
+        { name: 'Al Jazeera', url: 'https://www.aljazeera.com/xml/rss/all.xml', location: 'Qatar' },
+        { name: 'BBC World', url: 'http://feeds.bbci.co.uk/news/world/rss.xml', location: 'UK' },
+        { name: 'Reuters World', url: 'https://news.google.com/rss/search?q=reuters.com+world+news&hl=en-US&gl=US&ceid=US:en', location: 'Global' },
+        { name: 'NYT World', url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml', location: 'USA' },
+        { name: 'CNN World', url: 'http://rss.cnn.com/rss/edition_world.rss', location: 'USA' }
     ],
     'Economy': [
         { name: 'ET Economy', url: 'https://economictimes.indiatimes.com/news/economy/rssfeeds/13733806.cms' },
@@ -43,7 +52,7 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'Google IMF', url: 'https://news.google.com/rss/search?q=IMF+World+Bank+global+economy&hl=en-IN&gl=IN&ceid=IN:en' },
         { name: 'Google Macro', url: 'https://news.google.com/rss/search?q=macroeconomics+global+growth+forecast&hl=en-IN&gl=IN&ceid=IN:en' }
     ],
-    'EconomyUS': [
+    'US Economy': [
         { name: 'WSJ Economy', url: 'https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml' },
         { name: 'CNBC Economy', url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258' },
         { name: 'Reuters US Economy', url: 'https://news.google.com/rss/search?q=reuters.com+us+economy&hl=en-US&gl=US&ceid=US:en' },
@@ -53,7 +62,7 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'Reuters US Eco', url: 'https://news.google.com/rss/search?q=reuters.com+us+economy+news&hl=en-US&gl=US&ceid=US:en' },
         { name: 'Bloomberg US', url: 'https://news.google.com/rss/search?q=bloomberg.com+businessweek+us&hl=en-US&gl=US&ceid=US:en' }
     ],
-    'EconomyEuro': [
+    'Euro Economy': [
         { name: 'ECB News', url: 'https://www.ecb.europa.eu/home/html/rss.en.html' },
         { name: 'Reuters Euro Economy', url: 'https://news.google.com/rss/search?q=euro+area+economy+ecb+reuters&hl=en-GB&gl=GB&ceid=GB:en' },
         { name: 'FT Euro Economy', url: 'https://news.google.com/rss/search?q=ft.com+euro+area+economy&hl=en-GB&gl=GB&ceid=GB:en' },
@@ -82,6 +91,7 @@ export const EN_CATEGORY_FEEDS = {
         { name: 'YourStory', url: 'https://yourstory.com/feed' },
         { name: 'Google Business News', url: 'https://news.google.com/rss/search?q=business+india&hl=en-IN&gl=IN&ceid=IN:en' },
         { name: 'BBC Business', url: 'http://feeds.bbci.co.uk/news/business/rss.xml' },
+        { name: 'CNN Business', url: 'http://rss.cnn.com/rss/money_latest.rss' },
         { name: 'CNN Business', url: 'http://rss.cnn.com/rss/money_latest.rss' },
         { name: 'Yahoo Finance Business', url: 'https://finance.yahoo.com/news/rssindex' }
     ],
@@ -125,6 +135,13 @@ export const EN_CATEGORY_FEEDS = {
 // HINDI FEEDS
 // ─────────────────────────────────────────────────────────────
 export const HI_CATEGORY_FEEDS = {
+    'Global Market': [
+        { name: 'Google Global Market Hindi', url: 'https://news.google.com/rss/search?q=global+market+news+indices+dow+jones+nasdaq&hl=hi&gl=IN&ceid=IN:hi', location: 'Global' },
+        { name: 'Moneycontrol Global Hindi', url: 'https://hindi.moneycontrol.com/rss/international-markets.xml', location: 'Global' },
+        { name: 'BBC Hindi World', url: 'https://www.bbc.com/hindi/world/index.xml', location: 'UK' },
+        { name: 'DW Hindi World', url: 'https://rss.dw.com/xml/rss-hin-all', location: 'Germany' },
+        { name: 'Aaj Tak Global Biz', url: 'https://www.aajtak.in/rss/business.xml', location: 'Global' }
+    ],
     'Geopolitical': [
         { name: 'Live Hindustan World', url: 'https://api.livehindustan.com/feeds/rss/international/rssfeed.xml' },
         { name: 'Aaj Tak World', url: 'https://www.aajtak.in/rss/world.xml' },
@@ -138,10 +155,10 @@ export const HI_CATEGORY_FEEDS = {
         { name: 'Aaj Tak Economy', url: 'https://www.aajtak.in/rss/economy.xml' },
         { name: 'Google Economy Hindi', url: 'https://news.google.com/rss/search?q=economy+india&hl=hi&gl=IN&ceid=IN:hi' }
     ],
-    'EconomyUS': [
+    'US Economy': [
         { name: 'Google US Economy Hindi', url: 'https://news.google.com/rss/search?q=us+economy+fed+rate&hl=hi&gl=IN&ceid=IN:hi' }
     ],
-    'EconomyEuro': [
+    'Euro Economy': [
         { name: 'Google Euro Economy Hindi', url: 'https://news.google.com/rss/search?q=euro+area+economy+ecb&hl=hi&gl=IN&ceid=IN:hi' }
     ],
     'Business': [
@@ -162,7 +179,10 @@ export const HI_CATEGORY_FEEDS = {
         { name: 'Live Hindustan Markets', url: 'https://api.livehindustan.com/feeds/rss/business/stock-market/rssfeed.xml' },
         { name: 'Moneycontrol Hindi', url: 'https://hindi.moneycontrol.com/rss/market-news.xml' },
         { name: 'ET Swadesh', url: 'https://hindi.etnownews.com/feeds/gns-etn-hindi-markets' },
-        { name: 'Zee Business', url: 'https://www.zeebiz.com/rss' }
+        { name: 'ET Swadesh', url: 'https://hindi.etnownews.com/feeds/gns-etn-hindi-markets' },
+        { name: 'Zee Business', url: 'https://www.zeebiz.com/rss' },
+        { name: 'DW Hindi World', url: 'https://rss.dw.com/xml/rss-hin-all', location: 'Germany' },
+        { name: 'Aaj Tak Global Biz', url: 'https://www.aajtak.in/rss/business.xml', location: 'Global' }
     ]
 };
 
@@ -170,6 +190,12 @@ export const HI_CATEGORY_FEEDS = {
 // CATEGORY REINFORCEMENT KEYWORDS
 // ─────────────────────────────────────────────────────────────
 export const CATEGORY_KEYWORDS = {
+    'Global Market': [
+        'global market', 'wall street', 'nasdaq', 'dow jones', 's&p 500', 'nikkei', 'hang seng',
+        'ftse', 'dax', 'cac 40', 'global economy', 'international markets', 'us markets', 'euro markets', 'asian markets',
+        'global trade', 'fed rate', 'central banks', 'global indices', 'gold price', 'oil price', 'crude oil',
+        'वैश्विक बाजार', 'वॉल स्ट्रीट', 'नास्डैक', 'डॉ जोन्स'
+    ],
     'Geopolitical': [
         'geopolitics', 'diplomacy', 'foreign policy', 'international', 'summit', 'un',
         'sanctions', 'conflict', 'war', 'border', 'nations', 'relations', 'china', 'usa',
@@ -182,6 +208,14 @@ export const CATEGORY_KEYWORDS = {
         'monetary', 'policy', 'recession', 'growth', 'trade', 'export', 'import', 'india', 'global',
         'bank', 'finance', 'economic', 'development', 'investment', 'rupee', 'forex', 'jobs', 'employment',
         'अर्थव्यवस्था', 'जीडीपी', 'मुद्रास्फीति', 'बजट', 'कर', 'आरबीआई'
+    ],
+    'US Economy': [
+        'us economy', 'federal reserve', 'fed', 'wall street', 'inflation', 'cpi', 'jobs report', 'unemployment',
+        'us gdp', 'consumer spending', 'treasury', 'yield', 'interest rates', 'powell'
+    ],
+    'Euro Economy': [
+        'euro area', 'eurozone', 'ecb', 'european central bank', 'inflation', 'gdp', 'germany', 'france',
+        'european economy', 'lagarde'
     ],
     'Business': [
         'business', 'corporate', 'company', 'companies', 'startup', 'acquire', 'acquisition',
@@ -297,6 +331,12 @@ export const BLOCKED_KEYWORDS = [
 // CATEGORY METADATA
 // ─────────────────────────────────────────────────────────────
 export const CATEGORY_META = {
+    'Global Market': {
+        route: '/global-market',
+        subtitle: 'Live coverage of international markets, global indices, and cross-border financial developments.',
+        gradient: 'from-blue-500 via-cyan-400 to-teal-500',
+        defaultImage: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=800'
+    },
     Geopolitical: {
         route: '/geopolitics',
         subtitle: 'Comprehensive live coverage of geopolitical trends, diplomacy, and breaking international developments.',
@@ -307,6 +347,18 @@ export const CATEGORY_META = {
         route: '/economy',
         subtitle: 'Macro-economic trends, RBI policy, GDP, inflation, and fiscal developments from India and global markets.',
         gradient: 'from-amber-400 via-orange-400 to-rose-500',
+        defaultImage: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=800'
+    },
+    'US Economy': {
+        route: '/us-economy',
+        subtitle: 'Real-time intelligence on the United States economy, Federal Reserve policy, and US market trends.',
+        gradient: 'from-blue-600 via-indigo-500 to-purple-600',
+        defaultImage: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800'
+    },
+    'Euro Economy': {
+        route: '/euro-economy',
+        subtitle: 'Comprehensive coverage of the Eurozone economy, ECB monetary policy, and European indices.',
+        gradient: 'from-emerald-500 via-teal-500 to-cyan-600',
         defaultImage: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=800'
     },
     Business: {
@@ -454,7 +506,7 @@ export const normArticle = (item, feed, result, isHindi, category) => {
         sourceName: feed.name,
         sourceUrl: result.isJson ? item.link : item.link,
         category,
-        location: isHindi ? 'भारत' : 'India',
+        location: feed.location || (isHindi ? 'भारत' : 'India'),
         pubDate: item.pubDate || new Date().toISOString(),
         shortDescription: description.substring(0, 160) + (description.length > 160 ? '...' : ''),
         fullContent: content,

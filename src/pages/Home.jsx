@@ -306,7 +306,7 @@ const Home = () => {
                                 <div className="flex items-center gap-4">
                                     <div className="h-8 w-1.5 bg-blue-600 rounded-full"></div>
                                     <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-                                        {cat === 'EconomyUS' ? 'US Economy' : cat === 'EconomyEuro' ? 'Euro Economy' : cat}
+                                        {cat}
                                     </h2>
                                     {newsData[cat]?.length > 0 && (
                                         <span className="text-[10px] font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full tracking-widest uppercase">
@@ -318,7 +318,8 @@ const Home = () => {
                                     const routeMap = {
                                         Tech: '/tech', Business: '/business',
                                         Economy: '/economy', Geopolitical: '/geopolitics',
-                                        Stocks: '/stocks', EconomyUS: '/data/us', EconomyEuro: '/data/euro'
+                                        Stocks: '/stocks', 'US Economy': '/us-economy', 'Euro Economy': '/euro-economy',
+                                        'Global Market': '/global-market'
                                     };
                                     const route = routeMap[cat];
                                     return route ? (

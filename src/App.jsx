@@ -23,7 +23,10 @@ function App() {
           <Route path="/stocks" element={<Stocks />} />
           <Route path="/tech" element={<CategoryPage category="Tech" />} />
           <Route path="/business" element={<CategoryPage category="Business" />} />
+          <Route path="/global-market" element={<CategoryPage category="Global Market" />} />
           <Route path="/economy" element={<CategoryPage category="Economy" />} />
+          <Route path="/us-economy" element={<CategoryPage category="US Economy" />} />
+          <Route path="/euro-economy" element={<CategoryPage category="Euro Economy" />} />
           <Route path="/geopolitics" element={<CategoryPage category="Geopolitical" />} />
           <Route path="/data" element={<Data />} />
           <Route path="/data/us" element={<USData />} />

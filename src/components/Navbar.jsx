@@ -9,6 +9,7 @@ const Navbar = () => {
     const dropdownRef = useRef(null);
 
     const categories = [
+        { id: 'Global Market', label: 'Global Market', route: '/global-market' },
         { id: 'Geopolitical', label: 'Geopolitical', route: '/geopolitics' },
         { id: 'Economy', label: 'Economy', route: '/economy' },
         { id: 'Business', label: 'Business', route: '/business' },
